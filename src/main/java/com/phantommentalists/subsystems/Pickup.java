@@ -9,25 +9,29 @@ package com.phantommentalists.subsystems;
 
 import com.phantommentalists.Constants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+/**
+ * Will extend arm and roll the wheels to pick up power cells from the floor
+ * Then retract arm
+ */
 public class PickUp extends SubsystemBase {
-
-  /**
-   * Will extend arm and roll the wheels to pick up power cells from the floor
-   * Then retract arm
-   */
 
   CANSparkMax roller;
   DoubleSolenoid arm;
 
   public PickUp() {
-    roller = new CANSparkMax(0, MotorType.kBrushless);
-    arm = new DoubleSolenoid(Constants.SOLENOID_EXTEND, Constants.SOLENOID_RETRACT);
+    roller = new CANSparkMax(Constants.CANIDs.ROLLER.getid(), MotorType.kBrushless);
+    roller.setInverted(Constants.CANIDs.ROLLER.isInverted());
+    // if (Constants.CANIDs.ROLLER.isFollower())
+    // {
+    //   roller.follow(leader CAN ID);
+    // }
+    arm = new DoubleSolenoid(Constants.PneumaticChannel.PICKUP_EXTEND.getChannel(), Constants.PneumaticChannel.PICKUP_RETRACT.getChannel());
   }
 
   /**
@@ -35,7 +39,7 @@ public class PickUp extends SubsystemBase {
    */
   public void turnOnRollers() {
     roller.set(Constants.PICKUP_ROLLER_SPEED);
-    //roller.set(ControlMode.PercentOutput, Constants.PICKUP_ROLLER_SPEED)
+    // roller.set(ControlMode.PercentOutput, Constants.PICKUP_ROLLER_SPEED)
   }
 
   /**
@@ -50,14 +54,24 @@ public class PickUp extends SubsystemBase {
    * Extend arm
    */
   public void extend() {
-    arm.set(Constants.PICKUP_RETRACT);
+    arm.set(Value.kForward);
   }
 
   /**
    * Retract arm
    */
   public void retract() {
-    arm.set(Constants.PICKUP_RETRACT);
+    arm.set(Value.kReverse);
+  }
+
+  public boolean isPickUpExtended() {
+    // FIXME:  Implement correct logic
+    return false;
+  }
+
+  public boolean isPickUpRetracted() {
+    // FIXME: Implement correct logic
+    return false;
   }
 
   @Override

@@ -30,6 +30,9 @@ public class Telepath extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    // if(Constants. TURRET_AVAILABLE) {
+    //   turret = new Turret(...);
+    // }
     m_robotContainer = new RobotContainer();
   }
 
@@ -96,6 +99,9 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    // if(turret != null) {
+    //   turret.periodic();
+    // }
   }
 
   @Override

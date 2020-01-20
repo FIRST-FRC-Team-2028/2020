@@ -37,8 +37,8 @@ private CANSparkMax rightFollower;
     rightLeader.setInverted(Constants.CANIDs.DRIVE_RIGHT_LEADER.isInverted());
     leftLeader.setInverted(Constants.CANIDs.DRIVE_LEFT_LEADER.isInverted());
 
-    if (Constants.CANIDs.DRIVE_LEFT_FOLLOWER.isfollower()) leftFollower.follow(leftLeader);
-    if (Constants.CANIDs.DRIVE_RIGHT_FOLLOWER.isfollower()) rightFollower.follow(rightLeader);
+    if (Constants.CANIDs.DRIVE_LEFT_FOLLOWER.isFollower()) leftFollower.follow(leftLeader);
+    if (Constants.CANIDs.DRIVE_RIGHT_FOLLOWER.isFollower()) rightFollower.follow(rightLeader);
   }
 
   @Override

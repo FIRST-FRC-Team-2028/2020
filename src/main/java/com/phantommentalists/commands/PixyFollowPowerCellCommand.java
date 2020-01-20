@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.PixyCam;
 
-public class PixyFollow extends CommandBase {
+public class PixyFollowPowerCellCommand extends CommandBase {
   /**
    * Use data from pixycam to point the robot at a power cell.
    */
@@ -23,8 +23,8 @@ public class PixyFollow extends CommandBase {
   private double inWindowCount;
   private double windowCountVariable = 5.;
   private PixyCam pixycamsubsystem;
-  
-  public PixyFollow(Drive drive, PixyCam pixycamsubsystem) {
+
+  public PixyFollowPowerCellCommand(Drive drive, PixyCam pixycamsubsystem) {
     //do I see a pixy cam
     this.drive = drive;
     this.pixycamsubsystem = pixycamsubsystem;
