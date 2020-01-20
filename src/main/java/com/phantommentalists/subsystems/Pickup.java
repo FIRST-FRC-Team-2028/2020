@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class Pickup extends SubsystemBase {
+public class PickUp extends SubsystemBase {
 
- /**
+  /**
    * Will extend arm and roll the wheels to pick up power cells from the floor
    * Then retract arm
    */
@@ -25,7 +25,7 @@ public class Pickup extends SubsystemBase {
   CANSparkMax roller;
   DoubleSolenoid arm;
 
-  public Pickup() {
+  public PickUp() {
     roller = new CANSparkMax(0, MotorType.kBrushless);
     arm = new DoubleSolenoid(Constants.SOLENOID_EXTEND, Constants.SOLENOID_RETRACT);
   }
