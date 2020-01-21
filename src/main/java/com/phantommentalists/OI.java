@@ -25,10 +25,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer {
+public class OI {
   // The robot's subsystems and commands are defined here...
   private final Drive drive = new Drive();
-  private PixyCam frontPixy = new PixyCam(Constants.PIXY_CHANNEL);
+  private PixyCam frontPixy = new PixyCam(Parameters.PIXY_CHANNEL);
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(drive);
 
@@ -36,13 +36,11 @@ public class RobotContainer {
 
   private XboxController xboxController;
 
-
-
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    * new OI
    */
-  public RobotContainer() {
+  public OI() {
     // Configure the button bindings
     configureButtonBindings();
     drive.setDefaultCommand(driveDefaultCommand);
@@ -59,7 +57,7 @@ public class RobotContainer {
     xboxController = new XboxController(1);
     JoystickButton exampleButton = new JoystickButton(xboxController, 1);
     exampleButton.whenHeld(new ExampleCommand(drive));
-    JoystickButton powerFollowButton = new JoystickButton(xboxController, Constants.POWER_FOLLOWER_BUTTON);
+    JoystickButton powerFollowButton = new JoystickButton(xboxController, Parameters.POWER_FOLLOWER_BUTTON);
     //powerFollowButton.whenpressed(new FindPowerCommand(drive, frontPixy));
   
   }

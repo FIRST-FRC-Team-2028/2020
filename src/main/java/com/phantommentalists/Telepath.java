@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Telepath extends TimedRobot {
   private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+  private OI m_oi;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -33,7 +33,7 @@ public class Telepath extends TimedRobot {
     // if(Constants. TURRET_AVAILABLE) {
     //   turret = new Turret(...);
     // }
-    m_robotContainer = new RobotContainer();
+    m_oi = new OI();
   }
 
   /**
@@ -68,7 +68,7 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_oi.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

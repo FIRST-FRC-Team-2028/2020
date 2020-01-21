@@ -7,7 +7,8 @@
 
 package com.phantommentalists.subsystems;
 
-import com.phantommentalists.Constants;
+import com.phantommentalists.Parameters;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,21 +26,21 @@ public class PickUp extends SubsystemBase {
   DoubleSolenoid arm;
 
   public PickUp() {
-    roller = new CANSparkMax(Constants.CANIDs.ROLLER.getid(), MotorType.kBrushless);
-    roller.setInverted(Constants.CANIDs.ROLLER.isInverted());
-    // if (Constants.CANIDs.ROLLER.isFollower())
+    roller = new CANSparkMax(Parameters.CANIDs.ROLLER.getid(), MotorType.kBrushless);
+    roller.setInverted(Parameters.CANIDs.ROLLER.isInverted());
+    // if (Parameters.CANIDs.ROLLER.isFollower())
     // {
     //   roller.follow(leader CAN ID);
     // }
-    arm = new DoubleSolenoid(Constants.PneumaticChannel.PICKUP_EXTEND.getChannel(), Constants.PneumaticChannel.PICKUP_RETRACT.getChannel());
+    arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
   }
 
   /**
    * Turn on rollers
    */
   public void turnOnRollers() {
-    roller.set(Constants.PICKUP_ROLLER_SPEED);
-    // roller.set(ControlMode.PercentOutput, Constants.PICKUP_ROLLER_SPEED)
+    roller.set(Parameters.PICKUP_ROLLER_SPEED);
+    // roller.set(ControlMode.PercentOutput, Parameters.PICKUP_ROLLER_SPEED)
   }
 
   /**

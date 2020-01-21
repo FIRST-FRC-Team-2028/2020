@@ -12,7 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.phantommentalists.Constants;
+import com.phantommentalists.Parameters;;
 
 public class Drive extends SubsystemBase {
   
@@ -24,21 +24,21 @@ private CANSparkMax rightFollower;
    * Creates a new ExampleSubsystem.
    */
   public Drive() {
-    leftLeader = new CANSparkMax(Constants.CANIDs.DRIVE_LEFT_LEADER.getid(), MotorType.kBrushless);
-    rightLeader = new CANSparkMax(Constants.CANIDs.DRIVE_RIGHT_LEADER.getid(), MotorType.kBrushless);
-    leftFollower = new CANSparkMax(Constants.CANIDs.DRIVE_LEFT_FOLLOWER.getid(), MotorType.kBrushless);
-    rightFollower = new CANSparkMax(Constants.CANIDs.DRIVE_RIGHT_FOLLOWER.getid(), MotorType.kBrushless);
+    leftLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_LEADER.getid(), MotorType.kBrushless);
+    rightLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_LEADER.getid(), MotorType.kBrushless);
+    leftFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.getid(), MotorType.kBrushless);
+    rightFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_FOLLOWER.getid(), MotorType.kBrushless);
 
     leftLeader.restoreFactoryDefaults();
     leftFollower.restoreFactoryDefaults();
     rightLeader.restoreFactoryDefaults();
     rightFollower.restoreFactoryDefaults();
 
-    rightLeader.setInverted(Constants.CANIDs.DRIVE_RIGHT_LEADER.isInverted());
-    leftLeader.setInverted(Constants.CANIDs.DRIVE_LEFT_LEADER.isInverted());
+    rightLeader.setInverted(Parameters.CANIDs.DRIVE_RIGHT_LEADER.isInverted());
+    leftLeader.setInverted(Parameters.CANIDs.DRIVE_LEFT_LEADER.isInverted());
 
-    if (Constants.CANIDs.DRIVE_LEFT_FOLLOWER.isFollower()) leftFollower.follow(leftLeader);
-    if (Constants.CANIDs.DRIVE_RIGHT_FOLLOWER.isFollower()) rightFollower.follow(rightLeader);
+    if (Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.isFollower()) leftFollower.follow(leftLeader);
+    if (Parameters.CANIDs.DRIVE_RIGHT_FOLLOWER.isFollower()) rightFollower.follow(rightLeader);
   }
 
   @Override

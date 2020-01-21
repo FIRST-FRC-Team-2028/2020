@@ -7,8 +7,6 @@
 
 package com.phantommentalists;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -19,7 +17,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  * It is advised to statically import this class (or one of its inner classes)
  * wherever the constants are needed, to reduce verbosity. new parameters
  */
-public final class Constants {
+public final class Parameters {
 
     /**
      * Flag that tells the code systems exist
