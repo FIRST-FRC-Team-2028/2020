@@ -53,7 +53,14 @@ public final class Parameters {
         DRIVE_RIGHT_LEADER(20, true, true), 
         DRIVE_LEFT_FOLLOWER(11, false, false),
         DRIVE_RIGHT_FOLLOWER(21, true, false),
-        ROLLER(40, false, false);
+        TURRET_YAW(30, false, false),
+        HOOD_PITCH(31, false, false),
+        TURRET_SHOOT(32, false, false),
+        ROLLER(40, false, false),
+        CLIMB_RIGHT(50, false, false),
+        CLIMB_LEFT(51, false, false),
+        CONTROL_PANEL(60, false, false),
+        SPARE(28, false, false);
 
         private final int canid;
         private final boolean inverted;

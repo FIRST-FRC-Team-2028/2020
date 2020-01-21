@@ -18,23 +18,24 @@ public class PixyFollowPowerCellCommand extends CommandBase {
   private double pixyValue;
   private double speed;
   private Drive drive;
-  private double pixyModifier = 1.;
+  private double pixyModifier = .5;
   private double window = 0.1;
   private double inWindowCount;
   private double windowCountVariable = 5.;
-  private PixyCam pixycamsubsystem;
+  private PixyCam pixyCam;
 
-  public PixyFollowPowerCellCommand(Drive drive, PixyCam pixycamsubsystem) {
+  public PixyFollowPowerCellCommand(Drive drive, PixyCam pixyCam) {
     //do I see a pixy cam
     this.drive = drive;
-    this.pixycamsubsystem = pixycamsubsystem;
+    this.pixyCam = pixyCam;
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     //can I see a ball
-
+    if (pixyCam.isAquired()==false) inWindowCount = 5.;
     inWindowCount = 0.;
   }
 
@@ -42,7 +43,7 @@ public class PixyFollowPowerCellCommand extends CommandBase {
   @Override
   public void execute() {
     //take input from pixy cam
-    pixyValue = pixycamsubsystem.getX();
+    pixyValue = pixyCam.getX();
     //determine direction of rotation
     //spin the robot; set speed
     if (java.lang.Math.abs(pixyValue) <= window){

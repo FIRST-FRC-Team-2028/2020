@@ -39,39 +39,51 @@ public class PickUp extends SubsystemBase {
    * Turn on rollers
    */
   public void turnOnRollers() {
-    roller.set(Parameters.PICKUP_ROLLER_SPEED);
-    // roller.set(ControlMode.PercentOutput, Parameters.PICKUP_ROLLER_SPEED)
+    if (Parameters.PICKUP_AVAILABLE) {
+      roller.set(Parameters.PICKUP_ROLLER_SPEED);
+      // roller.set(ControlMode.PercentOutput, Parameters.PICKUP_ROLLER_SPEED)
+    }
   }
 
   /**
    * Turn off rollers
    */
   public void turnOffRollers() {
-    roller.set(0.0);
-    // roller.set(ControlMode.PercentOutput, 0.0);
+    if (Parameters.PICKUP_AVAILABLE) {
+      roller.set(0.0);
+      // roller.set(ControlMode.PercentOutput, 0.0);
+    }
   }
 
   /**
    * Extend arm
    */
   public void extend() {
-    arm.set(Value.kForward);
+    if (Parameters.PICKUP_AVAILABLE) {
+      arm.set(Value.kForward);
+    }
   }
 
   /**
    * Retract arm
    */
   public void retract() {
-    arm.set(Value.kReverse);
+    if (Parameters.PICKUP_AVAILABLE) {
+      arm.set(Value.kReverse);
+    }
   }
 
   public boolean isPickUpExtended() {
-    // FIXME:  Implement correct logic
+    if (Parameters.PICKUP_AVAILABLE) {
+      // FIXME:  Implement correct logic
+    }
     return false;
   }
 
   public boolean isPickUpRetracted() {
-    // FIXME: Implement correct logic
+    if (Parameters.PICKUP_AVAILABLE) {
+      // FIXME:  Implement correct logic
+    }
     return false;
   }
 

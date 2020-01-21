@@ -7,21 +7,24 @@
 
 package com.phantommentalists.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.PickUp;
 
-public class PickUpLoadCommand extends CommandBase {
-  /**
-   * Extends PickUp and turns on rollers to get the power cell off the floor
-   * FIXME should then return isPickUpExtended(true) after 0.5-1 seconds since PickUpLoadCommand had been used, hold button till you think its done or timer
-   */
-  PickUp pickUp;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-  public PickUpLoadCommand() {
+public class PickUpRetractCommand extends CommandBase {
+  /**
+   * Creates a new PickUpRetractCommand.
+   */
+
+   PickUp pickUp;
+   Timer timer;
+  
+  public PickUpRetractCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     pickUp = new PickUp();
+    timer = new Timer();
     addRequirements(pickUp);
   }
 
@@ -34,16 +37,17 @@ public class PickUpLoadCommand extends CommandBase {
   @Override
   public void execute() {
     if (Parameters.PICKUP_AVAILABLE) {
-      pickUp.extend();
-      pickUp.turnOnRollers();
+      pickUp.turnOffRollers();
+      pickUp.retract();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    pickUp.turnOffRollers();
+
   }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
@@ -52,6 +56,7 @@ public class PickUpLoadCommand extends CommandBase {
     //}
     //else return false;
     return false;
-    //TODO what do I do and when would it return true, when timer is done??
+    //FIXME how do you return true??
+    //use timer
   }
 }
