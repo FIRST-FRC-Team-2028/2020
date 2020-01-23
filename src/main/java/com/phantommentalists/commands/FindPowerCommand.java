@@ -11,10 +11,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.PixyCam;
 
+/**
+ * FIXME Command is unfinished
+ */
 public class FindPowerCommand extends CommandBase {
-  /**
-   * Creates a new FindPowerCommand.
-   */
+
   public FindPowerCommand(Drive drive, PixyCam pixyCam) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);

@@ -13,10 +13,10 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.OI;
 import com.phantommentalists.subsystems.Drive;
 
+/**
+ * Gets input from xbox controller to drive the robot.
+ */
 public class DriveDefaultCommand extends CommandBase {
-  /**
-   * Gets input from xbox controller to drive the robot.
-   */
   private final Drive drive;
   private OI oi;
 

@@ -13,13 +13,13 @@ import com.phantommentalists.subsystems.PickUp;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * Turns off rollers
+ * Retracts arm
+ */
 public class PickUpRetractCommand extends CommandBase {
-  /**
-   * Creates a new PickUpRetractCommand.
-   */
-
-   PickUp pickUp;
-   Timer timer;
+  PickUp pickUp;
+  Timer timer;
   
   public PickUpRetractCommand() {
     // Use addRequirements() here to declare subsystem dependencies.

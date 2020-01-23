@@ -14,15 +14,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.phantommentalists.Parameters;;
 
-public class Drive extends SubsystemBase {
-  
-private CANSparkMax leftLeader;
-private CANSparkMax leftFollower;
-private CANSparkMax rightLeader;
-private CANSparkMax rightFollower;
-  /**
-   * Creates a new ExampleSubsystem.
-   */
+/**
+ * Drives robot using 3 wheel drive?
+ * Can spin
+ */
+public class Drive extends SubsystemBase { 
+  private CANSparkMax leftLeader;
+  private CANSparkMax leftFollower;
+  private CANSparkMax rightLeader;
+  private CANSparkMax rightFollower;
+
   public Drive() {
     leftLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_LEADER.getid(), MotorType.kBrushless);
     rightLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_LEADER.getid(), MotorType.kBrushless);

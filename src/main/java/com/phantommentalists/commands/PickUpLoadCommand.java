@@ -7,18 +7,17 @@
 
 package com.phantommentalists.commands;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.PickUp;
 
+/**
+ * Extends PickUp and turns on rollers to get the power cell off the floor
+ * FIXME hold button till you think its done for manual mode, timer for auto. use selector/swtich for that
+ */
 public class PickUpLoadCommand extends CommandBase {
-  /**
-   * Extends PickUp and turns on rollers to get the power cell off the floor
-   * FIXME hold button till you think its done for manual mode, timer for auto. use selector/swtich for that
-   */
   PickUp pickUp;
   Timer timer;
 
@@ -52,6 +51,7 @@ public class PickUpLoadCommand extends CommandBase {
     pickUp.turnOffRollers();
     pickUp.turnArmoff();
   }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

@@ -23,7 +23,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * Then retract arm
  */
 public class PickUp extends SubsystemBase {
-
+  //FIXME do I need to set these to private?
   CANSparkMax roller;
   DoubleSolenoid arm;
   Timer timer;

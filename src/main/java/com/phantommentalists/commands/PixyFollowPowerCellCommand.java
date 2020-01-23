@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.PixyCam;
 
+/**
+ * Use data from pixycam to point the robot at a power cell.
+ */
 public class PixyFollowPowerCellCommand extends CommandBase {
-  /**
-   * Use data from pixycam to point the robot at a power cell.
-   */
   private double pixyValue;
   private double speed;
   private Drive drive;

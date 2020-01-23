@@ -11,14 +11,14 @@ import com.phantommentalists.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * An example command that uses an example subsystem.
+ * FIXME add what it does
  */
 public class ExampleCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drive m_subsystem;
 
   /**
-   * Creates a new ExampleCommand.
+   * FIXME use if needed
    *
    * @param subsystem The subsystem used by this command.
    */

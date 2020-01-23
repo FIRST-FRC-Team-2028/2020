@@ -7,12 +7,20 @@
 
 package com.phantommentalists.subsystems;
 
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/**
+ * Rotates to aim for the ports
+ * Angles with the hood
+ * Uses rollers to shoot power cells
+ */
 public class Turret extends SubsystemBase {
-  /**
-   * Creates a new Turret.
-   */
+  //FIXME do I need to set these as private?
+  CANSparkMax yaw;
+  CANSparkMax pitch;
+  CANSparkMax shooter;
   public Turret() {
 
   }
