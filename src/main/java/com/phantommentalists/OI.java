@@ -7,13 +7,11 @@
 
 package com.phantommentalists;
 
-//import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.GenericHID;
 //import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import com.phantommentalists.commands.DriveDefaultCommand;
-import com.phantommentalists.commands.ExampleCommand;
-//import frc.robot.commands.FindPowerCommand;
+import com.phantommentalists.commands.Spin;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.PixyCam;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,15 +28,13 @@ public class OI {
   private final Drive drive = new Drive();
   private PixyCam frontPixy = new PixyCam(Parameters.PIXY_CHANNEL);
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(drive);
-
+  private final Spin m_autoCommand = new Spin(drive);
   private final DriveDefaultCommand driveDefaultCommand = new DriveDefaultCommand(drive, this);
 
   private XboxController xboxController;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
-   * new OI
    */
   public OI() {
     // Configure the button bindings
@@ -56,12 +52,11 @@ public class OI {
     
     xboxController = new XboxController(1);
     JoystickButton exampleButton = new JoystickButton(xboxController, 1);
-    exampleButton.whenHeld(new ExampleCommand(drive));
+    exampleButton.whenHeld(new Spin(drive));
     JoystickButton powerFollowButton = new JoystickButton(xboxController, Parameters.POWER_FOLLOWER_BUTTON);
-    //powerFollowButton.whenpressed(new FindPowerCommand(drive, frontPixy));
+    //powerFollowButton.whenpressed(new PixyFollowPowerCellCommand(drive, frontPixy));
   
   }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

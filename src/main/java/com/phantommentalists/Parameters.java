@@ -15,19 +15,20 @@ package com.phantommentalists;
  *
  * <p>
  * It is advised to statically import this class (or one of its inner classes)
- * wherever the constants are needed, to reduce verbosity. new parametersk
+ * wherever the constants are needed, to reduce verbosity.
  */
 public final class Parameters {
 
-    /**k
+    /**
      * Flag that tells the code systems exist
      */
     public static final boolean DRIVE_AVAILABLE = true;
     public static final boolean CAMERA_AVAILABLE = true;
     public static final boolean PICKUP_AVAILABLE = true;
+    public static final boolean TURRET_AVAILABLE = true;
     public static final boolean COMPRESSOR_AVAILABLE = true;
     public static final boolean GYRO_AVAILABLE = false;
-    public static final boolean BUTTONBOX_AVAILABLE = true;
+    public static final boolean BUTTONBOX_AVAILABLE = false;
 
     /** Enum to hold all information about pneumatic solenoids */
     public enum PneumaticChannel {
@@ -54,7 +55,7 @@ public final class Parameters {
         DRIVE_LEFT_FOLLOWER(11, false, false),
         DRIVE_RIGHT_FOLLOWER(21, true, false),
         TURRET_YAW(30, false, false),
-        HOOD_PITCH(31, false, false),
+        TURRET_PITCH(31, false, false),
         TURRET_SHOOT(32, false, false),
         ROLLER(40, false, false),
         MAGAZINE(41, false, false),
@@ -87,6 +88,11 @@ public final class Parameters {
         }
     }
 
+    public enum AutoMode {
+        AUTO,
+        MANUAL;
+    }
+
     public static final int PIXY_CHANNEL = 2;
     public static final int POWER_FOLLOWER_BUTTON = 2;
     public static final int LEFT_STICK = 5;
@@ -100,4 +106,5 @@ public final class Parameters {
     //public static final double PICKUP_TIME = 0.5;
     public static final double EXTEND_TIME = 0.5;
     public static final double RETRACT_TIME = 0.5;
+    public static final double SHOOTER_TIME = 0.7;
 }
