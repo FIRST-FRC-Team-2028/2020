@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-//FIXME what type of MotorType?
 
 /**
  * Will extend arm and roll the wheels to pick up power cells from the floor

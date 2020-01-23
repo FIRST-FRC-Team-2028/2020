@@ -12,7 +12,10 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Telepath;
+import com.phantommentalists.commands.DriveDefaultCommand;
 
 /**
  * Drives robot using 3 wheel drive?
@@ -65,5 +68,25 @@ public class Drive extends SubsystemBase {
   public void stop(){
     leftLeader.set(0.);
     rightLeader.set(0.);
+  }
+  
+  public double getAllMotorCurrent() {
+    return leftLeader.getOutputCurrent() + rightLeader.getOutputCurrent();
+  }
+
+  // public void initDefaultCommand() {
+  //   setDefaultCommand(new DriveDefaultCommand(drive, oi));
+  // }
+
+  public void drivePower(double power) {
+    //FIXME: what to do here?
+  }
+
+  public void pidWrite() {
+    //FIXME: what does this mean?
+  }
+
+  public void setGear(double gear) {
+    //FIXME: needs code to be put into here
   }
 }

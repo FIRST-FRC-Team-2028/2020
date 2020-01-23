@@ -40,6 +40,7 @@ public class OI {
     // Configure the button bindings
     configureButtonBindings();
     drive.setDefaultCommand(driveDefaultCommand);
+    //FIXME why is this set in the Oi?
   }
 
   /**

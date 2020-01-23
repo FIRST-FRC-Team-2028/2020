@@ -32,7 +32,6 @@ public class Turret extends SubsystemBase {
     yaw = new CANSparkMax(Parameters.CANIDs.TURRET_YAW.getid(), MotorType.kBrushless);
     pitch = new CANSparkMax(Parameters.CANIDs.TURRET_PITCH.getid(), MotorType.kBrushless);
     shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOT.getid(), MotorType.kBrushless);
-    //mode = new AutoMode();
     timer = new Timer();
   }
 
@@ -107,7 +106,6 @@ public class Turret extends SubsystemBase {
   //   }
   // }
   //FIXME is using the CANSparkmax good??
-
 
   @Override
   public void periodic() {

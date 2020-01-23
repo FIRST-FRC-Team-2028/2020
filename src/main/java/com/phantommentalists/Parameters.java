@@ -26,6 +26,7 @@ public final class Parameters {
     public static final boolean CAMERA_AVAILABLE = true;
     public static final boolean PICKUP_AVAILABLE = true;
     public static final boolean TURRET_AVAILABLE = true;
+    public static final boolean MAGAZINE_AVAILABLE = true;
     public static final boolean COMPRESSOR_AVAILABLE = true;
     public static final boolean GYRO_AVAILABLE = false;
     public static final boolean BUTTONBOX_AVAILABLE = false;
@@ -100,6 +101,8 @@ public final class Parameters {
     public static final double DRIVE_DEAD_BAND = 0.1;
 
     public static final double PICKUP_ROLLER_SPEED = 0.7;
+    public static final double MAGAZINE_LOAD_SPEED = 0.5;
+    public static final double MAGAZINE_SHOOT_SPEED = 1;
     public static final int SOLENOID_EXTEND = 1;
     public static final int SOLENOID_RETRACT = 2;
 

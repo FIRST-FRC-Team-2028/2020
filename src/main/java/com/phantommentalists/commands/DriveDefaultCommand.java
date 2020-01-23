@@ -21,7 +21,8 @@ public class DriveDefaultCommand extends CommandBase {
   private OI oi;
 
   public DriveDefaultCommand(Drive drive, OI oi) {
-    // Use addRequirements() here to declare subsystem dependencies.
+    // Use addRequirements() here to declare subsystem dependencies.\
+    //FIXME why do we need to take drive and oi
     this.drive = drive;
     this.oi = oi;
     addRequirements(drive);
