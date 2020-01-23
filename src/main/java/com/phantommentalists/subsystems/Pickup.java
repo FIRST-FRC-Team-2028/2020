@@ -7,6 +7,8 @@
 
 package com.phantommentalists.subsystems;
 
+import edu.wpi.first.wpilibj.Timer;
+
 import com.phantommentalists.Parameters;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -24,6 +26,7 @@ public class PickUp extends SubsystemBase {
 
   CANSparkMax roller;
   DoubleSolenoid arm;
+  Timer timer;
 
   public PickUp() {
     roller = new CANSparkMax(Parameters.CANIDs.ROLLER.getid(), MotorType.kBrushless);
@@ -33,6 +36,7 @@ public class PickUp extends SubsystemBase {
     //   roller.follow(leader CAN ID);
     // }
     arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
+    timer = new Timer();
   }
 
   /**
@@ -73,16 +77,30 @@ public class PickUp extends SubsystemBase {
     }
   }
 
+  /**
+   * Turn off DoubleSolenoid
+   * @return
+   */
+  public void turnArmoff() {
+    if (Parameters.PICKUP_AVAILABLE) {
+      arm.set(Value.kOff);
+    }
+  }
+
   public boolean isPickUpExtended() {
     if (Parameters.PICKUP_AVAILABLE) {
-      // FIXME:  Implement correct logic
+      if (timer.get() >= Parameters.EXTEND_TIME && arm.get() == Value.kForward) {
+        return true;
+      }
     }
     return false;
   }
 
   public boolean isPickUpRetracted() {
     if (Parameters.PICKUP_AVAILABLE) {
-      // FIXME:  Implement correct logic
+      if (timer.get() >= Parameters.RETRACT_TIME && arm.get() == Value.kReverse) {
+        return true;
+      }
     }
     return false;
   }

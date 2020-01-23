@@ -31,12 +31,14 @@ public class PickUpRetractCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (Parameters.PICKUP_AVAILABLE) {
+      timer.start();
       pickUp.turnOffRollers();
       pickUp.retract();
     }
@@ -45,18 +47,17 @@ public class PickUpRetractCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    timer.stop();
+    pickUp.turnOffRollers();
+    pickUp.turnArmoff();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //if (Parameters.PICKUP_AVAILABLE) {
-    //  return true;
-    //}
-    //else return false;
-    return false;
-    //FIXME how do you return true??
-    //use timer
+    if (Parameters.PICKUP_AVAILABLE) {
+     return pickUp.isPickUpRetracted();
+    }
+    else return false;
   }
 }

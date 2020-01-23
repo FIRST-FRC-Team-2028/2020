@@ -57,6 +57,8 @@ public final class Parameters {
         HOOD_PITCH(31, false, false),
         TURRET_SHOOT(32, false, false),
         ROLLER(40, false, false),
+        MAGAZINE(41, false, false),
+        ACCELERATOR(42, false, false),
         CLIMB_RIGHT(50, false, false),
         CLIMB_LEFT(51, false, false),
         CONTROL_PANEL(60, false, false),
@@ -95,4 +97,7 @@ public final class Parameters {
     public static final int SOLENOID_EXTEND = 1;
     public static final int SOLENOID_RETRACT = 2;
 
+    //public static final double PICKUP_TIME = 0.5;
+    public static final double EXTEND_TIME = 0.5;
+    public static final double RETRACT_TIME = 0.5;
 }

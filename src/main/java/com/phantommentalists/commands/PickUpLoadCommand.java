@@ -7,6 +7,8 @@
 
 package com.phantommentalists.commands;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import com.phantommentalists.Parameters;
@@ -15,25 +17,29 @@ import com.phantommentalists.subsystems.PickUp;
 public class PickUpLoadCommand extends CommandBase {
   /**
    * Extends PickUp and turns on rollers to get the power cell off the floor
-   * FIXME should then return isPickUpExtended(true) after 0.5-1 seconds since PickUpLoadCommand had been used, hold button till you think its done or timer
+   * FIXME hold button till you think its done for manual mode, timer for auto. use selector/swtich for that
    */
   PickUp pickUp;
+  Timer timer;
 
   public PickUpLoadCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     pickUp = new PickUp();
+    timer = new Timer();
     addRequirements(pickUp);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (Parameters.PICKUP_AVAILABLE) {
+      timer.start();
       pickUp.extend();
       pickUp.turnOnRollers();
     }
@@ -42,16 +48,16 @@ public class PickUpLoadCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    timer.stop();
     pickUp.turnOffRollers();
+    pickUp.turnArmoff();
   }
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //if (Parameters.PICKUP_AVAILABLE) {
-    //  return true;
-    //}
-    //else return false;
+    if (Parameters.PICKUP_AVAILABLE) {
+     return pickUp.isPickUpExtended();
+    }
     return false;
-    //TODO what do I do and when would it return true, when timer is done??
   }
 }
