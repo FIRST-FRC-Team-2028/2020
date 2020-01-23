@@ -25,6 +25,14 @@ public class Turret extends SubsystemBase {
 
   }
 
+  public void setYawPower(double voltage) {
+    yaw.setVoltage(voltage);
+  }
+
+  public void setPitchPower(double voltage) {
+    pitch.setVoltage(voltage);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
