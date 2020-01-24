@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
+import com.phantommentalists.Parameters.Gear;
 import com.phantommentalists.commands.DriveDefaultCommand;
 
 /**
@@ -26,6 +27,7 @@ public class Drive extends SubsystemBase {
   private CANSparkMax leftFollower;
   private CANSparkMax rightLeader;
   private CANSparkMax rightFollower;
+  Gear gear;
 
   public Drive() {
     leftLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_LEADER.getid(), MotorType.kBrushless);
@@ -48,45 +50,67 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Right Output", rightLeader.getAppliedOutput());
-    SmartDashboard.putNumber("Right Current",rightLeader.getOutputCurrent());
-    SmartDashboard.putNumber("Left Output", leftLeader.getAppliedOutput());
-    SmartDashboard.putNumber("Left Current",leftLeader.getOutputCurrent());
+    if (Parameters.DRIVE_AVAILABLE) {
+      SmartDashboard.putNumber("Right Output", rightLeader.getAppliedOutput());
+      SmartDashboard.putNumber("Right Current",rightLeader.getOutputCurrent());
+      SmartDashboard.putNumber("Left Output", leftLeader.getAppliedOutput());
+      SmartDashboard.putNumber("Left Current",leftLeader.getOutputCurrent());
+    }
   }
 
   public void tankDrive(double left, double right) {
-    leftLeader.set(left);
-    rightLeader.set(right);
+    if (Parameters.DRIVE_AVAILABLE) {
+      leftLeader.set(left);
+      rightLeader.set(right);
+    }
   }
 
   public void spin(double rate) {
     //Positive rate is clockwise 
-    leftLeader.set(rate);
-    rightLeader.set(-rate);
+    if (Parameters.DRIVE_AVAILABLE) {
+      leftLeader.set(rate);
+      rightLeader.set(-rate);
+    }
   }
 
   public void stop(){
-    leftLeader.set(0.);
-    rightLeader.set(0.);
+    if (Parameters.DRIVE_AVAILABLE) {
+      leftLeader.set(0.);
+      rightLeader.set(0.);
+    }
   }
   
   public double getAllMotorCurrent() {
-    return leftLeader.getOutputCurrent() + rightLeader.getOutputCurrent();
+    if (Parameters.DRIVE_AVAILABLE) {
+      return leftLeader.getOutputCurrent() + rightLeader.getOutputCurrent();
+    }
+    return 0.0;
+    //FIXME what should be returned if Drive is not available
   }
 
-  // public void initDefaultCommand() {
-  //   setDefaultCommand(new DriveDefaultCommand(drive, oi));
-  // }
+  public void initDefaultCommand() {
+    if (Parameters.DRIVE_AVAILABLE) {
+      setDefaultCommand(new DriveDefaultCommand());
+    }
+  }
 
   public void drivePower(double power) {
+    if (Parameters.DRIVE_AVAILABLE) {
+
+    }
     //FIXME: what to do here?
   }
 
   public void pidWrite() {
+    if (Parameters.DRIVE_AVAILABLE) {
+
+    }
     //FIXME: what does this mean?
   }
 
-  public void setGear(double gear) {
-    //FIXME: needs code to be put into here
+  public void setGear(Gear gear2) {
+    if (Parameters.DRIVE_AVAILABLE) {
+      gear = gear2;
+    }
   }
 }

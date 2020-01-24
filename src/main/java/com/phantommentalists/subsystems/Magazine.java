@@ -21,17 +21,19 @@ public class Magazine extends SubsystemBase {
   CANSparkMax accelerator;
   CANSparkMax magazine;
 
+
   public Magazine() {
     accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
     magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
   }
 
-  // public void getBallHeldCount() {
-  //   if (Parameters.MAGAZINE_AVAILABLE) {
-  //     //number of times PickUp is used - how many times shooter is used?
-  //     get(int);
-  //   }
-  // }
+  public void getBallHeldCount() {
+    if (Parameters.MAGAZINE_AVAILABLE) {
+      //number of times PickUp is used - how many times shooter is used?
+      //return an integer
+      
+    }
+  }
 
   public void loadBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {

@@ -35,19 +35,17 @@ public class Turret extends SubsystemBase {
     timer = new Timer();
   }
 
-  // public void setYaw(AngleInDegrees) {
-  //   if (Parameters.TURRET_AVAILABLE) {
-  //     yaw.set();
-  //     //FIXME AngleInDegrees
-  //   }
-  // }
+  public void setYaw(double AngleInDegrees) {
+    if (Parameters.TURRET_AVAILABLE) {
+      yaw.set(AngleInDegrees);
+    }
+  }
 
-  // public void setPitch(AngleInDegrees) {
-  //   if (Parameters.TURRET_AVAILABLE) {
-  //     pitch.set();
-  //     //FIXME AngleInDegrees
-  //   }
-  // }
+  public void setPitch(double AngleInDegrees) {
+    if (Parameters.TURRET_AVAILABLE) {
+      pitch.set(AngleInDegrees);
+    }
+  }
 
   public void setYawPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
@@ -94,17 +92,17 @@ public class Turret extends SubsystemBase {
     return false;
   }
 
-  // public CANSparkMax getYaw() {
-  //   if (Parameters.TURRET_AVAILABLE) {
-  //     return yaw;
-  //   }
-  // }
+  public void getYaw() {
+    if (Parameters.TURRET_AVAILABLE) {
+      yaw.get();
+    }
+  }
 
-  // public CANSparkMax getPitch() {
-  //   if (Parameters.TURRET_AVAILABLE) {
-  //     return pitch;
-  //   }
-  // }
+  public void getPitch() {
+    if (Parameters.TURRET_AVAILABLE) {
+      pitch.get();
+    }
+  }
   //FIXME is using the CANSparkmax good??
 
   @Override

@@ -94,6 +94,11 @@ public final class Parameters {
         MANUAL;
     }
 
+    public enum Gear{
+        LOW,
+        HIGH;
+    }
+
     public static final int PIXY_CHANNEL = 2;
     public static final int POWER_FOLLOWER_BUTTON = 2;
     public static final int LEFT_STICK = 5;

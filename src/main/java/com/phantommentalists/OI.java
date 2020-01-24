@@ -29,7 +29,7 @@ public class OI {
   private PixyCam frontPixy = new PixyCam(Parameters.PIXY_CHANNEL);
 
   private final Spin m_autoCommand = new Spin(drive);
-  private final DriveDefaultCommand driveDefaultCommand = new DriveDefaultCommand(drive, this);
+  private final DriveDefaultCommand driveDefaultCommand = new DriveDefaultCommand();
 
   private XboxController xboxController;
 

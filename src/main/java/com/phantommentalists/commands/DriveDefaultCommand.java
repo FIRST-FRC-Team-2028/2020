@@ -17,14 +17,14 @@ import com.phantommentalists.subsystems.Drive;
  * Gets input from xbox controller to drive the robot.
  */
 public class DriveDefaultCommand extends CommandBase {
-  private final Drive drive;
+  private Drive drive;
   private OI oi;
 
-  public DriveDefaultCommand(Drive drive, OI oi) {
+  public DriveDefaultCommand() {
     // Use addRequirements() here to declare subsystem dependencies.\
     //FIXME why do we need to take drive and oi
-    this.drive = drive;
-    this.oi = oi;
+    drive = new Drive();
+    oi =  new OI();
     addRequirements(drive);
   }
 
