@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import com.phantommentalists.commands.DriveDefaultCommand;
 import com.phantommentalists.commands.Spin;
 import com.phantommentalists.subsystems.Drive;
-import com.phantommentalists.PixyCam;
+//import com.phantommentalists.PixyCam;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class OI {
   // The robot's subsystems and commands are defined here...
   private final Drive drive = new Drive();
-  private PixyCam frontPixy = new PixyCam(Parameters.PIXY_CHANNEL);
+  //private PixyCam frontPixy = new PixyCam(Parameters.PIXY_CHANNEL);
 
   private final Spin m_autoCommand = new Spin(drive);
   private final DriveDefaultCommand driveDefaultCommand = new DriveDefaultCommand();
@@ -54,7 +54,7 @@ public class OI {
     xboxController = new XboxController(1);
     JoystickButton exampleButton = new JoystickButton(xboxController, 1);
     exampleButton.whenHeld(new Spin(drive));
-    JoystickButton powerFollowButton = new JoystickButton(xboxController, Parameters.POWER_FOLLOWER_BUTTON);
+    //JoystickButton powerFollowButton = new JoystickButton(xboxController, Parameters.POWER_FOLLOWER_BUTTON);
     //powerFollowButton.whenpressed(new PixyFollowPowerCellCommand(drive, frontPixy));
   
   }

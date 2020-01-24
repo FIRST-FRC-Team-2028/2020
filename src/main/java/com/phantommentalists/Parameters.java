@@ -24,10 +24,13 @@ public final class Parameters {
      */
     public static final boolean DRIVE_AVAILABLE = true;
     public static final boolean CAMERA_AVAILABLE = true;
-    public static final boolean PICKUP_AVAILABLE = true;
+    public static final boolean PICKUP_AVAILABLE = false;
     public static final boolean TURRET_AVAILABLE = true;
-    public static final boolean MAGAZINE_AVAILABLE = true;
-    public static final boolean COMPRESSOR_AVAILABLE = true;
+    public static final boolean MAGAZINE_AVAILABLE = false;
+    public static final boolean CLIMBER_AVAILABLE = false;
+    public static final boolean CONTROLPANEL_AVAILABLE = false;
+    public static final boolean AIM_AVAILABLE = false; //FIXME use camera_available?
+    public static final boolean COMPRESSOR_AVAILABLE = false;
     public static final boolean GYRO_AVAILABLE = false;
     public static final boolean BUTTONBOX_AVAILABLE = false;
 
@@ -97,6 +100,12 @@ public final class Parameters {
     public enum Gear{
         LOW,
         HIGH;
+    }
+
+    public enum Mode {
+        DONT_MOVE,
+        SCAN,
+        FACE_FORWARD;
     }
 
     public static final int PIXY_CHANNEL = 2;

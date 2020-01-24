@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.phantommentalists.Parameters;
-import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.Gear;
 import com.phantommentalists.commands.DriveDefaultCommand;
 
