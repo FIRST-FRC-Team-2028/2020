@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Aims the Turret to the Power Cell and Power Port
  */
 public class Aim extends SubsystemBase {
-  Mode mode;
+  private Mode mode;
 
   public Aim() {
 
@@ -24,37 +24,37 @@ public class Aim extends SubsystemBase {
 
   public void getAngleToPowerCell() {
     if (Parameters.AIM_AVAILABLE) {
-      
+
     }
   }
 
   public void getChassisAngle() {
     if (Parameters.AIM_AVAILABLE) {
-      
+
     }
   }
 
   public void getDistance() {
     if (Parameters.AIM_AVAILABLE) {
-      
+
     }
   }
 
   public void getAngleToPowerPort() {
     if (Parameters.AIM_AVAILABLE) {
-      
+
     }
   }
 
   public void isTargetSeen() {
     if (Parameters.AIM_AVAILABLE) {
-      
+
     }
   }
 
   public void enable() {
     if (Parameters.AIM_AVAILABLE) {
-      
+
     }
   }
 
@@ -64,15 +64,23 @@ public class Aim extends SubsystemBase {
     }
   }
 
-  public void setNoTargetMode(Mode mode2) {
+  /**
+   * Sets the behavior for controling the Turret when the pixy camera does
+   * not detect a target.  It can be one of:  don't move, scan for target or
+   * face forward
+   * 
+   * @param newMode - the new mode for controlling the Turret
+   */
+  public void setNoTargetMode(Mode newMode) {
     if (Parameters.AIM_AVAILABLE) {
-      mode = mode2;
+      mode = newMode;
     }
   }
 
-  public void getNoTargetMode() {
-  //Mode
+  public Mode getNoTargetMode() {
+    return mode;
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

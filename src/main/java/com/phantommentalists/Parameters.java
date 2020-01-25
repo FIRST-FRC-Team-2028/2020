@@ -124,4 +124,9 @@ public final class Parameters {
     public static final double EXTEND_TIME = 0.5;
     public static final double RETRACT_TIME = 0.5;
     public static final double SHOOTER_TIME = 0.7;
+
+    /**
+     * Distance between wheels measured inside to inside in inches
+     */
+    public static final double DRIVE_TRACK_WIDTH = 28.0;
 }
