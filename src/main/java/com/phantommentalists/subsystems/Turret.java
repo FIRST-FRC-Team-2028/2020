@@ -12,6 +12,7 @@ import com.phantommentalists.Parameters.AutoMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,12 +27,15 @@ public class Turret extends SubsystemBase {
   private CANSparkMax shooter;
   AutoMode mode;
   private Timer timer;
+  //FIXME Find out what gyro would be best
+  private ADXRS450_Gyro gyro;
 
   public Turret() {
     yaw = new CANSparkMax(Parameters.CANIDs.TURRET_YAW.getid(), MotorType.kBrushless);
     pitch = new CANSparkMax(Parameters.CANIDs.TURRET_PITCH.getid(), MotorType.kBrushless);
     shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOT.getid(), MotorType.kBrushless);
     timer = new Timer();
+    gyro = new ADXRS450_Gyro(Parameters.TURRET_GYRO_PORT);
   }
 
   public void setYaw(double AngleInDegrees) {
@@ -92,18 +96,44 @@ public class Turret extends SubsystemBase {
     return false;
   }
 
-  public void getYaw() {
+  public double getYaw() {
     if (Parameters.TURRET_AVAILABLE) {
-      yaw.get();
+      return gyro.getAngle();
+    }
+    return 0.0;
+  }
+
+  public double getPitch() {
+    if (Parameters.TURRET_AVAILABLE) {
+      //Either needs another gyro or a way to get a different axis
+      return gyro.getAngle();
+    }
+    return 0.0;
+  }
+  // public void getYaw() {
+  //   if (Parameters.TURRET_AVAILABLE) {
+  //     yaw.get();
+  //   }
+  // }
+
+  // public void getPitch() {
+  //   if (Parameters.TURRET_AVAILABLE) {
+  //     pitch.get();
+  //   }
+  // }
+  // FIXME is using the CANSparkmax good??
+
+  public void calibrateGyro() {
+    if (Parameters.TURRET_AVAILABLE) {
+    gyro.calibrate();
     }
   }
 
-  public void getPitch() {
+  public void zeroGyro() {
     if (Parameters.TURRET_AVAILABLE) {
-      pitch.get();
-    }
+      gyro.reset();
+      }
   }
-  // FIXME is using the CANSparkmax good??
 
   @Override
   public void periodic() {

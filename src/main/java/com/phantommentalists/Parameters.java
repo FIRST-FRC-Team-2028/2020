@@ -7,6 +7,8 @@
 
 package com.phantommentalists;
 
+import edu.wpi.first.wpilibj.SPI.Port;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -124,4 +126,6 @@ public final class Parameters {
     public static final double DRIVE_RIGHT_GEAR_RATIO = 0.0;
     public static final double DRIVE_WHEEL_DIAMETER = 0.0;
     // FIXME fill in/ fix all of the values
+
+    public static final Port TURRET_GYRO_PORT = Port.kMXP;
 }

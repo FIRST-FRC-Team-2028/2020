@@ -11,6 +11,7 @@ import com.phantommentalists.Parameters;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.hal.ControlWord;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -20,29 +21,40 @@ public class Magazine extends SubsystemBase {
   // FIXME does accelerator need to be private?
   CANSparkMax accelerator;
   private CANSparkMax magazine;
+  private int ballCount;
+  private ControlWord controlWord;
 
   public Magazine() {
     accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
     magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
+    controlWord = new ControlWord();
+    if (controlWord.getAutonomous()) {
+      ballCount = 3;
+    }
+    else {
+      ballCount = 0;
+    }
   }
 
-  public void getBallHeldCount() {
+  public int getBallHeldCount() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       // number of times PickUp is used - how many times shooter is used?
-      // return an integer
-
+      return ballCount;
     }
+    return 0;
   }
 
   public void loadBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine.set(Parameters.MAGAZINE_LOAD_SPEED);
+      ++ballCount;
     }
   }
 
   public void shootBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine.set(Parameters.MAGAZINE_SHOOT_SPEED);
+      --ballCount;
     }
   }
 
