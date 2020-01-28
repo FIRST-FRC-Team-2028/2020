@@ -16,17 +16,16 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
- * Rotates to aim for the ports
- * Angles with the hood
- * Uses rollers to shoot power cells
+ * Rotates to aim for the ports Angles with the hood Uses rollers to shoot power
+ * cells
  */
 public class Turret extends SubsystemBase {
-  //FIXME do I need to set these as private?
-  CANSparkMax yaw;
-  CANSparkMax pitch;
-  CANSparkMax shooter;
+  // FIXME do I need to set the emun as private
+  private CANSparkMax yaw;
+  private CANSparkMax pitch;
+  private CANSparkMax shooter;
   AutoMode mode;
-  Timer timer;
+  private Timer timer;
 
   public Turret() {
     yaw = new CANSparkMax(Parameters.CANIDs.TURRET_YAW.getid(), MotorType.kBrushless);
@@ -76,8 +75,9 @@ public class Turret extends SubsystemBase {
       shooter.set(speed);
     }
   }
+
   public void getShooterSpeed() {
-    //returns RPM
+    // returns RPM
     if (Parameters.TURRET_AVAILABLE) {
       shooter.get();
     }
@@ -103,7 +103,7 @@ public class Turret extends SubsystemBase {
       pitch.get();
     }
   }
-  //FIXME is using the CANSparkmax good??
+  // FIXME is using the CANSparkmax good??
 
   @Override
   public void periodic() {

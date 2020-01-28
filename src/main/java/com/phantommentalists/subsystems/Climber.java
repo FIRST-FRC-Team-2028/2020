@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Climbs the Power Generator
  */
 public class Climber extends SubsystemBase {
-  
+
   public Climber() {
 
   }

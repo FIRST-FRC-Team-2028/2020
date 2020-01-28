@@ -23,19 +23,19 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * Then retract arm
  */
 public class PickUp extends SubsystemBase {
-  //FIXME do I need to set these to private?
-  CANSparkMax roller;
-  DoubleSolenoid arm;
-  Timer timer;
+  private CANSparkMax roller;
+  private DoubleSolenoid arm;
+  private Timer timer;
 
   public PickUp() {
     roller = new CANSparkMax(Parameters.CANIDs.ROLLER.getid(), MotorType.kBrushless);
     roller.setInverted(Parameters.CANIDs.ROLLER.isInverted());
     // if (Parameters.CANIDs.ROLLER.isFollower())
     // {
-    //   roller.follow(leader CAN ID);
+    // roller.follow(leader CAN ID);
     // }
-    arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
+    arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(),
+        Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
     timer = new Timer();
   }
 
@@ -79,6 +79,7 @@ public class PickUp extends SubsystemBase {
 
   /**
    * Turn off DoubleSolenoid
+   * 
    * @return
    */
   public void turnArmoff() {

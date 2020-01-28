@@ -25,7 +25,7 @@ public class PixyFollowPowerCellCommand extends CommandBase {
   private PixyCam pixyCam;
 
   public PixyFollowPowerCellCommand(Drive drive, PixyCam pixyCam) {
-    //do I see a pixy cam
+    // do I see a pixy cam
     this.drive = drive;
     this.pixyCam = pixyCam;
     addRequirements(drive);
@@ -34,23 +34,24 @@ public class PixyFollowPowerCellCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //can I see a ball
-    if (pixyCam.isAquired()==false) inWindowCount = 5.;
+    // can I see a ball
+    if (pixyCam.isAquired() == false)
+      inWindowCount = 5.;
     inWindowCount = 0.;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //take input from pixy cam
+    // take input from pixy cam
     pixyValue = pixyCam.getX();
-    //determine direction of rotation
-    //spin the robot; set speed
-    if (java.lang.Math.abs(pixyValue) <= window){
+    // determine direction of rotation
+    // spin the robot; set speed
+    if (java.lang.Math.abs(pixyValue) <= window) {
       speed = 0.;
-      inWindowCount+=1;
+      inWindowCount += 1;
     } else {
-      speed = pixyValue*pixyModifier;
+      speed = pixyValue * pixyModifier;
       inWindowCount = 0.;
     }
     drive.spin(speed);
@@ -59,14 +60,15 @@ public class PixyFollowPowerCellCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //value reaches 0, return true
-    if (inWindowCount >= windowCountVariable) return true;
+    // value reaches 0, return true
+    if (inWindowCount >= windowCountVariable)
+      return true;
     return false;
   }
 }

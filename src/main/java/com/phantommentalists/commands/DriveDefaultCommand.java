@@ -22,9 +22,9 @@ public class DriveDefaultCommand extends CommandBase {
 
   public DriveDefaultCommand() {
     // Use addRequirements() here to declare subsystem dependencies.\
-    //FIXME why do we need to take drive and oi
+    // FIXME why do we need to take drive and oi
     drive = new Drive();
-    oi =  new OI();
+    oi = new OI();
     addRequirements(drive);
   }
 
@@ -39,10 +39,10 @@ public class DriveDefaultCommand extends CommandBase {
     XboxController xboxController = oi.getXboxController();
     double left = xboxController.getRawAxis(Parameters.LEFT_STICK);
     double right = xboxController.getRawAxis(Parameters.RIGHT_STICK);
-    if(Math.abs(left)< Parameters.DRIVE_DEAD_BAND){
+    if (Math.abs(left) < Parameters.DRIVE_DEAD_BAND) {
       left = 0;
     }
-    if(Math.abs(right)< Parameters.DRIVE_DEAD_BAND){
+    if (Math.abs(right) < Parameters.DRIVE_DEAD_BAND) {
       right = 0;
     }
     drive.tankDrive(left, right);

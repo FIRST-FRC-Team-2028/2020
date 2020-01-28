@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * Spins the robot using drive
  */
-public class Spin extends CommandBase {
+public class DriveSpinCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final Drive m_subsystem;
 
-  public Spin(Drive subsystem) {
+  public DriveSpinCommand(Drive subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);

@@ -17,23 +17,23 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Turns to designated color and rotates wheel to given amount of times
  */
 public class ControlPanel extends SubsystemBase {
-  CANSparkMax panelBabyMotor;
+  private CANSparkMax panelBabyMotor;
 
   public ControlPanel() {
     panelBabyMotor = new CANSparkMax(Parameters.CANIDs.CONTROL_PANEL.getid(), MotorType.kBrushless);
   }
 
-  public void turnToColor(Color) {
-    if (Parameters.CONTROLPANEL_AVAILABLE) {
-      //is color going to be a string
-    }
-  }
+  // public void turnToColor(Color) {
+  //   if (Parameters.CONTROLPANEL_AVAILABLE) {
+  //     //is color going to be a string
+  //   }
+  // }
 
-  public void rotate(count) {
-    if (Parameters.CONTROLPANEL_AVAILABLE) {
-      //count number of rotations or encoder counts with timer?
-    }
-  }
+  // public void rotate(count) {
+  //   if (Parameters.CONTROLPANEL_AVAILABLE) {
+  //     //count number of rotations or encoder counts with timer?
+  //   }
+  // }
 
   public void setPower(double voltage) {
     if (Parameters.CONTROLPANEL_AVAILABLE) {
@@ -43,7 +43,7 @@ public class ControlPanel extends SubsystemBase {
 
   public void getColor() {
     if (Parameters.CONTROLPANEL_AVAILABLE) {
-      //Color
+      // Color
     }
   }
 

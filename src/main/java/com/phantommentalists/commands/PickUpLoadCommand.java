@@ -14,12 +14,13 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.PickUp;
 
 /**
- * Extends PickUp and turns on rollers to get the power cell off the floor
- * FIXME hold button till you think its done for manual mode, timer for auto. use selector/swtich for that
+ * Extends PickUp and turns on rollers to get the power cell off the floor FIXME
+ * hold button till you think its done for manual mode, timer for auto. use
+ * selector/swtich for that
  */
 public class PickUpLoadCommand extends CommandBase {
-  PickUp pickUp;
-  Timer timer;
+  private PickUp pickUp;
+  private Timer timer;
 
   public PickUpLoadCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -56,7 +57,7 @@ public class PickUpLoadCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     if (Parameters.PICKUP_AVAILABLE) {
-     return pickUp.isPickUpExtended();
+      return pickUp.isPickUpExtended();
     }
     return false;
   }

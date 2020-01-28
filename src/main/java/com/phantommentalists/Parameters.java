@@ -29,15 +29,14 @@ public final class Parameters {
     public static final boolean MAGAZINE_AVAILABLE = false;
     public static final boolean CLIMBER_AVAILABLE = false;
     public static final boolean CONTROLPANEL_AVAILABLE = false;
-    public static final boolean AIM_AVAILABLE = false; //FIXME use camera_available?
+    public static final boolean AIM_AVAILABLE = false; // FIXME use camera_available?
     public static final boolean COMPRESSOR_AVAILABLE = false;
     public static final boolean GYRO_AVAILABLE = false;
     public static final boolean BUTTONBOX_AVAILABLE = false;
 
     /** Enum to hold all information about pneumatic solenoids */
     public enum PneumaticChannel {
-        PICKUP_EXTEND(6), 
-        PICKUP_RETRACT(7);
+        PICKUP_EXTEND(6), PICKUP_RETRACT(7);
 
         private final int channel;
 
@@ -54,20 +53,11 @@ public final class Parameters {
      * Enum to hold all information about devices on the CAN bus
      */
     public enum CANIDs {
-        DRIVE_LEFT_LEADER(10, false, true), 
-        DRIVE_RIGHT_LEADER(20, true, true), 
-        DRIVE_LEFT_FOLLOWER(11, false, false),
-        DRIVE_RIGHT_FOLLOWER(21, true, false),
-        TURRET_YAW(30, false, false),
-        TURRET_PITCH(31, false, false),
-        TURRET_SHOOT(32, false, false),
-        ROLLER(40, false, false),
-        MAGAZINE(41, false, false),
-        ACCELERATOR(42, false, false),
-        CLIMB_RIGHT(50, false, false),
-        CLIMB_LEFT(51, false, false),
-        CONTROL_PANEL(60, false, false),
-        SPARE(28, false, false);
+        DRIVE_LEFT_LEADER(10, false, true), DRIVE_RIGHT_LEADER(20, true, true), DRIVE_LEFT_FOLLOWER(11, false, false),
+        DRIVE_RIGHT_FOLLOWER(21, true, false), TURRET_YAW(30, false, false), TURRET_PITCH(31, false, false),
+        TURRET_SHOOT(32, false, false), ROLLER(40, false, false), MAGAZINE(41, false, false),
+        ACCELERATOR(42, false, false), CLIMB_RIGHT(50, false, false), CLIMB_LEFT(51, false, false),
+        CONTROL_PANEL(60, false, false), SPARE(28, false, false);
 
         private final int canid;
         private final boolean inverted;
@@ -93,19 +83,15 @@ public final class Parameters {
     }
 
     public enum AutoMode {
-        AUTO,
-        MANUAL;
+        AUTO, MANUAL;
     }
 
-    public enum Gear{
-        LOW,
-        HIGH;
+    public enum Gear {
+        LOW, HIGH;
     }
 
     public enum Mode {
-        DONT_MOVE,
-        SCAN,
-        FACE_FORWARD;
+        DONT_MOVE, SCAN, FACE_FORWARD;
     }
 
     public static final int PIXY_CHANNEL = 2;
@@ -120,7 +106,7 @@ public final class Parameters {
     public static final int SOLENOID_EXTEND = 1;
     public static final int SOLENOID_RETRACT = 2;
 
-    //public static final double PICKUP_TIME = 0.5;
+    // public static final double PICKUP_TIME = 0.5;
     public static final double EXTEND_TIME = 0.5;
     public static final double RETRACT_TIME = 0.5;
     public static final double SHOOTER_TIME = 0.7;
@@ -129,4 +115,13 @@ public final class Parameters {
      * Distance between wheels measured inside to inside in inches
      */
     public static final double DRIVE_TRACK_WIDTH = 28.0;
+    public static final double DRIVE_KS = 0.0;
+    public static final double DRIVE_KV = 0.0;
+    public static final double DRIVE_KP = 0.0;
+    public static final double DRIVE_KI = 0.0;
+    public static final double DRIVE_KD = 0.0;
+    public static final double DRIVE_LEFT_GEAR_RATIO = 0.0;
+    public static final double DRIVE_RIGHT_GEAR_RATIO = 0.0;
+    public static final double DRIVE_WHEEL_DIAMETER = 0.0;
+    // FIXME fill in/ fix all of the values
 }

@@ -14,13 +14,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
- * Contains the Power Cells
- * Moving them to the Turret to shoot
+ * Contains the Power Cells Moving them to the Turret to shoot
  */
 public class Magazine extends SubsystemBase {
+  // FIXME does accelerator need to be private?
   CANSparkMax accelerator;
-  CANSparkMax magazine;
-
+  private CANSparkMax magazine;
 
   public Magazine() {
     accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
@@ -29,9 +28,9 @@ public class Magazine extends SubsystemBase {
 
   public void getBallHeldCount() {
     if (Parameters.MAGAZINE_AVAILABLE) {
-      //number of times PickUp is used - how many times shooter is used?
-      //return an integer
-      
+      // number of times PickUp is used - how many times shooter is used?
+      // return an integer
+
     }
   }
 
@@ -58,7 +57,8 @@ public class Magazine extends SubsystemBase {
       magazine.setVoltage(voltage);
     }
   }
-  //FIXME what is the difference between LoaderPower and FeedPower? is it the motors?
+  // FIXME what is the difference between LoaderPower and FeedPower? is it the
+  // motors?
 
   @Override
   public void periodic() {

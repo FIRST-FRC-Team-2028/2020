@@ -14,13 +14,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * Turns off rollers
- * Retracts arm
+ * Turns off rollers Retracts arm
  */
 public class PickUpRetractCommand extends CommandBase {
-  PickUp pickUp;
-  Timer timer;
-  
+  private PickUp pickUp;
+  private Timer timer;
+
   public PickUpRetractCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     pickUp = new PickUp();
@@ -56,8 +55,8 @@ public class PickUpRetractCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     if (Parameters.PICKUP_AVAILABLE) {
-     return pickUp.isPickUpRetracted();
-    }
-    else return false;
+      return pickUp.isPickUpRetracted();
+    } else
+      return false;
   }
 }

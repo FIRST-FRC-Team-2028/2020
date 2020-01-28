@@ -65,9 +65,9 @@ public class Aim extends SubsystemBase {
   }
 
   /**
-   * Sets the behavior for controling the Turret when the pixy camera does
-   * not detect a target.  It can be one of:  don't move, scan for target or
-   * face forward
+   * Sets the behavior for controling the Turret when the pixy camera does not
+   * detect a target. It can be one of: don't move, scan for target or face
+   * forward
    * 
    * @param newMode - the new mode for controlling the Turret
    */
