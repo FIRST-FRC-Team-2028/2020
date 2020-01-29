@@ -84,27 +84,42 @@ public final class Parameters {
         }
     }
 
+    /**
+     * Used to set the mode of the turret
+     */
     public enum AutoMode {
         AUTO, MANUAL;
     }
 
+    /**
+     * Switches the gears of the drive
+     */
     public enum Gear {
         LOW, HIGH;
     }
 
+    /**
+     * Used in Aim to setNoTargetMode
+     */
     public enum Mode {
         DONT_MOVE, SCAN, FACE_FORWARD;
     }
 
+    //Pixy
     public static final int PIXY_CHANNEL = 2;
     public static final int POWER_FOLLOWER_BUTTON = 2;
+
+    //Drive
     public static final int LEFT_STICK = 5;
     public static final int RIGHT_STICK = 1;
     public static final double DRIVE_DEAD_BAND = 0.1;
 
+    //Speeds for subsystems
     public static final double PICKUP_ROLLER_SPEED = 0.7;
     public static final double MAGAZINE_LOAD_SPEED = 0.5;
     public static final double MAGAZINE_SHOOT_SPEED = 1;
+
+    //used for climber currently not being used
     public static final int SOLENOID_EXTEND = 1;
     public static final int SOLENOID_RETRACT = 2;
 
@@ -127,5 +142,6 @@ public final class Parameters {
     public static final double DRIVE_WHEEL_DIAMETER = 0.0;
     // FIXME fill in/ fix all of the values
 
+    //used in Turret sets port for gyro
     public static final Port TURRET_GYRO_PORT = Port.kMXP;
 }

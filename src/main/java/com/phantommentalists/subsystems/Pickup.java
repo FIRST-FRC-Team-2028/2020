@@ -88,6 +88,11 @@ public class PickUp extends SubsystemBase {
     }
   }
 
+  /**
+   * Determines if Pick Up has been extended or not
+   * Using the Double Solenoid and a timer
+   * @return
+   */
   public boolean isPickUpExtended() {
     if (Parameters.PICKUP_AVAILABLE) {
       if (timer.get() >= Parameters.EXTEND_TIME && arm.get() == Value.kForward) {
@@ -97,6 +102,11 @@ public class PickUp extends SubsystemBase {
     return false;
   }
 
+  /**
+   * Determines if Pick Up has been retracted or not
+   * Uses Double Solenoid and a timer
+   * @return
+   */
   public boolean isPickUpRetracted() {
     if (Parameters.PICKUP_AVAILABLE) {
       if (timer.get() >= Parameters.RETRACT_TIME && arm.get() == Value.kReverse) {

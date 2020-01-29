@@ -20,30 +20,46 @@ public class Climber extends SubsystemBase {
 
   }
 
+  /**
+   * releases climbing arm
+   */
   public void releaseArm() {
     if (Parameters.CLIMBER_AVAILABLE) {
 
     }
   }
 
+  /**
+   * climbs up
+   */
   public void climbUp() {
     if (Parameters.CLIMBER_AVAILABLE) {
 
     }
   }
 
+  /**
+   * stops climbing
+   */
   public void stopClimbing() {
     if (Parameters.CLIMBER_AVAILABLE) {
 
     }
   }
 
+  /**
+   * releases winch
+   */
   public void releaseWinch() {
     if (Parameters.CLIMBER_AVAILABLE) {
 
     }
   }
 
+  /**
+   * returns whether the climber has been deployed or not
+   * @return
+   */
   public boolean isClimberDeployed() {
     if (Parameters.CLIMBER_AVAILABLE) {
 

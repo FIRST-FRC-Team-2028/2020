@@ -17,30 +17,43 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Turns to designated color and rotates wheel to given amount of times
  */
 public class ControlPanel extends SubsystemBase {
-  private CANSparkMax panelBabyMotor;
+  private CANSparkMax panelMotor;
 
   public ControlPanel() {
-    panelBabyMotor = new CANSparkMax(Parameters.CANIDs.CONTROL_PANEL.getid(), MotorType.kBrushless);
+    panelMotor = new CANSparkMax(Parameters.CANIDs.CONTROL_PANEL.getid(), MotorType.kBrushless);
   }
 
+  // /**
+  //  * 
+  //  */
   // public void turnToColor(Color) {
   //   if (Parameters.CONTROLPANEL_AVAILABLE) {
   //     //is color going to be a string
   //   }
   // }
 
+  // /**
+  //  * 
+  //  */
   // public void rotate(count) {
   //   if (Parameters.CONTROLPANEL_AVAILABLE) {
   //     //count number of rotations or encoder counts with timer?
   //   }
   // }
 
+  /**
+   * sets the power for the motor when spinning the wheel
+   * @param voltage
+   */
   public void setPower(double voltage) {
     if (Parameters.CONTROLPANEL_AVAILABLE) {
-      panelBabyMotor.setVoltage(voltage);
+      panelMotor.setVoltage(voltage);
     }
   }
 
+  /**
+   * returns the color that the sensor sees FIXME: is this correct? is it for the sensor, or for what color we need to spin to?
+   */
   public void getColor() {
     if (Parameters.CONTROLPANEL_AVAILABLE) {
       // Color

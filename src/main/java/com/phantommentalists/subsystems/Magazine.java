@@ -36,6 +36,9 @@ public class Magazine extends SubsystemBase {
     }
   }
 
+  /**
+   * returns how many power cells we are storing currently
+   */
   public int getBallHeldCount() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       // number of times PickUp is used - how many times shooter is used?
@@ -44,6 +47,9 @@ public class Magazine extends SubsystemBase {
     return 0;
   }
 
+  /**
+   * loads power cells
+   */
   public void loadBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine.set(Parameters.MAGAZINE_LOAD_SPEED);
@@ -51,6 +57,9 @@ public class Magazine extends SubsystemBase {
     }
   }
 
+  /**
+   * sends the power cell to the accelerator and wheels on the turret to get shot
+   */
   public void shootBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine.set(Parameters.MAGAZINE_SHOOT_SPEED);
@@ -58,12 +67,18 @@ public class Magazine extends SubsystemBase {
     }
   }
 
+  /**
+   * sets the power of the magazine conveyor belts
+   */
   public void setLoaderPower(double voltage) {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine.setVoltage(voltage);
     }
   }
 
+  /**
+   * sets the power for feeding the ball through the accelerator
+   */
   public void setFeedPower(double voltage) {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine.setVoltage(voltage);

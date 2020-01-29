@@ -136,6 +136,9 @@ public class Drive extends SubsystemBase {
     }
   }
 
+  /**
+   * stops the robot from moving
+   */
   public void stop(){
     if (Parameters.DRIVE_AVAILABLE) {
       leftLeader.set(0.0);
@@ -143,6 +146,10 @@ public class Drive extends SubsystemBase {
     }
   }
   
+  /**
+   * returns the current of both motors combined
+   * @return
+   */
   public double getAllMotorCurrent() {
     if (Parameters.DRIVE_AVAILABLE) {
       return leftLeader.getOutputCurrent() + rightLeader.getOutputCurrent();
@@ -152,12 +159,19 @@ public class Drive extends SubsystemBase {
     }
   }
 
+  /**
+   * sets the default command
+   */
   public void initDefaultCommand() {
     if (Parameters.DRIVE_AVAILABLE) {
       setDefaultCommand(new DriveDefaultCommand());
     }
   }
 
+  /**
+   * sets the drive power
+   * @param power
+   */
   public void drivePower(double power) {
     if (Parameters.DRIVE_AVAILABLE) {
 
@@ -165,6 +179,10 @@ public class Drive extends SubsystemBase {
     //FIXME: what to do here?
   }
 
+  /**
+   * sets which gear we are in
+   * @param gear2
+   */
   public void setGear(Gear gear2) {
     if (Parameters.DRIVE_AVAILABLE) {
       gear = gear2;

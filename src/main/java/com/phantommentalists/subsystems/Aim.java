@@ -22,42 +22,63 @@ public class Aim extends SubsystemBase {
 
   }
 
+  /**
+   * Returns the angle that needs to be turned to in order to center on a power cell
+   */
   public void getAngleToPowerCell() {
     if (Parameters.AIM_AVAILABLE) {
 
     }
   }
 
+  /**
+   * returns the current angle of the chassis FIXME: why do we have one here and in drive?
+   */
   public void getChassisAngle() {
     if (Parameters.AIM_AVAILABLE) {
 
     }
   }
 
+  /**
+   * returns distance away from FIXME: what object? power cell or power port?
+   */
   public void getDistance() {
     if (Parameters.AIM_AVAILABLE) {
 
     }
   }
 
+  /**
+   * returns the angle we need to turn in order to be centered on the power port
+   */
   public void getAngleToPowerPort() {
     if (Parameters.AIM_AVAILABLE) {
 
     }
   }
 
+  /**
+   * returns whether a target is there or not
+   */
   public void isTargetSeen() {
     if (Parameters.AIM_AVAILABLE) {
 
     }
   }
 
+  /**
+   * 
+   */
   public void enable() {
     if (Parameters.AIM_AVAILABLE) {
 
     }
   }
 
+  /**
+   * 
+   */
   public void disable() {
     if (Parameters.AIM_AVAILABLE) {
 
@@ -77,6 +98,9 @@ public class Aim extends SubsystemBase {
     }
   }
 
+  /**
+   * returns the mode that we are set to
+   */
   public Mode getNoTargetMode() {
     return mode;
   }
