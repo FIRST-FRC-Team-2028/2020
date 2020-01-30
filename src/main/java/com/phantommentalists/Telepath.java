@@ -10,6 +10,7 @@ package com.phantommentalists;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import com.phantommentalists.subsystems.Drive;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,6 +22,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Telepath extends TimedRobot {
   private Command m_autonomousCommand;
   private OI m_oi;
+
+  private Drive drive;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -35,6 +38,9 @@ public class Telepath extends TimedRobot {
     // turret = new Turret(...);
     // }
     m_oi = new OI();
+ 
+    drive = new Drive();
+
   }
 
   /**
@@ -55,6 +61,10 @@ public class Telepath extends TimedRobot {
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
+
+    double leftVoltage = m_oi.getPilotStick().getThrottle();
+    drive.tankDrive(leftVoltage * 12.0, leftVoltage * 12.0);
+
     CommandScheduler.getInstance().run();
   }
 

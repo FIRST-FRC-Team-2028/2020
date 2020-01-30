@@ -28,8 +28,10 @@ public class PickUp extends SubsystemBase {
   private Timer timer;
 
   public PickUp() {
-    roller = new CANSparkMax(Parameters.CANIDs.ROLLER.getid(), MotorType.kBrushless);
-    roller.setInverted(Parameters.CANIDs.ROLLER.isInverted());
+    if (Parameters.PICKUP_AVAILABLE) {
+      roller = new CANSparkMax(Parameters.CANIDs.ROLLER.getid(), MotorType.kBrushless);
+      roller.setInverted(Parameters.CANIDs.ROLLER.isInverted());
+    }
     // if (Parameters.CANIDs.ROLLER.isFollower())
     // {
     // roller.follow(leader CAN ID);

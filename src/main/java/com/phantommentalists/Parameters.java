@@ -7,7 +7,7 @@
 
 package com.phantommentalists;
 
-import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.SPI;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -24,17 +24,17 @@ public final class Parameters {
     /**
      * Flag that tells the code systems exist
      */
-    public static final boolean DRIVE_AVAILABLE = true;
-    public static final boolean CAMERA_AVAILABLE = true;
-    public static final boolean PICKUP_AVAILABLE = false;
-    public static final boolean TURRET_AVAILABLE = true;
-    public static final boolean MAGAZINE_AVAILABLE = false;
-    public static final boolean CLIMBER_AVAILABLE = false;
-    public static final boolean CONTROLPANEL_AVAILABLE = false;
-    public static final boolean AIM_AVAILABLE = false; // FIXME use camera_available?
-    public static final boolean COMPRESSOR_AVAILABLE = false;
-    public static final boolean GYRO_AVAILABLE = false;
-    public static final boolean BUTTONBOX_AVAILABLE = false;
+    public static final boolean DRIVE_AVAILABLE         = true;
+    public static final boolean CAMERA_AVAILABLE        = false;
+    public static final boolean PICKUP_AVAILABLE        = false;
+    public static final boolean TURRET_AVAILABLE        = false;
+    public static final boolean MAGAZINE_AVAILABLE      = false;
+    public static final boolean CLIMBER_AVAILABLE       = false;
+    public static final boolean CONTROLPANEL_AVAILABLE  = false;
+    public static final boolean AIM_AVAILABLE           = false;     // FIXME use camera_available?
+    public static final boolean COMPRESSOR_AVAILABLE    = false;
+    public static final boolean GYRO_AVAILABLE          = false;
+    public static final boolean BUTTONBOX_AVAILABLE     = false;
 
     /** Enum to hold all information about pneumatic solenoids */
     public enum PneumaticChannel {
@@ -55,11 +55,26 @@ public final class Parameters {
      * Enum to hold all information about devices on the CAN bus
      */
     public enum CANIDs {
-        DRIVE_LEFT_LEADER(10, false, true), DRIVE_RIGHT_LEADER(20, true, true), DRIVE_LEFT_FOLLOWER(11, false, false),
-        DRIVE_RIGHT_FOLLOWER(21, true, false), TURRET_YAW(30, false, false), TURRET_PITCH(31, false, false),
-        TURRET_SHOOT(32, false, false), ROLLER(40, false, false), MAGAZINE(41, false, false),
-        ACCELERATOR(42, false, false), CLIMB_RIGHT(50, false, false), CLIMB_LEFT(51, false, false),
-        CONTROL_PANEL(60, false, false), SPARE(28, false, false);
+        DRIVE_LEFT_LEADER    (10, false, true), 
+        DRIVE_LEFT_FOLLOWER  (11, false, false),
+        DRIVE_RIGHT_LEADER   (20, true, true), 
+        DRIVE_RIGHT_FOLLOWER (21, true, false), 
+
+        TURRET_DIRECTION     (30, false, false), 
+        TURRET_HOOD          (31, false, false),
+        TURRET_SHOOTER       (32, false, false),
+
+        ROLLER               (40, false, false), 
+        MAGAZINE             (41, false, false),
+        ACCELERATOR          (42, false, false), 
+
+        CLIMB_RIGHT          (50, false, false), 
+        CLIMB_LEFT           (51, false, false),
+
+        CONTROL_PANEL        (60, false, false), 
+
+        SPARE                (28, false, false);
+
 
         private final int canid;
         private final boolean inverted;
@@ -110,8 +125,11 @@ public final class Parameters {
     public static final int POWER_FOLLOWER_BUTTON = 2;
 
     //Drive
-    public static final int LEFT_STICK = 5;
-    public static final int RIGHT_STICK = 1;
+    public static final int USB_STICK_PILOT = 0;
+    public static final int USB_STICK_COPILOT = 1;
+
+    // public static final int LEFT_STICK = 5;
+    // public static final int RIGHT_STICK = 1;
     public static final double DRIVE_DEAD_BAND = 0.1;
 
     //Speeds for subsystems
@@ -137,11 +155,11 @@ public final class Parameters {
     public static final double DRIVE_KP = 0.0;
     public static final double DRIVE_KI = 0.0;
     public static final double DRIVE_KD = 0.0;
-    public static final double DRIVE_LEFT_GEAR_RATIO = 0.0;
-    public static final double DRIVE_RIGHT_GEAR_RATIO = 0.0;
-    public static final double DRIVE_WHEEL_DIAMETER = 0.0;
+    public static final double DRIVE_LEFT_GEAR_RATIO = 1.0/8.333;    // 8.333 Low     3.667 High for 2 CIM Ball Shifter
+    public static final double DRIVE_RIGHT_GEAR_RATIO = 1.0/8.333;
+    public static final double DRIVE_WHEEL_DIAMETER = 4.25;
     // FIXME fill in/ fix all of the values
 
     //used in Turret sets port for gyro
-    public static final Port TURRET_GYRO_PORT = Port.kMXP;
+    public static final SPI.Port CHASSIS_GYRO_PORT = SPI.Port.kOnboardCS0;
 }

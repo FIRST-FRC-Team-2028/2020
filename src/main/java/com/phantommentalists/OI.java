@@ -8,8 +8,8 @@
 package com.phantommentalists;
 
 import edu.wpi.first.wpilibj.GenericHID;
-//import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
+//import edu.wpi.first.wpilibj.XboxController;
 import com.phantommentalists.commands.DriveDefaultCommand;
 import com.phantommentalists.commands.DriveSpinCommand;
 import com.phantommentalists.subsystems.Drive;
@@ -30,17 +30,21 @@ public class OI {
   // private PixyCam frontPixy = new PixyCam(Parameters.PIXY_CHANNEL);
 
   private final DriveSpinCommand m_autoCommand = new DriveSpinCommand(drive);
-  private final DriveDefaultCommand driveDefaultCommand = new DriveDefaultCommand();
+ // private final DriveDefaultCommand driveDefaultCommand = new DriveDefaultCommand();
 
-  private XboxController xboxController;
+  //private XboxController xboxController;
+  private Joystick pilotJoystick;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public OI() {
     // Configure the button bindings
+
+    pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
+
     configureButtonBindings();
-    drive.setDefaultCommand(driveDefaultCommand);
+ //   drive.setDefaultCommand(driveDefaultCommand);
     // FIXME why is this set in the Oi?
   }
 
@@ -52,9 +56,9 @@ public class OI {
    */
   private void configureButtonBindings() {
 
-    xboxController = new XboxController(1);
-    JoystickButton exampleButton = new JoystickButton(xboxController, 1);
-    exampleButton.whenHeld(new DriveSpinCommand(drive));
+  //  xboxController = new XboxController(1);
+  //  JoystickButton exampleButton = new JoystickButton(xboxController, 1);
+  //  exampleButton.whenHeld(new DriveSpinCommand(drive));
     // JoystickButton powerFollowButton = new JoystickButton(xboxController,
     // Parameters.POWER_FOLLOWER_BUTTON);
     // powerFollowButton.whenpressed(new PixyFollowPowerCellCommand(drive,
@@ -72,7 +76,12 @@ public class OI {
     return m_autoCommand;
   }
 
-  public XboxController getXboxController() {
-    return xboxController;
-  }
+   public Joystick getPilotStick()
+   {
+    return pilotJoystick;
+   }
+
+  // public XboxController getXboxController() {
+  //   return xboxController;
+  // }
 }

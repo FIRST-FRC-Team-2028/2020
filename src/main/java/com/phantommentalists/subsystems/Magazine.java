@@ -18,15 +18,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Contains the Power Cells Moving them to the Turret to shoot
  */
 public class Magazine extends SubsystemBase {
-  // FIXME does accelerator need to be private?
-  CANSparkMax accelerator;
-  private CANSparkMax magazine;
+  
+  private CANSparkMax accelerator;
+   private CANSparkMax magazine;
   private int ballCount;
   private ControlWord controlWord;
 
   public Magazine() {
-    accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
-    magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
+    if (Parameters.MAGAZINE_AVAILABLE) {
+      accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
+      magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
+    }
     controlWord = new ControlWord();
     if (controlWord.getAutonomous()) {
       ballCount = 3;

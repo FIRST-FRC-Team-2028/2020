@@ -11,8 +11,6 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.AutoMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -28,14 +26,14 @@ public class Turret extends SubsystemBase {
   AutoMode mode;
   private Timer timer;
   //FIXME Find out what gyro would be best
-  private ADXRS450_Gyro gyro;
 
   public Turret() {
-    yaw = new CANSparkMax(Parameters.CANIDs.TURRET_YAW.getid(), MotorType.kBrushless);
-    pitch = new CANSparkMax(Parameters.CANIDs.TURRET_PITCH.getid(), MotorType.kBrushless);
-    shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOT.getid(), MotorType.kBrushless);
-    timer = new Timer();
-    gyro = new ADXRS450_Gyro(Parameters.TURRET_GYRO_PORT);
+    if (Parameters.TURRET_AVAILABLE) {
+      yaw = new CANSparkMax(Parameters.CANIDs.TURRET_DIRECTION.getid(), MotorType.kBrushless);
+      pitch = new CANSparkMax(Parameters.CANIDs.TURRET_HOOD.getid(), MotorType.kBrushless);
+      shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOTER.getid(), MotorType.kBrushless);
+      timer = new Timer();
+    }
   }
 
   /**
@@ -135,29 +133,8 @@ public class Turret extends SubsystemBase {
     return false;
   }
 
-  /**
-   * Retrieves the Angle of Yaw
-   * @return
-   */
-  public double getYaw() {
-    if (Parameters.TURRET_AVAILABLE) {
-      return gyro.getAngle();
-    }
-    return 0.0;
-  }
 
-  /**
-   * retrieves the Angle of Pitch
-   * @return
-   */
-  public double getPitch() {
-    if (Parameters.TURRET_AVAILABLE) {
-      //Either needs another gyro or a way to get a different axis
-      return gyro.getAngle();
-    }
-    return 0.0;
-  }
-  
+
   // public void getYaw() {
   //   if (Parameters.TURRET_AVAILABLE) {
   //     yaw.get();
@@ -170,24 +147,6 @@ public class Turret extends SubsystemBase {
   //   }
   // }
   // FIXME is using the CANSparkmax good??
-
-  /**
-   * Calibrates the gyro computing the center value
-   */
-  public void calibrateGyro() {
-    if (Parameters.TURRET_AVAILABLE) {
-    gyro.calibrate();
-    }
-  }
-
-  /**
-   * Resets the Gyro back to 0
-   */
-  public void zeroGyro() {
-    if (Parameters.TURRET_AVAILABLE) {
-      gyro.reset();
-      }
-  }
 
   @Override
   public void periodic() {

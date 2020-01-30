@@ -36,16 +36,16 @@ public class DriveDefaultCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    XboxController xboxController = oi.getXboxController();
-    double left = xboxController.getRawAxis(Parameters.LEFT_STICK);
-    double right = xboxController.getRawAxis(Parameters.RIGHT_STICK);
-    if (Math.abs(left) < Parameters.DRIVE_DEAD_BAND) {
-      left = 0;
-    }
-    if (Math.abs(right) < Parameters.DRIVE_DEAD_BAND) {
-      right = 0;
-    }
-    drive.tankDrive(left, right);
+    // XboxController xboxController = oi.getXboxController();
+    // double left = xboxController.getRawAxis(Parameters.LEFT_STICK);
+    // double right = xboxController.getRawAxis(Parameters.RIGHT_STICK);
+    // if (Math.abs(left) < Parameters.DRIVE_DEAD_BAND) {
+    //   left = 0;
+    // }
+    // if (Math.abs(right) < Parameters.DRIVE_DEAD_BAND) {
+    //   right = 0;
+    // }
+    // drive.tankDrive(left, right);
   }
 
   // Called once the command ends or is interrupted.
