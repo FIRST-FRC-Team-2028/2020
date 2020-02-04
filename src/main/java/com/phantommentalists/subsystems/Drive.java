@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -44,12 +45,14 @@ public class Drive extends SubsystemBase {
 
   /** Returns location of robot on the field */
   private Pose2d pose;
+  private Timer timer;
 
   /** Converts motor controller voltage to speed */
   private SimpleMotorFeedforward feedForward;
-  
 
   public Drive() {
+
+    timer = new Timer();
     leftLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_LEADER.getid(), MotorType.kBrushless);
     rightLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_LEADER.getid(), MotorType.kBrushless);
     leftFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.getid(), MotorType.kBrushless);
@@ -64,7 +67,6 @@ public class Drive extends SubsystemBase {
     rightLeader.setInverted(Parameters.CANIDs.DRIVE_RIGHT_LEADER.isInverted());
     leftLeader.setInverted(Parameters.CANIDs.DRIVE_LEFT_LEADER.isInverted());
 
-
     if (Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.isFollower()) {
       leftFollower.follow(leftLeader);
     }
@@ -72,22 +74,26 @@ public class Drive extends SubsystemBase {
       rightFollower.follow(rightLeader);
     }
 
-    //  gyro = new ADXRS450_Gyro(Parameters.CHASSIS_GYRO_PORT);
+    // gyro = new ADXRS450_Gyro(Parameters.CHASSIS_GYRO_PORT);
     kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(Parameters.DRIVE_TRACK_WIDTH));
-    odometry = new DifferentialDriveOdometry( /*kinematics,*/ getChassisAngle());
+    odometry = new DifferentialDriveOdometry( /* kinematics, */ getChassisAngle());
     feedForward = new SimpleMotorFeedforward(Parameters.DRIVE_KS, Parameters.DRIVE_KV);
     leftMotorController = new PIDController(Parameters.DRIVE_KP, Parameters.DRIVE_KI, Parameters.DRIVE_KD);
     rightMotorController = new PIDController(Parameters.DRIVE_KP, Parameters.DRIVE_KI, Parameters.DRIVE_KD);
   }
 
   /**
-   * wheel distance is motor encoder counts/ counts per revolution * gear ratio * wheel circumference 
+   * wheel distance is motor encoder counts/ counts per revolution * gear ratio *
+   * wheel circumference
+   * 
    * @return
    */
-   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-      double leftDistanceMeters = leftLeader.getEncoder().getVelocity() / Parameters.DRIVE_LEFT_GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60;
-      double rightDistanceMeters = rightLeader.getEncoder().getVelocity() / Parameters.DRIVE_RIGHT_GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60;
-      return new DifferentialDriveWheelSpeeds(leftDistanceMeters, rightDistanceMeters);
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    double leftDistanceMeters = leftLeader.getEncoder().getVelocity() / Parameters.DRIVE_LEFT_GEAR_RATIO * 2 * Math.PI
+      * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60;
+    double rightDistanceMeters = rightLeader.getEncoder().getVelocity() / Parameters.DRIVE_RIGHT_GEAR_RATIO * 2
+      * Math.PI * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60;
+    return new DifferentialDriveWheelSpeeds(leftDistanceMeters, rightDistanceMeters);
   }
 
   /**
@@ -108,13 +114,13 @@ public class Drive extends SubsystemBase {
       // SmartDashboard.putNumber("Left Output", leftLeader.getAppliedOutput());
       // SmartDashboard.putNumber("Left Current",leftLeader.getOutputCurrent());
 
-      // pose = odometry.update(getChassisAngle(), getWheelSpeeds().leftMetersPerSecond, getWheelSpeeds().rightMetersPerSecond);
+      // pose = odometry.update(getChassisAngle(),
+      // getWheelSpeeds().leftMetersPerSecond, getWheelSpeeds().rightMetersPerSecond);
     }
   }
 
   /**
-   * 
-   * @param left - Requires motor voltage for the left side of the robot's drive
+   * @param left  - Requires motor voltage for the left side of the robot's drive
    * @param right - Requires motor voltage for the right side of the robot
    */
   public void tankDrive(double left, double right) {
@@ -139,22 +145,22 @@ public class Drive extends SubsystemBase {
   /**
    * stops the robot from moving
    */
-  public void stop(){
+  public void stop() {
     if (Parameters.DRIVE_AVAILABLE) {
       leftLeader.set(0.0);
       rightLeader.set(0.0);
     }
   }
-  
+
   /**
    * returns the current of both motors combined
+   * 
    * @return
    */
   public double getAllMotorCurrent() {
     if (Parameters.DRIVE_AVAILABLE) {
       return leftLeader.getOutputCurrent() + rightLeader.getOutputCurrent();
-    }
-    else {
+    } else {
       return 0.0;
     }
   }
@@ -164,23 +170,24 @@ public class Drive extends SubsystemBase {
    */
   public void initDefaultCommand() {
     if (Parameters.DRIVE_AVAILABLE) {
-//      setDefaultCommand(new DriveDefaultCommand());
+      setDefaultCommand(new DriveDefaultCommand());
     }
   }
 
   /**
    * sets the drive power
+   * 
    * @param power
    */
   public void drivePower(double power) {
     if (Parameters.DRIVE_AVAILABLE) {
-
     }
-    //FIXME: what to do here?
+    // FIXME: what to do here?
   }
 
   /**
    * sets which gear we are in
+   * 
    * @param gear2
    */
   public void setGear(Gear gear2) {
@@ -190,17 +197,17 @@ public class Drive extends SubsystemBase {
   }
 
   /**
-   * Convinience method to return the chassis angle from the gyro sensor in a Rotation2d object.
-   * In WPILIBJ, gyro angles increase clockwise, but in the Algebra unit circle, angles increase
-   * counterclockwise, so the reading from the gyro must be inverted.
+   * Convinience method to return the chassis angle from the gyro sensor in a
+   * Rotation2d object. In WPILIBJ, gyro angles increase clockwise, but in the
+   * Algebra unit circle, angles increase counterclockwise, so the reading from
+   * the gyro must be inverted.
    * 
    * @return - Rotation2d - The angle of the robot on the field.
    */
   public Rotation2d getChassisAngle() {
- //   return Rotation2d.fromDegrees(-1.0 * gyro.getAngle());
-
- ///////////////////  FIXME
- return Rotation2d.fromDegrees(0.0);
+    // return Rotation2d.fromDegrees(-1.0 * gyro.getAngle());
+    //FIXME
+    return Rotation2d.fromDegrees(0.0);
   }
 
   /**
@@ -218,5 +225,38 @@ public class Drive extends SubsystemBase {
   public PIDController getRightMotorController() {
     return rightMotorController;
   }
+
+
+  public void Test() {
+    {
+      timer.start();
+      if(timer.get() < 5){
+      rightLeader.set(0.5);
+      }
+      else if (timer.get() < 10){
+      rightLeader.set(0.0);
+      rightFollower.set(0.5);
+      }
+      else if (timer.get() < 15){
+      rightFollower.set(0.0);
+      leftLeader.set(0.5);
+      }
+      else if (timer.get() < 20){
+         leftLeader.set(0.0);
+         leftLeader.set(0.5);
+      }
+      else
+      {
+          rightLeader.set(0.0);
+          rightFollower.set(0.0);
+          leftLeader.set(0.0);
+          rightFollower.set(0.0);
+      }
+  }
+
+  }
+
+
+
 
 }

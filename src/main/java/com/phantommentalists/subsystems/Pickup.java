@@ -91,8 +91,9 @@ public class PickUp extends SubsystemBase {
   }
 
   /**
-   * Determines if Pick Up has been extended or not
-   * Using the Double Solenoid and a timer
+   * Determines if Pick Up has been extended or not Using the Double Solenoid and
+   * a timer
+   * 
    * @return
    */
   public boolean isPickUpExtended() {
@@ -105,8 +106,9 @@ public class PickUp extends SubsystemBase {
   }
 
   /**
-   * Determines if Pick Up has been retracted or not
-   * Uses Double Solenoid and a timer
+   * Determines if Pick Up has been retracted or not Uses Double Solenoid and a
+   * timer
+   * 
    * @return
    */
   public boolean isPickUpRetracted() {

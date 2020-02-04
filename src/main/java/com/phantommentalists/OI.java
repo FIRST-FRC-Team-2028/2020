@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import com.phantommentalists.commands.DriveDefaultCommand;
 import com.phantommentalists.commands.DriveSpinCommand;
 import com.phantommentalists.subsystems.Drive;
-//import com.phantommentalists.PixyCam;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -30,21 +29,25 @@ public class OI {
   // private PixyCam frontPixy = new PixyCam(Parameters.PIXY_CHANNEL);
 
   private final DriveSpinCommand m_autoCommand = new DriveSpinCommand(drive);
- // private final DriveDefaultCommand driveDefaultCommand = new DriveDefaultCommand();
+  // private final DriveDefaultCommand driveDefaultCommand = new
+  // DriveDefaultCommand();
 
-  //private XboxController xboxController;
-  private Joystick pilotJoystick;
+  // private XboxController xboxController;
+  private Joystick pilotJoystick, copilotJoystick;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public OI() {
     // Configure the button bindings
-
     pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
+    copilotJoystick = new Joystick(Parameters.USB_STICK_COPILOT);
+
+    //FIXME How is fuelCellCam going to be used
 
     configureButtonBindings();
- //   drive.setDefaultCommand(driveDefaultCommand);
+
+    // drive.setDefaultCommand(driveDefaultCommand);
     // FIXME why is this set in the Oi?
   }
 
@@ -56,14 +59,13 @@ public class OI {
    */
   private void configureButtonBindings() {
 
-  //  xboxController = new XboxController(1);
-  //  JoystickButton exampleButton = new JoystickButton(xboxController, 1);
-  //  exampleButton.whenHeld(new DriveSpinCommand(drive));
+    // xboxController = new XboxController(1);
+    // JoystickButton exampleButton = new JoystickButton(xboxController, 1);
+    // exampleButton.whenHeld(new DriveSpinCommand(drive));
     // JoystickButton powerFollowButton = new JoystickButton(xboxController,
     // Parameters.POWER_FOLLOWER_BUTTON);
     // powerFollowButton.whenpressed(new PixyFollowPowerCellCommand(drive,
     // frontPixy));
-
   }
 
   /**
@@ -76,12 +78,27 @@ public class OI {
     return m_autoCommand;
   }
 
-   public Joystick getPilotStick()
-   {
+  public Joystick getPilotStick() {
     return pilotJoystick;
-   }
+  }
+
+  public Joystick getCoPilotStick() {
+    return copilotJoystick;
+  }
+
+  public Boolean GetFuelCellButton() {
+    return pilotJoystick.getRawButton(Parameters.Pilot_Follow_Power_Cell);
+  }
+
+  public Boolean GetHighGearButton() {
+    return pilotJoystick.getRawButton(Parameters.Pilot_Button_1);   ///FIXME   will need to be changed from but 3
+  }
+
+  public Boolean GetTestButton() {
+    return pilotJoystick.getRawButton(Parameters.Pilot_Button_3);   ///FIXME   will need to be changed from but 3
+  }
 
   // public XboxController getXboxController() {
-  //   return xboxController;
+  // return xboxController;
   // }
 }

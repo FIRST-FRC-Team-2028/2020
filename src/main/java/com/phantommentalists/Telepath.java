@@ -7,10 +7,21 @@
 
 package com.phantommentalists;
 
+import com.phantommentalists.PixyAnalog;
+import com.phantommentalists.subsystems.Drive;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import com.phantommentalists.subsystems.Drive;
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+
+
+import edu.wpi.first.wpilibj.controller.PIDController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,8 +33,17 @@ import com.phantommentalists.subsystems.Drive;
 public class Telepath extends TimedRobot {
   private Command m_autonomousCommand;
   private OI m_oi;
-
+  private ADXRS450_Gyro m_gyro;
   private Drive drive;
+
+  private Compressor compressor;
+  private DoubleSolenoid shifter;
+
+  private double DriveAdjust;
+
+  private PixyAnalog m_Pixy_Analog;;
+
+  private PIDController  follow_Ball_Controller;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -38,9 +58,18 @@ public class Telepath extends TimedRobot {
     // turret = new Turret(...);
     // }
     m_oi = new OI();
- 
+    m_gyro = new ADXRS450_Gyro();
+    m_Pixy_Analog = new PixyAnalog(Parameters.PIXY_ANALOG_CHANNEL);
+
     drive = new Drive();
 
+    compressor = new Compressor(0);
+    shifter = new DoubleSolenoid(4, 5);
+
+   follow_Ball_Controller = new PIDController(Parameters.kP_Drive_Pixy, Parameters.kI_Drive_Pixy, 
+                                             Parameters.kD_Drive_Pixy); // Yellow Ball
+compressor.setClosedLoopControl(true);
+compressor.start();
   }
 
   /**
@@ -62,10 +91,46 @@ public class Telepath extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
 
-    double leftVoltage = m_oi.getPilotStick().getThrottle();
-    drive.tankDrive(leftVoltage * 12.0, leftVoltage * 12.0);
+    double Y = m_oi.getPilotStick().getY();
+    double X = m_oi.getPilotStick().getX();
 
-    CommandScheduler.getInstance().run();
+    // "Exponential" drive, where the movements are more sensitive during slow
+    // movement, permitting easier fine control
+    // X = Math.pow(X, 3); /// FIXME take a look here does it make a
+    // Y = Math.pow(Y, 3); /// difference
+
+    if (Math.abs(Y) <= Parameters.DRIVE_DEAD_BAND) {
+      Y = 0;
+    }
+    if (Math.abs(X) <= Parameters.DRIVE_DEAD_BAND) {
+      X = 0;
+    }
+    double V = ((1.0 - Math.abs(X)) * Y) + Y;
+    double W = ((1.0 - Math.abs(Y)) * X) + X;
+    double R = (V + W) / 4; ///// Should be divide by 2 for full power
+    double L = (V - W) / 4; ///// FIXME
+
+    /*----------------------------------------------------------------------------*/
+    /* Shifts to High Gear on Pilot Trigger                           */
+    /*----------------------------------------------------------------------------*/
+    if (m_oi.GetHighGearButton()) {
+      shifter.set(Value.kReverse);
+    } else {
+      shifter.set(Value.kForward);
+    }
+
+    /*----------------------------------------------------------------------------*/
+    /* DriveAdjust steers the robot toward a Power Cell               */
+    /*----------------------------------------------------------------------------*/
+    if (m_oi.GetFuelCellButton()) {
+      DriveAdjust = follow_Ball_Controller.calculate(m_Pixy_Analog.getAverageVoltage(), (3.3 / 2.0));
+    } else {
+      DriveAdjust = 0.0;
+    }
+
+    drive.tankDrive((R - DriveAdjust) * 12.0, (L + DriveAdjust) * 12.0);
+
+    // CommandScheduler.getInstance().run();
   }
 
   /**
@@ -132,5 +197,16 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+
+
+
+
+
+
+
+
+
+
+
   }
 }

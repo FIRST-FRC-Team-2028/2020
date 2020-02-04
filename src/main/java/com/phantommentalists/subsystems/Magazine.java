@@ -64,7 +64,7 @@ public class Magazine extends SubsystemBase {
    */
   public void shootBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {
-      magazine.set(Parameters.MAGAZINE_SHOOT_SPEED);
+      accelerator.set(Parameters.MAGAZINE_SHOOT_SPEED);
       --ballCount;
     }
   }
@@ -83,11 +83,9 @@ public class Magazine extends SubsystemBase {
    */
   public void setFeedPower(double voltage) {
     if (Parameters.MAGAZINE_AVAILABLE) {
-      magazine.setVoltage(voltage);
+      accelerator.setVoltage(voltage);
     }
   }
-  // FIXME what is the difference between LoaderPower and FeedPower? is it the
-  // motors?
 
   @Override
   public void periodic() {

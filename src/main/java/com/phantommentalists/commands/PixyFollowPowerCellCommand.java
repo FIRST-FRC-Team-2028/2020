@@ -9,7 +9,7 @@ package com.phantommentalists.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.phantommentalists.subsystems.Drive;
-import com.phantommentalists.PixyCam;
+import com.phantommentalists.PixyAnalog;
 
 /**
  * Use data from pixycam to point the robot at a power cell.
@@ -22,9 +22,9 @@ public class PixyFollowPowerCellCommand extends CommandBase {
   private double window = 0.1;
   private double inWindowCount;
   private double windowCountVariable = 5.;
-  private PixyCam pixyCam;
+  private PixyAnalog pixyCam;
 
-  public PixyFollowPowerCellCommand(Drive drive, PixyCam pixyCam) {
+  public PixyFollowPowerCellCommand(Drive drive, PixyAnalog pixyCam) {
     // do I see a pixy cam
     this.drive = drive;
     this.pixyCam = pixyCam;
@@ -34,7 +34,7 @@ public class PixyFollowPowerCellCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // can I see a ball
+    //TODO can I see a ball
     if (pixyCam.isAquired() == false)
       inWindowCount = 5.;
     inWindowCount = 0.;
@@ -44,7 +44,7 @@ public class PixyFollowPowerCellCommand extends CommandBase {
   @Override
   public void execute() {
     // take input from pixy cam
-    pixyValue = pixyCam.getX();
+   // pixyValue = pixyCam.getX();
     // determine direction of rotation
     // spin the robot; set speed
     if (java.lang.Math.abs(pixyValue) <= window) {

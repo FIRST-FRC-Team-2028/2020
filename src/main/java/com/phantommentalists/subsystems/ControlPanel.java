@@ -23,9 +23,9 @@ public class ControlPanel extends SubsystemBase {
     panelMotor = new CANSparkMax(Parameters.CANIDs.CONTROL_PANEL.getid(), MotorType.kBrushless);
   }
 
-  // /**
-  //  * 
-  //  */
+  /**
+   * 
+   */
   // public void turnToColor(Color) {
   //   if (Parameters.CONTROLPANEL_AVAILABLE) {
   //     //is color going to be a string

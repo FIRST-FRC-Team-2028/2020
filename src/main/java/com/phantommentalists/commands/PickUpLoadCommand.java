@@ -14,9 +14,7 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.PickUp;
 
 /**
- * Extends PickUp and turns on rollers to get the power cell off the floor FIXME
- * hold button till you think its done for manual mode, timer for auto. use
- * selector/swtich for that
+ * Extends PickUp and turns on rollers to get the power cell off the floor
  */
 public class PickUpLoadCommand extends CommandBase {
   private PickUp pickUp;
