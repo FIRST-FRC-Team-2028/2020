@@ -11,6 +11,8 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.AutoMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -24,7 +26,8 @@ public class Turret extends SubsystemBase {
   private CANSparkMax shooter;
   private AutoMode mode;
   private Timer timer;
-  //FIXME Find out what gyro would be best and what we have
+  private ADXRS450_Gyro yawGyro;
+  //FIXME Find out what gyro would be best and what we have. Do we need 2 for pitch and yaw or can we use one?
 
   public Turret() {
     if (Parameters.TURRET_AVAILABLE) {
@@ -32,6 +35,7 @@ public class Turret extends SubsystemBase {
       hood = new CANSparkMax(Parameters.CANIDs.TURRET_HOOD.getid(), MotorType.kBrushless);
       shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOTER.getid(), MotorType.kBrushless);
       timer = new Timer();
+      yawGyro = new ADXRS450_Gyro();
     }
   }
 
@@ -41,7 +45,7 @@ public class Turret extends SubsystemBase {
    */
   public void setYaw(double AngleInDegrees) {
     if (Parameters.TURRET_AVAILABLE) {
-      turret.set(AngleInDegrees);
+      
     }
   }
 
@@ -51,7 +55,7 @@ public class Turret extends SubsystemBase {
    */
   public void setPitch(double AngleInDegrees) {
     if (Parameters.TURRET_AVAILABLE) {
-      hood.set(AngleInDegrees);
+      
     }
   }
 
@@ -131,12 +135,8 @@ public class Turret extends SubsystemBase {
     return false;
   }
 
-
-
-  // public void getYaw() {
-  //   if (Parameters.TURRET_AVAILABLE) {
-  //     yaw.get();
-  //   }
+  // public double getYaw() {
+  //   //return yawGyro.getAngle();
   // }
 
   // public void getPitch() {

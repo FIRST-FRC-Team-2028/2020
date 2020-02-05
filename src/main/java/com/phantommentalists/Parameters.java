@@ -127,7 +127,8 @@ public final class Parameters {
 
     //Drive
     public static final int USB_STICK_PILOT = 0;
-    public static final int USB_STICK_COPILOT = 1;
+    public static final int USB_STICK_COPILOT1 = 2;
+    public static final int USB_STICK_COPILOT2 = 3;
 
     public static final double DRIVE_DEAD_BAND = 0.1;
 
@@ -209,19 +210,35 @@ public final class Parameters {
     public static final int Pilot_Button_10   = 10;
     public static final int Pilot_Button_11   = 11;
 
-    public static final int CoPilot             =  1;
-    public static final int CoPilot_Button_1    =  1;
-    public static final int CoPilot_Button_2    =  2;
-    public static final int CoPilot_Button_3    =  3;
-    public static final int CoPilot_Button_4    =  4;
-    public static final int CoPilot_Button_5    =  5;
-    public static final int CoPilot_Button_6    =  6;
-    public static final int CoPilot_Follow_Power_Cell    =  6;
-    public static final int CoPilot_Button_7    =  7;
-    public static final int CoPilot_Button_8    =  8;
-    public static final int CoPilot_Button_9    =  9;
-    public static final int CoPilot_Button_10   = 10;
-    public static final int CoPilot_Button_11   = 11;
+    public static final int CoPilot1                     =  3;
+    public static final int CoPilot1_Follow_Fuel_Cell    =  1;
+    public static final int CoPilot1_Pick_Up             =  2;
+    public static final int CoPilot1_Magazine_Down       =  3;
+    public static final int CoPilot1_Hood_Close          =  4;
+    public static final int CoPilot1_Turret_Left         =  5;
+    public static final int CoPilot1_Turret_Fine_Adjust  =  6;
+    public static final int CoPilot1_Turret_Right        =  7;
+    public static final int CoPilot1_Shoot               =  8;
+    public static final int CoPilot1_Find_Target         =  9;
+    public static final int CoPilot1_Hood_Far            = 10;
+
+    public static final int CoPilot2                     =  4;
+    public static final int CoPilot2_Hood_Medium         =  1;      // Button 11
+    public static final int CoPilot2_Magazine_Up         =  2;      // Button 12
+    public static final int CoPilot2_Climb               =  3;      // Button 13
+    public static final int CoPilot2_Camera              =  4;      // Button 14
+    public static final int CoPilot2_Button_5    =  5;
+    public static final int CoPilot2_Button_6    =  6;
+    public static final int CoPilot2_Button_7    =  7;
+    public static final int CoPilot2_Button_8    =  8;
+    public static final int CoPilot2_Button_9    =  9;
+    public static final int CoPilot2_Button_10   = 10;
+
+
+
+
+
+
 
     /*----------------------------------------------------------------------------*/ 
     /*  Used with the PCM controlled VEX Blinkin (5V LED Strips)                  */

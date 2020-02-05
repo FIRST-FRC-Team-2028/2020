@@ -20,7 +20,7 @@ public class Climber extends SubsystemBase {
 
   private CANSparkMax leftClimberMotor; 
   private CANSparkMax rightClimberMotor;
-  private double reelSpeed = 1.; //FIXME: set in Parameters
+  private double reelSpeed = 1.0;
 
   public Climber() {
     leftClimberMotor = new CANSparkMax(Parameters.CANIDs.CLIMB_LEFT.getid(), MotorType.kBrushless);

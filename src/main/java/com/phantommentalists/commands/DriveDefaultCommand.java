@@ -9,8 +9,9 @@ package com.phantommentalists.commands;
 
 //import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-//import com.phantommentalists.Parameters;
-//import com.phantommentalists.OI;
+import com.phantommentalists.Parameters;
+import com.phantommentalists.Parameters.Gear;
+import com.phantommentalists.OI;
 import com.phantommentalists.subsystems.Drive;
 
 /**
@@ -18,13 +19,12 @@ import com.phantommentalists.subsystems.Drive;
  */
 public class DriveDefaultCommand extends CommandBase {
   private Drive drive;
-  //private OI oi;
+  private OI oi;
 
-  public DriveDefaultCommand() {
+  public DriveDefaultCommand(Drive d, OI o) {
     // Use addRequirements() here to declare subsystem dependencies.
-    // why did we need to take drive and oi
-    drive = new Drive();
-    //oi = new OI();
+    drive = d;
+    oi = o;
     addRequirements(drive);
   }
 
@@ -46,6 +46,44 @@ public class DriveDefaultCommand extends CommandBase {
     //   right = 0;
     // }
     // drive.tankDrive(left, right);
+    double Y = oi.getPilotStick().getY();
+    double X = oi.getPilotStick().getX();
+
+    // "Exponential" drive, where the movements are more sensitive during slow
+    // movement, permitting easier fine control
+    // X = Math.pow(X, 3); /// FIXME take a look here does it make a
+    // Y = Math.pow(Y, 3); /// difference
+
+    if (Math.abs(Y) <= Parameters.DRIVE_DEAD_BAND) {
+      Y = 0;
+    }
+    if (Math.abs(X) <= Parameters.DRIVE_DEAD_BAND) {
+      X = 0;
+    }
+    double V = ((1.0 - Math.abs(X)) * Y) + Y;
+    double W = ((1.0 - Math.abs(Y)) * X) + X;
+    double R = (V + W) / 4; ///// Should be divide by 2 for full power
+    double L = (V - W) / 4; ///// FIXME
+
+    /*----------------------------------------------------------------------------*/
+    /* Shifts to High Gear on Pilot Trigger */
+    /*----------------------------------------------------------------------------*/
+    if (oi.GetHighGearButton()) {
+      drive.setGear(Gear.HIGH);
+    } else {
+      drive.setGear(Gear.LOW);
+    }
+
+    /*----------------------------------------------------------------------------*/
+    /* DriveAdjust steers the robot toward a Power Cell */
+    /*----------------------------------------------------------------------------*/
+    // if (oi.GetFollowFuelCellButton()) {
+    //   DriveAdjust = follow_Ball_Controller.calculate(m_Pixy_Analog.getAverageVoltage(), (3.3 / 2.0));
+    // } else {
+    //   DriveAdjust = 0.0;
+    // }
+
+    drive.tankDrive(R * 12.0, L * 12.0);
   }
 
   // Called once the command ends or is interrupted.

@@ -33,7 +33,7 @@ public class OI {
   // DriveDefaultCommand();
 
   // private XboxController xboxController;
-  private Joystick pilotJoystick, copilotJoystick;
+  private Joystick pilotJoystick, copilotJoystick1, copilotJoystick2;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -41,7 +41,8 @@ public class OI {
   public OI() {
     // Configure the button bindings
     pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
-    copilotJoystick = new Joystick(Parameters.USB_STICK_COPILOT);
+    copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
+    copilotJoystick2 = new Joystick(Parameters.USB_STICK_COPILOT2);
 
     //FIXME How is fuelCellCam going to be used
 
@@ -82,12 +83,26 @@ public class OI {
     return pilotJoystick;
   }
 
-  public Joystick getCoPilotStick() {
-    return copilotJoystick;
+  public Joystick getCoPilotStick1() {
+    return copilotJoystick1;
   }
 
-  public Boolean GetFuelCellButton() {
-    return pilotJoystick.getRawButton(Parameters.Pilot_Follow_Power_Cell);
+  public Joystick getCoPilotStick2() {
+    return copilotJoystick2;
+  }
+
+  /*----------------------------------------------------------------------------*/
+  /*  Allows both Pilot and CoPilot to select "Follow Fuel Cell"           */
+  /*----------------------------------------------------------------------------*/
+  public Boolean GetFollowFuelCellButton() {
+    boolean Temp = false;
+    if (copilotJoystick1.getRawButton(Parameters.CoPilot1_Follow_Fuel_Cell)) {
+      Temp = true;
+    }
+    if (pilotJoystick.getRawButton(Parameters.Pilot_Follow_Power_Cell)) {
+      Temp = true;
+    }
+    return Temp;
   }
 
   public Boolean GetHighGearButton() {

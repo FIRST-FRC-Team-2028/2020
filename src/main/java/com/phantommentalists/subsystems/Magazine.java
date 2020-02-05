@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Magazine extends SubsystemBase {
   
   private CANSparkMax accelerator;
-   private CANSparkMax magazine;
+  private CANSparkMax magazine;
   private int ballCount;
   private ControlWord controlWord;
 
