@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
@@ -21,11 +22,15 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.lang.reflect.Parameter;
+
+import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.Gear;
+import com.phantommentalists.Parameters.PneumaticChannel;
 import com.phantommentalists.commands.DriveDefaultCommand;
 
 /**
@@ -49,14 +54,17 @@ public class Drive extends SubsystemBase {
 
   /** Converts motor controller voltage to speed */
   private SimpleMotorFeedforward feedForward;
+  private DoubleSolenoid shifter;
+  private OI oi;
 
-  public Drive() {
-
+  public Drive(OI o) {
+    oi = o;
     timer = new Timer();
     leftLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_LEADER.getid(), MotorType.kBrushless);
     rightLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_LEADER.getid(), MotorType.kBrushless);
     leftFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.getid(), MotorType.kBrushless);
     rightFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_FOLLOWER.getid(), MotorType.kBrushless);
+    shifter = new DoubleSolenoid(PneumaticChannel.DRIVE_LOW_GEAR.getChannel(), PneumaticChannel.DRIVE_HIGH_GEAR.getChannel());
 
     // leftLeader.restoreFactoryDefaults();
     // leftFollower.restoreFactoryDefaults();
@@ -170,7 +178,7 @@ public class Drive extends SubsystemBase {
    */
   public void initDefaultCommand() {
     if (Parameters.DRIVE_AVAILABLE) {
-      setDefaultCommand(new DriveDefaultCommand());
+      setDefaultCommand(new DriveDefaultCommand(this, oi));
     }
   }
 
@@ -190,9 +198,16 @@ public class Drive extends SubsystemBase {
    * 
    * @param gear2
    */
-  public void setGear(Gear gear2) {
+  public void setGear(Gear newGear) {
     if (Parameters.DRIVE_AVAILABLE) {
-      gear = gear2;
+      gear = newGear;
+      if (gear == Gear.LOW){
+        shifter.set(Value.kReverse);
+      }
+      else {
+        shifter.set(Value.kForward);
+      }
+      
     }
   }
 

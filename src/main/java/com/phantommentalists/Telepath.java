@@ -11,14 +11,12 @@ import com.phantommentalists.PixyAnalog;
 import com.phantommentalists.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 
@@ -32,13 +30,11 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 public class Telepath extends TimedRobot {
   private Command m_autonomousCommand;
   private OI m_oi;
-  private ADXRS450_Gyro m_gyro;
+  //private ADXRS450_Gyro m_gyro;
   private Drive drive;
 
   private Compressor compressor;
   // private DoubleSolenoid shifter;
-
-  private double DriveAdjust;
 
   private PixyAnalog m_Pixy_Analog;;
 
@@ -57,13 +53,12 @@ public class Telepath extends TimedRobot {
     // turret = new Turret(...);
     // }
     m_oi = new OI();
-    m_gyro = new ADXRS450_Gyro();
+    //m_gyro = new ADXRS450_Gyro();
     m_Pixy_Analog = new PixyAnalog(Parameters.PIXY_ANALOG_CHANNEL);
 
-    drive = new Drive();
+    drive = m_oi.getDrive();
 
     compressor = new Compressor(0);
-    // shifter = new DoubleSolenoid(4, 5);
 
     follow_Ball_Controller = new PIDController(Parameters.kP_Drive_Pixy, Parameters.kI_Drive_Pixy,
         Parameters.kD_Drive_Pixy); // Yellow Ball

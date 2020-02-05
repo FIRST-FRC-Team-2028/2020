@@ -38,7 +38,10 @@ public final class Parameters {
 
     /** Enum to hold all information about pneumatic solenoids */
     public enum PneumaticChannel {
-        PICKUP_EXTEND(6), PICKUP_RETRACT(7);
+        DRIVE_LOW_GEAR(4),
+        DRIVE_HIGH_GEAR(5),
+        PICKUP_EXTEND(6),
+        PICKUP_RETRACT(7);
 
         private final int channel;
 

@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class OI {
   // The robot's subsystems and commands are defined here...
-  private final Drive drive = new Drive();
+  private final Drive drive = new Drive(this);
   // private PixyCam frontPixy = new PixyCam(Parameters.PIXY_CHANNEL);
 
   private final DriveSpinCommand m_autoCommand = new DriveSpinCommand(drive);
@@ -111,6 +111,10 @@ public class OI {
 
   public Boolean GetTestButton() {
     return pilotJoystick.getRawButton(Parameters.Pilot_Button_3);   ///FIXME   will need to be changed from but 3
+  }
+
+  public Drive getDrive() {
+    return drive;
   }
 
   // public XboxController getXboxController() {
