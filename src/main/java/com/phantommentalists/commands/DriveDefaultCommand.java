@@ -9,8 +9,6 @@ package com.phantommentalists.commands;
 
 //import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import com.phantommentalists.Parameters;
-import com.phantommentalists.Parameters.Gear;
 import com.phantommentalists.OI;
 import com.phantommentalists.subsystems.Drive;
 
@@ -19,12 +17,10 @@ import com.phantommentalists.subsystems.Drive;
  */
 public class DriveDefaultCommand extends CommandBase {
   private Drive drive;
-  private OI oi;
 
-  public DriveDefaultCommand(Drive d, OI o) {
+  public DriveDefaultCommand(Drive d) {
     // Use addRequirements() here to declare subsystem dependencies.
     drive = d;
-    oi = o;
     addRequirements(drive);
   }
 

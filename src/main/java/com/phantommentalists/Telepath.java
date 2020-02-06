@@ -87,23 +87,16 @@ public class Telepath extends TimedRobot {
     // }
     m_oi = new OI();
 
-
-
-
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
-
-
-
 
     //m_gyro = new ADXRS450_Gyro();
 
     drive = m_oi.getDrive();
 
     compressor = new Compressor(0);
-
     compressor.setClosedLoopControl(true);
     compressor.start();
   }
@@ -126,12 +119,6 @@ public class Telepath extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-
-
-
-
-
-
 
     /**
      * The method GetColor() returns a normalized color value from the sensor and
@@ -192,13 +179,6 @@ public class Telepath extends TimedRobot {
     int proximity = m_colorSensor.getProximity();
 
     SmartDashboard.putNumber("Proximity", proximity);
-
-
-
-
-
-
-
   }
 
   /**
@@ -261,14 +241,6 @@ public class Telepath extends TimedRobot {
     // turret.periodic();
     // }
 
-
-
-
-
-
-
-
-
     String gameData;
     gameData = DriverStation.getInstance().getGameSpecificMessage();
     if (gameData.length() > 0) {
@@ -292,14 +264,6 @@ public class Telepath extends TimedRobot {
     } else {
       // Code for no data received yet
     }
-
-
-
-
-
-
-
-
 
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled

@@ -25,8 +25,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.lang.reflect.Parameter;
-
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.Gear;
@@ -184,7 +182,7 @@ public class Drive extends SubsystemBase {
    */
   public void initDefaultCommand() {
     if (Parameters.DRIVE_AVAILABLE) {
-      setDefaultCommand(new DriveDefaultCommand(this, oi));
+      setDefaultCommand(new DriveDefaultCommand(this));
     }
   }
 
@@ -192,7 +190,7 @@ public class Drive extends SubsystemBase {
   /**
    * sets which gear we are in
    * 
-   * @param gear2
+   * @param newGear
    */
   public void setGear(Gear newGear) {
     if (Parameters.DRIVE_AVAILABLE) {
