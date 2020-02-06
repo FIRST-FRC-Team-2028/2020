@@ -218,9 +218,9 @@ public final class Parameters {
     public static final int CoPilot1_Pick_Up             =  2;
     public static final int CoPilot1_Magazine_Down       =  3;
     public static final int CoPilot1_Hood_Close          =  4;
-    public static final int CoPilot1_Turret_Left         =  5;
+    public static final int COPILOT1_JOYSTICK_TURRET_LEFT                 =  5;
     public static final int CoPilot1_Turret_Fine_Adjust  =  6;
-    public static final int CoPilot1_Turret_Right        =  7;
+    public static final int COPILOT1_JOYSTICK_TURRET_RIGHT                =  7;
     public static final int CoPilot1_Shoot               =  8;
     public static final int CoPilot1_Find_Target         =  9;
     public static final int CoPilot1_Hood_Far            = 10;

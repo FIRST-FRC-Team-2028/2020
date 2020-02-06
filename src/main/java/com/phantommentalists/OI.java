@@ -67,7 +67,11 @@ public class OI {
      pilotStickPowerCellFollowButton.whenPressed(new PixyFollowPowerCellCommand(drive, drive.getPixyAnalog(), this));
      JoystickButton copilotStickPowerCellFollowButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
      copilotStickPowerCellFollowButton.whenPressed(new PixyFollowPowerCellCommand(drive, drive.getPixyAnalog(), this));
-  }
+  
+   //  JoystickButton copilotStickTurretRightButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_JOYSTICK_TURRET_RIGHT);
+   //  copilotStickTurretRightButton.whenPressed(new TurretMoveCommand(Parameters.COPILOT1_JOYSTICK_TURRET_RIGHT));
+  
+    }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -102,9 +106,26 @@ public class OI {
     if (pilotJoystick.getRawButton(Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON)) {
       Temp = true;
     }
-    System.out.println("Temp is " + Temp);
     return Temp;
   }
+
+
+  public Boolean GetTurretMoveRight() {
+    boolean Temp = false;
+    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_RIGHT)) {
+      Temp = true;
+    }
+    return Temp;
+  }
+
+  public Boolean GetTurretMoveLeft() {
+    boolean Temp = false;
+    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_LEFT)) {
+      Temp = true;
+    }
+    return Temp;
+  }
+
 
   public Boolean GetHighGearButton() {
     return pilotJoystick.getRawButton(Parameters.Pilot_Button_1);   ///FIXME   will need to be changed from but 3

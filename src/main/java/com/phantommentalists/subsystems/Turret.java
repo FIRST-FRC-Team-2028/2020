@@ -63,7 +63,7 @@ public class Turret extends SubsystemBase {
    * Sets the amount of power for Yaw
    * @param voltage
    */
-  public void setYawPower(double voltage) {
+  public void setTurretPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
       turret.setVoltage(voltage);
     }
