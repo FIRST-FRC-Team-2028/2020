@@ -25,8 +25,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.lang.reflect.Parameter;
-
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.Gear;
@@ -134,7 +132,7 @@ public class Drive extends SubsystemBase {
   }
 
   /**
-   * @param left  - Requires motor voltage for the left side of the robot's drive
+   * @param left - Requires motor voltage for the left side of the robot's drive
    * @param right - Requires motor voltage for the right side of the robot
    */
   public void tankDrive(double left, double right) {
@@ -184,25 +182,15 @@ public class Drive extends SubsystemBase {
    */
   public void initDefaultCommand() {
     if (Parameters.DRIVE_AVAILABLE) {
-      setDefaultCommand(new DriveDefaultCommand(this, oi));
+      setDefaultCommand(new DriveDefaultCommand(this));
     }
   }
 
-  /**
-   * sets the drive power
-   * 
-   * @param power
-   */
-  public void drivePower(double power) {
-    if (Parameters.DRIVE_AVAILABLE) {
-    }
-    // FIXME: what to do here?
-  }
 
   /**
    * sets which gear we are in
    * 
-   * @param gear2
+   * @param newGear
    */
   public void setGear(Gear newGear) {
     if (Parameters.DRIVE_AVAILABLE) {

@@ -10,6 +10,10 @@ package com.phantommentalists.subsystems;
 import com.phantommentalists.Parameters;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.ColorSensorV3;
+
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,17 +22,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class ControlPanel extends SubsystemBase {
   private CANSparkMax panelMotor;
+  private ColorSensorV3 ColorSensor;
+  private I2C.Port i2cPort;
 
   public ControlPanel() {
     panelMotor = new CANSparkMax(Parameters.CANIDs.CONTROL_PANEL.getid(), MotorType.kBrushless);
+    i2cPort = I2C.Port.kOnboard;
+    ColorSensor = new ColorSensorV3(i2cPort);
   }
 
-  /**
-   * 
-   */
+  // /**
+  //  * FIXME: Can this be used in a command + checking the color when it ends and if true(matches)
+  //  */
   // public void turnToColor(Color) {
   //   if (Parameters.CONTROLPANEL_AVAILABLE) {
-  //     //is color going to be a string
+  //     //how much shouldwe turn? how many encoder counts?
   //   }
   // }
 
@@ -38,11 +46,12 @@ public class ControlPanel extends SubsystemBase {
   // public void rotate(count) {
   //   if (Parameters.CONTROLPANEL_AVAILABLE) {
   //     //count number of rotations or encoder counts with timer?
+      
   //   }
   // }
 
   /**
-   * sets the power for the motor when spinning the wheel
+   * sets the power for the motor when spinning the wheel TODO: Add a constant for this method in parameters
    * @param voltage
    */
   public void setPower(double voltage) {
@@ -51,13 +60,9 @@ public class ControlPanel extends SubsystemBase {
     }
   }
 
-  /**
-   * returns the color that the sensor sees FIXME: is this correct? is it for the sensor, or for what color we need to spin to?
-   */
-  public void getColor() {
-    if (Parameters.CONTROLPANEL_AVAILABLE) {
-      // Color
-    }
+  //Use the Color Sensors code to getColor()
+  public Color getReadColor() {
+    return ColorSensor.getColor();
   }
 
   @Override

@@ -13,16 +13,13 @@ import com.phantommentalists.OI;
 import com.phantommentalists.PixyAnalog;
 
 /**
- * Use data from pixycam to point the robot at a power cell.
+ * Use data from pixycam to point the robot at a power cell.  It will
+ * use human joystick input together with the steering adjustment from
+ * the analog pixy camera to drive towards the ball.  It finishes when
+ * both of the joystick pixycam buttons are released.
  */
 public class PixyFollowPowerCellCommand extends CommandBase {
-  private double pixyValue;
-  private double speed;
   private Drive drive;
-  private double pixyModifier = .5;
-  private double window = 0.1;
-  private double inWindowCount;
-  private double windowCountVariable = 5.;
   private PixyAnalog pixyCam;
   private OI oi;
 
