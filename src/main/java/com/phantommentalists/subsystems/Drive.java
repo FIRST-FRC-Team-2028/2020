@@ -113,7 +113,6 @@ public class Drive extends SubsystemBase {
   }
 
   /**
-   * 
    * @param left - Requires motor voltage for the left side of the robot's drive
    * @param right - Requires motor voltage for the right side of the robot
    */

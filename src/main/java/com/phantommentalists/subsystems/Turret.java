@@ -21,13 +21,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * cells
  */
 public class Turret extends SubsystemBase {
-  // FIXME do I need to set the emun as private
   private CANSparkMax yaw;
   private CANSparkMax pitch;
   private CANSparkMax shooter;
-  AutoMode mode;
+  private AutoMode mode;
   private Timer timer;
-  //FIXME Find out what gyro would be best
   private ADXRS450_Gyro gyro;
 
   public Turret() {

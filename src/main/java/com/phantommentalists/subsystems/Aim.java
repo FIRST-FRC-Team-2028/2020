@@ -32,15 +32,6 @@ public class Aim extends SubsystemBase {
   }
 
   /**
-   * returns the current angle of the chassis FIXME: why do we have one here and in drive?
-   */
-  public void getChassisAngle() {
-    if (Parameters.AIM_AVAILABLE) {
-
-    }
-  }
-
-  /**
    * returns distance away from FIXME: what object? power cell or power port?
    */
   public void getDistance() {
