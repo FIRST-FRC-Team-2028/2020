@@ -32,7 +32,7 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.Gear;
 import com.phantommentalists.Parameters.PneumaticChannel;
 import com.phantommentalists.commands.DriveDefaultCommand;
-
+import com.phantommentalists.PixyAnalog;
 /**
  * Drives robot using 3 wheel drive? Can spin
  */
@@ -47,6 +47,7 @@ public class Drive extends SubsystemBase {
   private ADXRS450_Gyro gyro;
   private PIDController leftMotorController;
   private PIDController rightMotorController;
+  public PIDController follow_Ball_Controller;
 
   /** Returns location of robot on the field */
   private Pose2d pose;
@@ -56,6 +57,7 @@ public class Drive extends SubsystemBase {
   private SimpleMotorFeedforward feedForward;
   private DoubleSolenoid shifter;
   private OI oi;
+  private PixyAnalog pixyAnalog;
 
   public Drive(OI o) {
     oi = o;
@@ -64,7 +66,8 @@ public class Drive extends SubsystemBase {
     rightLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_LEADER.getid(), MotorType.kBrushless);
     leftFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.getid(), MotorType.kBrushless);
     rightFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_FOLLOWER.getid(), MotorType.kBrushless);
-    shifter = new DoubleSolenoid(PneumaticChannel.DRIVE_LOW_GEAR.getChannel(), PneumaticChannel.DRIVE_HIGH_GEAR.getChannel());
+    shifter = new DoubleSolenoid(PneumaticChannel.DRIVE_LOW_GEAR.getChannel(),
+        PneumaticChannel.DRIVE_HIGH_GEAR.getChannel());
 
     // leftLeader.restoreFactoryDefaults();
     // leftFollower.restoreFactoryDefaults();
@@ -88,6 +91,9 @@ public class Drive extends SubsystemBase {
     feedForward = new SimpleMotorFeedforward(Parameters.DRIVE_KS, Parameters.DRIVE_KV);
     leftMotorController = new PIDController(Parameters.DRIVE_KP, Parameters.DRIVE_KI, Parameters.DRIVE_KD);
     rightMotorController = new PIDController(Parameters.DRIVE_KP, Parameters.DRIVE_KI, Parameters.DRIVE_KD);
+    pixyAnalog = new PixyAnalog(Parameters.PIXY_ANALOG_CHANNEL);    
+    follow_Ball_Controller = new PIDController(Parameters.kP_Drive_Pixy, Parameters.kI_Drive_Pixy,
+        Parameters.kD_Drive_Pixy);
   }
 
   /**
@@ -98,9 +104,9 @@ public class Drive extends SubsystemBase {
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     double leftDistanceMeters = leftLeader.getEncoder().getVelocity() / Parameters.DRIVE_LEFT_GEAR_RATIO * 2 * Math.PI
-      * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60;
+        * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60;
     double rightDistanceMeters = rightLeader.getEncoder().getVelocity() / Parameters.DRIVE_RIGHT_GEAR_RATIO * 2
-      * Math.PI * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60;
+        * Math.PI * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60;
     return new DifferentialDriveWheelSpeeds(leftDistanceMeters, rightDistanceMeters);
   }
 
@@ -201,13 +207,12 @@ public class Drive extends SubsystemBase {
   public void setGear(Gear newGear) {
     if (Parameters.DRIVE_AVAILABLE) {
       gear = newGear;
-      if (gear == Gear.LOW){
+      if (gear == Gear.LOW) {
+        shifter.set(Value.kForward);
+      } else {
         shifter.set(Value.kReverse);
       }
-      else {
-        shifter.set(Value.kForward);
-      }
-      
+
     }
   }
 
@@ -221,7 +226,7 @@ public class Drive extends SubsystemBase {
    */
   public Rotation2d getChassisAngle() {
     // return Rotation2d.fromDegrees(-1.0 * gyro.getAngle());
-    //FIXME
+    // FIXME
     return Rotation2d.fromDegrees(0.0);
   }
 
@@ -241,37 +246,73 @@ public class Drive extends SubsystemBase {
     return rightMotorController;
   }
 
-
   public void Test() {
     {
       timer.start();
-      if(timer.get() < 5){
-      rightLeader.set(0.5);
+      if (timer.get() < 5) {
+        rightLeader.set(0.5);
+      } else if (timer.get() < 10) {
+        rightLeader.set(0.0);
+        rightFollower.set(0.5);
+      } else if (timer.get() < 15) {
+        rightFollower.set(0.0);
+        leftLeader.set(0.5);
+      } else if (timer.get() < 20) {
+        leftLeader.set(0.0);
+        leftLeader.set(0.5);
+      } else {
+        rightLeader.set(0.0);
+        rightFollower.set(0.0);
+        leftLeader.set(0.0);
+        rightFollower.set(0.0);
       }
-      else if (timer.get() < 10){
-      rightLeader.set(0.0);
-      rightFollower.set(0.5);
-      }
-      else if (timer.get() < 15){
-      rightFollower.set(0.0);
-      leftLeader.set(0.5);
-      }
-      else if (timer.get() < 20){
-         leftLeader.set(0.0);
-         leftLeader.set(0.5);
-      }
-      else
-      {
-          rightLeader.set(0.0);
-          rightFollower.set(0.0);
-          leftLeader.set(0.0);
-          rightFollower.set(0.0);
-      }
-  }
+    }
 
   }
 
+  public void executeDrive(double driveAdjust) {
+    // XboxController xboxController = oi.getXboxController();
+    // double left = xboxController.getRawAxis(Parameters.LEFT_STICK);
+    // double right = xboxController.getRawAxis(Parameters.RIGHT_STICK);
+    // if (Math.abs(left) < Parameters.DRIVE_DEAD_BAND) {
+    //   left = 0;
+    // }
+    // if (Math.abs(right) < Parameters.DRIVE_DEAD_BAND) {
+    //   right = 0;
+    // }
+    // drive.tankDrive(left, right);
+    double Y = oi.getPilotStick().getY();
+    double X = oi.getPilotStick().getX();
 
+    // "Exponential" drive, where the movements are more sensitive during slow
+    // movement, permitting easier fine control
+    // X = Math.pow(X, 3); /// FIXME take a look here does it make a
+    // Y = Math.pow(Y, 3); /// difference
 
+    if (Math.abs(Y) <= Parameters.DRIVE_DEAD_BAND) {
+      Y = 0;
+    }
+    if (Math.abs(X) <= Parameters.DRIVE_DEAD_BAND) {
+      X = 0;
+    }
+    double V = ((1.0 - Math.abs(X)) * Y) + Y;
+    double W = ((1.0 - Math.abs(Y)) * X) + X;
+    double R = (V + W) / 4; ///// Should be divide by 2 for full power
+    double L = (V - W) / 4; ///// FIXME
 
+    /*----------------------------------------------------------------------------*/
+    /* Shifts to High Gear on Pilot Trigger */
+    /*----------------------------------------------------------------------------*/
+    if (oi.GetHighGearButton()) {
+      setGear(Gear.HIGH);
+    } else {
+      setGear(Gear.LOW);
+    }
+
+    tankDrive((R - driveAdjust) * 12.0, (L + driveAdjust) * 12.0);    
+  }
+
+  public PixyAnalog getPixyAnalog() {
+    return pixyAnalog;
+  }
 }

@@ -202,7 +202,7 @@ public final class Parameters {
     public static final int Pilot             =  0;
     public static final int Pilot_Button_1    =  1;
     public static final int Pilot_Button_2    =  2;
-    public static final int Pilot_Follow_Power_Cell    =  2;
+    public static final int PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON    =  2;
     public static final int Pilot_Button_3    =  3;
     public static final int Pilot_Button_4    =  4;
     public static final int Pilot_Button_5    =  5;
@@ -214,7 +214,7 @@ public final class Parameters {
     public static final int Pilot_Button_11   = 11;
 
     public static final int CoPilot1                     =  3;
-    public static final int CoPilot1_Follow_Fuel_Cell    =  1;
+    public static final int COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON    =  1;
     public static final int CoPilot1_Pick_Up             =  2;
     public static final int CoPilot1_Magazine_Down       =  3;
     public static final int CoPilot1_Hood_Close          =  4;

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 //import edu.wpi.first.wpilibj.XboxController;
 import com.phantommentalists.commands.DriveDefaultCommand;
 import com.phantommentalists.commands.DriveSpinCommand;
+import com.phantommentalists.commands.PixyFollowPowerCellCommand;
 import com.phantommentalists.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -25,11 +26,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class OI {
   // The robot's subsystems and commands are defined here...
-  private final Drive drive = new Drive(this);
-  // private PixyCam frontPixy = new PixyCam(Parameters.PIXY_CHANNEL);
+  private final Drive drive;
+  // private PixyAnalog frontPixy = new PixyAnalog(Parameters.PIXY_CHANNEL);
 
-  private final DriveSpinCommand m_autoCommand = new DriveSpinCommand(drive);
-  // private final DriveDefaultCommand driveDefaultCommand = new
+  private final Command m_autoCommand = null;  
   // DriveDefaultCommand();
 
   // private XboxController xboxController;
@@ -40,6 +40,8 @@ public class OI {
    */
   public OI() {
     // Configure the button bindings
+    drive = new Drive(this);
+    drive.initDefaultCommand();
     pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
     copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
     copilotJoystick2 = new Joystick(Parameters.USB_STICK_COPILOT2);
@@ -61,12 +63,10 @@ public class OI {
   private void configureButtonBindings() {
 
     // xboxController = new XboxController(1);
-    // JoystickButton exampleButton = new JoystickButton(xboxController, 1);
-    // exampleButton.whenHeld(new DriveSpinCommand(drive));
-    // JoystickButton powerFollowButton = new JoystickButton(xboxController,
-    // Parameters.POWER_FOLLOWER_BUTTON);
-    // powerFollowButton.whenpressed(new PixyFollowPowerCellCommand(drive,
-    // frontPixy));
+     JoystickButton pilotStickPowerCellFollowButton = new JoystickButton(pilotJoystick, Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
+     pilotStickPowerCellFollowButton.whenPressed(new PixyFollowPowerCellCommand(drive, drive.getPixyAnalog(), this));
+     JoystickButton copilotStickPowerCellFollowButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
+     copilotStickPowerCellFollowButton.whenPressed(new PixyFollowPowerCellCommand(drive, drive.getPixyAnalog(), this));
   }
 
   /**
@@ -96,12 +96,13 @@ public class OI {
   /*----------------------------------------------------------------------------*/
   public Boolean GetFollowFuelCellButton() {
     boolean Temp = false;
-    if (copilotJoystick1.getRawButton(Parameters.CoPilot1_Follow_Fuel_Cell)) {
+    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON)) {
       Temp = true;
     }
-    if (pilotJoystick.getRawButton(Parameters.Pilot_Follow_Power_Cell)) {
+    if (pilotJoystick.getRawButton(Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON)) {
       Temp = true;
     }
+    System.out.println("Temp is " + Temp);
     return Temp;
   }
 
