@@ -8,6 +8,8 @@
 package com.phantommentalists.subsystems;
 
 import com.phantommentalists.Parameters;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -16,8 +18,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class Climber extends SubsystemBase {
 
-  public Climber() {
+  private CANSparkMax leftClimberMotor; 
+  private CANSparkMax rightClimberMotor;
+  private double reelSpeed = 1.0;
 
+  public Climber() {
+    leftClimberMotor = new CANSparkMax(Parameters.CANIDs.CLIMB_LEFT.getid(), MotorType.kBrushless);
+    rightClimberMotor = new CANSparkMax(Parameters.CANIDs.CLIMB_RIGHT.getid(), MotorType.kBrushless);
   }
 
   /**
@@ -25,7 +32,7 @@ public class Climber extends SubsystemBase {
    */
   public void releaseArm() {
     if (Parameters.CLIMBER_AVAILABLE) {
-
+      //utilizes pneumatics (pancake cylinder)
     }
   }
 
@@ -34,7 +41,8 @@ public class Climber extends SubsystemBase {
    */
   public void climbUp() {
     if (Parameters.CLIMBER_AVAILABLE) {
-
+      leftClimberMotor.set(reelSpeed); //may need to be negative
+      rightClimberMotor.set(reelSpeed); //may need to be negative
     }
   }
 
@@ -43,7 +51,8 @@ public class Climber extends SubsystemBase {
    */
   public void stopClimbing() {
     if (Parameters.CLIMBER_AVAILABLE) {
-
+      leftClimberMotor.stopMotor();
+      rightClimberMotor.stopMotor();
     }
   }
 

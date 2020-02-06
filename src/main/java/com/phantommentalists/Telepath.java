@@ -9,6 +9,8 @@ package com.phantommentalists;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
+import com.phantommentalists.subsystems.Drive;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -18,6 +20,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.Compressor;
+
+//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+
+import edu.wpi.first.wpilibj.controller.PIDController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,6 +36,13 @@ import com.revrobotics.ColorSensorV3;
 public class Telepath extends TimedRobot {
   private Command m_autonomousCommand;
   private OI m_oi;
+  //private ADXRS450_Gyro m_gyro;
+  private Drive drive;
+
+  private Compressor compressor;
+  // private DoubleSolenoid shifter
+
+  private PIDController follow_Ball_Controller;
 
   /**
    * Change the I2C port below to match the connection of your color sensor
@@ -84,6 +98,14 @@ public class Telepath extends TimedRobot {
 
 
 
+    //m_gyro = new ADXRS450_Gyro();
+
+    drive = m_oi.getDrive();
+
+    compressor = new Compressor(0);
+
+    compressor.setClosedLoopControl(true);
+    compressor.start();
   }
 
   /**
@@ -209,6 +231,14 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    // Runs the Scheduler. This is responsible for polling buttons, adding
+    // newly-scheduled
+    // commands, running already-scheduled commands, removing finished or
+    // interrupted commands,
+    // and running subsystem periodic() methods. This must be called from the
+    // robot's periodic
+    // block in order for anything in the Command-based framework to work.
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -271,6 +301,14 @@ public class Telepath extends TimedRobot {
 
 
 
+    // Runs the Scheduler. This is responsible for polling buttons, adding
+    // newly-scheduled
+    // commands, running already-scheduled commands, removing finished or
+    // interrupted commands,
+    // and running subsystem periodic() methods. This must be called from the
+    // robot's periodic
+    // block in order for anything in the Command-based framework to work.
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -284,5 +322,6 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+
   }
 }

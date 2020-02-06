@@ -31,24 +31,24 @@ public class ControlPanel extends SubsystemBase {
     ColorSensor = new ColorSensorV3(i2cPort);
   }
 
-  // /**
-  //  * FIXME: Can this be used in a command + checking the color when it ends and if true(matches)
-  //  */
-  // public void turnToColor(Color) {
-  //   if (Parameters.CONTROLPANEL_AVAILABLE) {
-  //     //how much shouldwe turn? how many encoder counts?
-  //   }
-  // }
+  /**
+   * FIXME: Can this be used in a command + checking the color when it ends and if true(matches)
+   */
+  public void turnToColor(Color) {
+    if (Parameters.CONTROLPANEL_AVAILABLE) {
+      //how much shouldwe turn? how many encoder counts?
+    }
+  }
 
-  // /**
-  //  * 
-  //  */
-  // public void rotate(count) {
-  //   if (Parameters.CONTROLPANEL_AVAILABLE) {
-  //     //count number of rotations or encoder counts with timer?
-  //     
-  //   }
-  // }
+  /**
+   * 
+   */
+  public void rotate(count) {
+    if (Parameters.CONTROLPANEL_AVAILABLE) {
+      //count number of rotations or encoder counts with timer?
+      
+    }
+  }
 
   /**
    * sets the power for the motor when spinning the wheel TODO: Add a constant for this method in parameters

@@ -21,19 +21,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * cells
  */
 public class Turret extends SubsystemBase {
-  private CANSparkMax yaw;
-  private CANSparkMax pitch;
+  private CANSparkMax turret;
+  private CANSparkMax hood;
   private CANSparkMax shooter;
   private AutoMode mode;
   private Timer timer;
-  private ADXRS450_Gyro gyro;
+  private ADXRS450_Gyro yawGyro;
+  //FIXME Find out what gyro would be best and what we have. Do we need 2 for pitch and yaw or can we use one?
 
   public Turret() {
-    yaw = new CANSparkMax(Parameters.CANIDs.TURRET_YAW.getid(), MotorType.kBrushless);
-    pitch = new CANSparkMax(Parameters.CANIDs.TURRET_PITCH.getid(), MotorType.kBrushless);
-    shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOT.getid(), MotorType.kBrushless);
-    timer = new Timer();
-    gyro = new ADXRS450_Gyro(Parameters.TURRET_GYRO_PORT);
+    if (Parameters.TURRET_AVAILABLE) {
+      turret = new CANSparkMax(Parameters.CANIDs.TURRET_DIRECTION.getid(), MotorType.kBrushless);
+      hood = new CANSparkMax(Parameters.CANIDs.TURRET_HOOD.getid(), MotorType.kBrushless);
+      shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOTER.getid(), MotorType.kBrushless);
+      timer = new Timer();
+      yawGyro = new ADXRS450_Gyro();
+    }
   }
 
   /**
@@ -42,7 +45,7 @@ public class Turret extends SubsystemBase {
    */
   public void setYaw(double AngleInDegrees) {
     if (Parameters.TURRET_AVAILABLE) {
-      yaw.set(AngleInDegrees);
+      
     }
   }
 
@@ -52,7 +55,7 @@ public class Turret extends SubsystemBase {
    */
   public void setPitch(double AngleInDegrees) {
     if (Parameters.TURRET_AVAILABLE) {
-      pitch.set(AngleInDegrees);
+      
     }
   }
 
@@ -62,7 +65,7 @@ public class Turret extends SubsystemBase {
    */
   public void setYawPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
-      yaw.setVoltage(voltage);
+      turret.setVoltage(voltage);
     }
   }
 
@@ -72,7 +75,7 @@ public class Turret extends SubsystemBase {
    */
   public void setPitchPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
-      pitch.setVoltage(voltage);
+      hood.setVoltage(voltage);
     }
   }
 
@@ -109,7 +112,6 @@ public class Turret extends SubsystemBase {
   /**
    * Retrieves the speed of the shooter
    */
-  //FIXME void for get do I need to put return
   public double getShooterSpeed() {
     // returns RPM
     if (Parameters.TURRET_AVAILABLE) {
@@ -133,33 +135,8 @@ public class Turret extends SubsystemBase {
     return false;
   }
 
-  /**
-   * Retrieves the Angle of Yaw
-   * @return
-   */
-  public double getYaw() {
-    if (Parameters.TURRET_AVAILABLE) {
-      return gyro.getAngle();
-    }
-    return 0.0;
-  }
-
-  /**
-   * retrieves the Angle of Pitch
-   * @return
-   */
-  public double getPitch() {
-    if (Parameters.TURRET_AVAILABLE) {
-      //Either needs another gyro or a way to get a different axis
-      return gyro.getAngle();
-    }
-    return 0.0;
-  }
-  
-  // public void getYaw() {
-  //   if (Parameters.TURRET_AVAILABLE) {
-  //     yaw.get();
-  //   }
+  // public double getYaw() {
+  //   //return yawGyro.getAngle();
   // }
 
   // public void getPitch() {
@@ -167,25 +144,7 @@ public class Turret extends SubsystemBase {
   //     pitch.get();
   //   }
   // }
-  // FIXME is using the CANSparkmax good??
-
-  /**
-   * Calibrates the gyro computing the center value
-   */
-  public void calibrateGyro() {
-    if (Parameters.TURRET_AVAILABLE) {
-    gyro.calibrate();
-    }
-  }
-
-  /**
-   * Resets the Gyro back to 0
-   */
-  public void zeroGyro() {
-    if (Parameters.TURRET_AVAILABLE) {
-      gyro.reset();
-      }
-  }
+  // FIXME is using the CANSparkmax good for getting the Pitch and Yaw?
 
   @Override
   public void periodic() {

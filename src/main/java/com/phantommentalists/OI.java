@@ -8,12 +8,12 @@
 package com.phantommentalists;
 
 import edu.wpi.first.wpilibj.GenericHID;
-//import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
+//import edu.wpi.first.wpilibj.XboxController;
 import com.phantommentalists.commands.DriveDefaultCommand;
 import com.phantommentalists.commands.DriveSpinCommand;
+import com.phantommentalists.commands.PixyFollowPowerCellCommand;
 import com.phantommentalists.subsystems.Drive;
-//import com.phantommentalists.PixyCam;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -26,21 +26,31 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class OI {
   // The robot's subsystems and commands are defined here...
-  private final Drive drive = new Drive();
-  // private PixyCam frontPixy = new PixyCam(Parameters.PIXY_CHANNEL);
+  private final Drive drive;
+  // private PixyAnalog frontPixy = new PixyAnalog(Parameters.PIXY_CHANNEL);
 
-  private final DriveSpinCommand m_autoCommand = new DriveSpinCommand(drive);
-  private final DriveDefaultCommand driveDefaultCommand = new DriveDefaultCommand();
+  private final Command m_autoCommand = null;  
+  // DriveDefaultCommand();
 
-  private XboxController xboxController;
+  // private XboxController xboxController;
+  private Joystick pilotJoystick, copilotJoystick1, copilotJoystick2;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public OI() {
     // Configure the button bindings
+    drive = new Drive(this);
+    drive.initDefaultCommand();
+    pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
+    copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
+    copilotJoystick2 = new Joystick(Parameters.USB_STICK_COPILOT2);
+
+    //FIXME How is fuelCellCam going to be used
+
     configureButtonBindings();
-    drive.setDefaultCommand(driveDefaultCommand);
+
+    // drive.setDefaultCommand(driveDefaultCommand);
     // FIXME why is this set in the Oi?
   }
 
@@ -52,14 +62,11 @@ public class OI {
    */
   private void configureButtonBindings() {
 
-    xboxController = new XboxController(1);
-    JoystickButton exampleButton = new JoystickButton(xboxController, 1);
-    exampleButton.whenHeld(new DriveSpinCommand(drive));
-    // JoystickButton powerFollowButton = new JoystickButton(xboxController,
-    // Parameters.POWER_FOLLOWER_BUTTON);
-    // powerFollowButton.whenpressed(new PixyFollowPowerCellCommand(drive,
-    // frontPixy));
-
+    // xboxController = new XboxController(1);
+     JoystickButton pilotStickPowerCellFollowButton = new JoystickButton(pilotJoystick, Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
+     pilotStickPowerCellFollowButton.whenPressed(new PixyFollowPowerCellCommand(drive, drive.getPixyAnalog(), this));
+     JoystickButton copilotStickPowerCellFollowButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
+     copilotStickPowerCellFollowButton.whenPressed(new PixyFollowPowerCellCommand(drive, drive.getPixyAnalog(), this));
   }
 
   /**
@@ -72,7 +79,46 @@ public class OI {
     return m_autoCommand;
   }
 
-  public XboxController getXboxController() {
-    return xboxController;
+  public Joystick getPilotStick() {
+    return pilotJoystick;
   }
+
+  public Joystick getCoPilotStick1() {
+    return copilotJoystick1;
+  }
+
+  public Joystick getCoPilotStick2() {
+    return copilotJoystick2;
+  }
+
+  /*----------------------------------------------------------------------------*/
+  /*  Allows both Pilot and CoPilot to select "Follow Fuel Cell"           */
+  /*----------------------------------------------------------------------------*/
+  public Boolean GetFollowFuelCellButton() {
+    boolean Temp = false;
+    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON)) {
+      Temp = true;
+    }
+    if (pilotJoystick.getRawButton(Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON)) {
+      Temp = true;
+    }
+    System.out.println("Temp is " + Temp);
+    return Temp;
+  }
+
+  public Boolean GetHighGearButton() {
+    return pilotJoystick.getRawButton(Parameters.Pilot_Button_1);   ///FIXME   will need to be changed from but 3
+  }
+
+  public Boolean GetTestButton() {
+    return pilotJoystick.getRawButton(Parameters.Pilot_Button_3);   ///FIXME   will need to be changed from but 3
+  }
+
+  public Drive getDrive() {
+    return drive;
+  }
+
+  // public XboxController getXboxController() {
+  // return xboxController;
+  // }
 }

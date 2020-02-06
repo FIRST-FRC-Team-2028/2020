@@ -7,9 +7,10 @@
 
 package com.phantommentalists.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
+//import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Parameters.Gear;
 import com.phantommentalists.OI;
 import com.phantommentalists.subsystems.Drive;
 
@@ -20,11 +21,10 @@ public class DriveDefaultCommand extends CommandBase {
   private Drive drive;
   private OI oi;
 
-  public DriveDefaultCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.\
-    // FIXME why do we need to take drive and oi
-    drive = new Drive();
-    oi = new OI();
+  public DriveDefaultCommand(Drive d, OI o) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    drive = d;
+    oi = o;
     addRequirements(drive);
   }
 
@@ -36,16 +36,7 @@ public class DriveDefaultCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    XboxController xboxController = oi.getXboxController();
-    double left = xboxController.getRawAxis(Parameters.LEFT_STICK);
-    double right = xboxController.getRawAxis(Parameters.RIGHT_STICK);
-    if (Math.abs(left) < Parameters.DRIVE_DEAD_BAND) {
-      left = 0;
-    }
-    if (Math.abs(right) < Parameters.DRIVE_DEAD_BAND) {
-      right = 0;
-    }
-    drive.tankDrive(left, right);
+    drive.executeDrive(0.0);
   }
 
   // Called once the command ends or is interrupted.
