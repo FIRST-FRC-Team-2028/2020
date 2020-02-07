@@ -67,7 +67,7 @@ public class ControlPanel extends SubsystemBase {
 
   //Uses the color sensor to spin to the correct color
   private void spinToColor(Color color) {
-    //
+    //TODO: help plz
   }
 
   @Override
