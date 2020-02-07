@@ -6,9 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 package com.phantommentalists.subsystems;
-
+import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.AutoMode;
+import com.phantommentalists.commands.ManualTurretMoveCommand;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -32,10 +34,8 @@ public class Turret extends SubsystemBase {
   public Turret() {
     if (Parameters.TURRET_AVAILABLE) {
       turret = new CANSparkMax(Parameters.CANIDs.TURRET_DIRECTION.getid(), MotorType.kBrushless);
-      hood = new CANSparkMax(Parameters.CANIDs.TURRET_HOOD.getid(), MotorType.kBrushless);
-      shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOTER.getid(), MotorType.kBrushless);
-      timer = new Timer();
-      yawGyro = new ADXRS450_Gyro();
+      // hood = new CANSparkMax(Parameters.CANIDs.TURRET_HOOD.getid(), MotorType.kBrushless);
+      // shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOTER.getid(), MotorType.kBrushless);
     }
   }
 
@@ -45,7 +45,7 @@ public class Turret extends SubsystemBase {
    */
   public void setYaw(double AngleInDegrees) {
     if (Parameters.TURRET_AVAILABLE) {
-      
+      // Convert angle in degrees to a PID setpoint
     }
   }
 
@@ -65,7 +65,7 @@ public class Turret extends SubsystemBase {
    */
   public void setTurretPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
-      turret.setVoltage(voltage);
+      turret.setVoltage(voltage / 12.0);
     }
   }
 
@@ -75,7 +75,7 @@ public class Turret extends SubsystemBase {
    */
   public void setPitchPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
-      hood.setVoltage(voltage);
+      hood.setVoltage(voltage / 12.0);
     }
   }
 
@@ -95,7 +95,7 @@ public class Turret extends SubsystemBase {
    */
   public void setShooterPower(int outputVolts) {
     if (Parameters.TURRET_AVAILABLE) {
-      shooter.setVoltage(outputVolts);
+      shooter.setVoltage(outputVolts / 12.0);
     }
   }
 
@@ -127,11 +127,11 @@ public class Turret extends SubsystemBase {
    * @return
    */
   public boolean isShooterReady() {
-    if (Parameters.TURRET_AVAILABLE) {
-      if (timer.get() >= Parameters.SHOOTER_TIME) {
-        return true;
-      }
-    }
+    // if (Parameters.TURRET_AVAILABLE) {
+    //   if (timer.get() >= Parameters.SHOOTER_TIME) {
+    //     return true;
+    //   }
+    // }
     return false;
   }
 
@@ -149,5 +149,14 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
+  }  
+  
+  /**
+  * sets the default command
+  */
+ public void initDefaultCommand(OI oi) {
+   if (Parameters.TURRET_AVAILABLE) {
+     setDefaultCommand(new ManualTurretMoveCommand(oi, this));
+   }
+ }
 }

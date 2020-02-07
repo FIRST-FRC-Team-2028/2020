@@ -40,8 +40,10 @@ public class OI {
    */
   public OI() {
     // Configure the button bindings
-    drive = new Drive(this);
-    drive.initDefaultCommand();
+    if (Parameters.DRIVE_AVAILABLE) {
+      drive = new Drive(this);
+      drive.initDefaultCommand();
+    }
     pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
     copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
     copilotJoystick2 = new Joystick(Parameters.USB_STICK_COPILOT2);
@@ -67,9 +69,6 @@ public class OI {
      pilotStickPowerCellFollowButton.whenPressed(new PixyFollowPowerCellCommand(drive, drive.getPixyAnalog(), this));
      JoystickButton copilotStickPowerCellFollowButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
      copilotStickPowerCellFollowButton.whenPressed(new PixyFollowPowerCellCommand(drive, drive.getPixyAnalog(), this));
-  
-   //  JoystickButton copilotStickTurretRightButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_JOYSTICK_TURRET_RIGHT);
-   //  copilotStickTurretRightButton.whenPressed(new TurretMoveCommand(Parameters.COPILOT1_JOYSTICK_TURRET_RIGHT));
   
     }
 
@@ -98,7 +97,7 @@ public class OI {
   /*----------------------------------------------------------------------------*/
   /*  Allows both Pilot and CoPilot to select "Follow Fuel Cell"           */
   /*----------------------------------------------------------------------------*/
-  public Boolean GetFollowFuelCellButton() {
+  public boolean isFollowFuelCellButton() {
     boolean Temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON)) {
       Temp = true;
@@ -110,7 +109,7 @@ public class OI {
   }
 
 
-  public Boolean GetTurretMoveRight() {
+  public boolean isTurretMoveRightButton() {
     boolean Temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_RIGHT)) {
       Temp = true;
@@ -118,7 +117,7 @@ public class OI {
     return Temp;
   }
 
-  public Boolean GetTurretMoveLeft() {
+  public boolean isTurretMoveLeftButton() {
     boolean Temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_LEFT)) {
       Temp = true;
@@ -127,11 +126,11 @@ public class OI {
   }
 
 
-  public Boolean GetHighGearButton() {
+  public boolean isHighGearButton() {
     return pilotJoystick.getRawButton(Parameters.Pilot_Button_1);   ///FIXME   will need to be changed from but 3
   }
 
-  public Boolean GetTestButton() {
+  public boolean isTestButton() {
     return pilotJoystick.getRawButton(Parameters.Pilot_Button_3);   ///FIXME   will need to be changed from but 3
   }
 

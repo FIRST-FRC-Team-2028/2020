@@ -27,7 +27,7 @@ public final class Parameters {
     public static final boolean DRIVE_AVAILABLE         = true;
     public static final boolean CAMERA_AVAILABLE        = false;
     public static final boolean PICKUP_AVAILABLE        = false;
-    public static final boolean TURRET_AVAILABLE        = false;
+    public static final boolean TURRET_AVAILABLE        = true;
     public static final boolean MAGAZINE_AVAILABLE      = false;
     public static final boolean CLIMBER_AVAILABLE       = false;
     public static final boolean CONTROLPANEL_AVAILABLE  = false;
@@ -106,21 +106,25 @@ public final class Parameters {
      * Used to set the mode of the turret
      */
     public enum AutoMode {
-        AUTO, MANUAL;
+        AUTO, 
+        MANUAL;
     }
 
     /**
      * Switches the gears of the drive
      */
     public enum Gear {
-        LOW, HIGH;
+        LOW, 
+        HIGH;
     }
 
     /**
      * Used in Aim to setNoTargetMode
      */
     public enum Mode {
-        DONT_MOVE, SCAN, FACE_FORWARD;
+        DONT_MOVE, 
+        SCAN, 
+        FACE_FORWARD;
     }
 
     /*----------------------------------------------------------------------------*/ 

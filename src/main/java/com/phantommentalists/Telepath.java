@@ -4,12 +4,12 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 package com.phantommentalists;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import com.phantommentalists.subsystems.Drive;
+import com.phantommentalists.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,8 +36,8 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 public class Telepath extends TimedRobot {
   private Command m_autonomousCommand;
   private OI m_oi;
-  //private ADXRS450_Gyro m_gyro;
   private Drive drive;
+  private Turret turret;
 
   private Compressor compressor;
   // private DoubleSolenoid shifter
@@ -79,13 +79,14 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    m_oi = new OI();
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    // if(Constants. TURRET_AVAILABLE) {
-    // turret = new Turret(...);
-    // }
-    m_oi = new OI();
+    if (Parameters.TURRET_AVAILABLE) {
+      turret = new Turret();
+      turret.initDefaultCommand(m_oi);
+    }
 
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
@@ -133,7 +134,8 @@ public class Telepath extends TimedRobot {
     Color detectedColor = m_colorSensor.getColor();
 
     /**
-     * The sensor returns a raw IR value of the infrared light detected. FIXME: do we need this?
+     * The sensor returns a raw IR value of the infrared light detected. FIXME: do
+     * we need this?
      */
     double IR = m_colorSensor.getIR();
 

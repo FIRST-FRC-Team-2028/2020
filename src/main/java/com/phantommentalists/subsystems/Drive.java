@@ -291,7 +291,7 @@ public class Drive extends SubsystemBase {
     /*----------------------------------------------------------------------------*/
     /* Shifts to High Gear on Pilot Trigger */
     /*----------------------------------------------------------------------------*/
-    if (oi.GetHighGearButton()) {
+    if (oi.isHighGearButton()) {
       setGear(Gear.HIGH);
     } else {
       setGear(Gear.LOW);

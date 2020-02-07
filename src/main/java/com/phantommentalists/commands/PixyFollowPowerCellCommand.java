@@ -64,7 +64,7 @@ public class PixyFollowPowerCellCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     // value reaches 0, return true
-    if (!oi.GetFollowFuelCellButton()) {
+    if (!oi.isFollowFuelCellButton()) {
       return true;
     }
     return false;

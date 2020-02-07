@@ -8,39 +8,46 @@
 package com.phantommentalists.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.OI;
 import com.phantommentalists.subsystems.Turret;
 
-public class TurretMoveCommand extends CommandBase {
+/**
+ *  This command manual moves the Turret Direction based on monitoring the 
+ *  Co-Pilot buttons.  It only moves the turret at a constant speed (%V-bus)
+ *  It does use the Pixy Camera or input from the Gyro.
+ *  This is the default command for the Turret 
+ */
+public class ManualTurretMoveCommand extends CommandBase {
     private OI oi;
     private Turret turret;
 
 
-    public TurretMoveCommand(OI o) {
-        
-    
-    
-    }
-
+  public ManualTurretMoveCommand(OI o, Turret t) {
+    oi = o;
+    turret = t;
+    addRequirements(turret);
+  }
 
  // Called when the command is initially scheduled.
  @Override
  public void initialize() {
-   // TODO can I see a ball
-   // if (pixyCam.isAquired() == false)
-   // {
-   // inWindowCount = 5.0;
-   // }
-   // inWindowCount = 0.0;
  }
 
  // Called every time the scheduler runs while the command is scheduled.
  @Override
  public void execute() {
-   turret.setTurretPower(6.0);
-   /*----------------------------------------------------------------------------*/
-   /* DriveAdjust steers the robot toward a Power Cell */
+   if (oi.isTurretMoveRightButton())
+   {
+     turret.setTurretPower(6.0);
+   }
+   else if (oi.isTurretMoveLeftButton())
+   {
+    turret.setTurretPower(-6.0);
+   }
+   else
+   {
+     turret.setTurretPower(0.0);
+   }
   
  }
 
@@ -53,10 +60,6 @@ public class TurretMoveCommand extends CommandBase {
  // Returns true when the command should end.
  @Override
  public boolean isFinished() {
-   // value reaches 0, return true
-   if (!oi.GetTurretMoveRight()) {
-     return true;
-   }
    return false;
  }
 
