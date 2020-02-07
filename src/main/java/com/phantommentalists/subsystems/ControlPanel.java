@@ -22,13 +22,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class ControlPanel extends SubsystemBase {
   private CANSparkMax panelMotor;
-  private ColorSensorV3 ColorSensor;
+  private ColorSensorV3 colorSensor;
   private I2C.Port i2cPort;
 
   public ControlPanel() {
     panelMotor = new CANSparkMax(Parameters.CANIDs.CONTROL_PANEL.getid(), MotorType.kBrushless);
     i2cPort = I2C.Port.kOnboard;
-    ColorSensor = new ColorSensorV3(i2cPort);
+    colorSensor = new ColorSensorV3(i2cPort);
   }
 
   // /**
@@ -62,7 +62,12 @@ public class ControlPanel extends SubsystemBase {
 
   //Use the Color Sensors code to getColor()
   public Color getReadColor() {
-    return ColorSensor.getColor();
+    return colorSensor.getColor();
+  }
+
+  //Uses the color sensor to spin to the correct color
+  private void spinToColor(Color color) {
+    //
   }
 
   @Override

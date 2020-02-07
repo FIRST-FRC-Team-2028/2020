@@ -139,22 +139,29 @@ public final class Parameters {
 
     public static final double DRIVE_DEAD_BAND = 0.1;
 
-    //Speeds for subsystems
+    //Speed/Voltage for subsystems
     public static final double PICKUP_ROLLER_SPEED = 0.7;
     public static final double MAGAZINE_LOAD_SPEED = 0.5;
     public static final double MAGAZINE_SHOOT_SPEED = 1;
 
-    //used for climber currently not being used
-    public static final int SOLENOID_EXTEND = 1;
-    public static final int SOLENOID_RETRACT = 2;
+     //used for climber currently not being used
+     public static final int SOLENOID_EXTEND = 1;
+     public static final int SOLENOID_RETRACT = 2;
 
-    // public static final double PICKUP_TIME = 0.5;
-    public static final double EXTEND_TIME = 0.5;
-    public static final double RETRACT_TIME = 0.5;
-    public static final double SHOOTER_TIME = 0.7;
+     // public static final double PICKUP_TIME = 0.5;
+     public static final double EXTEND_TIME = 0.5;
+     public static final double RETRACT_TIME = 0.5;
+     public static final double SHOOTER_TIME = 0.7;
 
-    /**
-     * Distance between wheels measured inside to inside in inches
+     //Speeds for Turret Direction
+     public static final double TURRET_MANUAL_SPEED_FAST = 7.0;
+     public static final double TURRET_MANUAL_SPEED_SLOW = 2.5;
+
+     //Speeds/Voltage for Shooter
+     public static final double SHOOTER_SPEED = 1.0;
+     public static final double SHOOTER_VOLTAGE = 3.0;
+
+     /* Distance between wheels measured inside to inside in inches
      */
     public static final double DRIVE_TRACK_WIDTH = 28.0;
     public static final double DRIVE_KS = 0.0;
@@ -203,43 +210,43 @@ public final class Parameters {
     /*----------------------------------------------------------------------------*/ 
     /*                                                                            */
     /*----------------------------------------------------------------------------*/ 
-    public static final int Pilot             =  0;
-    public static final int Pilot_Button_1    =  1;
-    public static final int Pilot_Button_2    =  2;
+    public static final int PILOT             =  0;
+    public static final int PILOT_BUTTON_1    =  1;
+    public static final int PILOT_BUTTON_2    =  2;
     public static final int PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON    =  2;
-    public static final int Pilot_Button_3    =  3;
-    public static final int Pilot_Button_4    =  4;
-    public static final int Pilot_Button_5    =  5;
+    public static final int PILOT_BUTTON_3    =  3;
+    public static final int PILOT_BUTTON_4    =  4;
+    public static final int PILOT_BUTTON_5    =  5;
     public static final int Pilot_Button_6    =  6;
-    public static final int Pilot_Button_7    =  7;
-    public static final int Pilot_Button_8    =  8;
-    public static final int Pilot_Button_9    =  9;
-    public static final int Pilot_Button_10   = 10;
-    public static final int Pilot_Button_11   = 11;
+    public static final int PILOT_BUTTON_7    =  7;
+    public static final int PILOT_BUTTON_8    =  8;
+    public static final int PILOT_BUTTON_9    =  9;
+    public static final int PILOT_BUTTON_10   = 10;
+    public static final int PILOT_BUTTON_11   = 11;
 
-    public static final int CoPilot1                     =  3;
-    public static final int COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON    =  1;
-    public static final int CoPilot1_Pick_Up             =  2;
-    public static final int CoPilot1_Magazine_Down       =  3;
-    public static final int CoPilot1_Hood_Close          =  4;
-    public static final int COPILOT1_JOYSTICK_TURRET_LEFT                 =  5;
-    public static final int CoPilot1_Turret_Fine_Adjust  =  6;
-    public static final int COPILOT1_JOYSTICK_TURRET_RIGHT                =  7;
-    public static final int CoPilot1_Shoot               =  8;
-    public static final int CoPilot1_Find_Target         =  9;
-    public static final int CoPilot1_Hood_Far            = 10;
+    public static final int COPILOT1                     =  3;
+    public static final int COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON =  1;
+    public static final int COPILOT1_PICKUP              =  2;
+    public static final int COPILOT1_MAGAZINE_DOWN       =  3;
+    public static final int COPILOT1_HOOD_CLOSE          =  4;
+    public static final int COPILOT1_JOYSTICK_TURRET_LEFT =  5;
+    public static final int COPILOT1_TURRET_FINE_ADJUST  =  6;
+    public static final int COPILOT1_JOYSTICK_TURRET_RIGHT =  7;
+    public static final int COPILOT1_SHOOT               =  8;
+    public static final int COPILOT1_FIND_TARGET         =  9;
+    public static final int COPILOT1_HOOD_FAR            = 10;
 
-    public static final int CoPilot2                     =  4;
-    public static final int CoPilot2_Hood_Medium         =  1;      // Button 11
-    public static final int CoPilot2_Magazine_Up         =  2;      // Button 12
-    public static final int CoPilot2_Climb               =  3;      // Button 13
-    public static final int CoPilot2_Camera              =  4;      // Button 14
-    public static final int CoPilot2_Button_5    =  5;
-    public static final int CoPilot2_Button_6    =  6;
-    public static final int CoPilot2_Button_7    =  7;
-    public static final int CoPilot2_Button_8    =  8;
-    public static final int CoPilot2_Button_9    =  9;
-    public static final int CoPilot2_Button_10   = 10;
+    public static final int COPILOT2             =  4;
+    public static final int COPILOT2_HOOD_MEDIUM =  1;      // Button 11
+    public static final int COPILOT2_MAGAZINE_UP =  2;      // Button 12
+    public static final int COPILOT2_CLIMB       =  3;      // Button 13
+    public static final int COPILOT2_CAMERA      =  4;      // Button 14
+    public static final int COPILOT2_BUTTON_5    =  5;
+    public static final int COPILOT2_BUTTON_6    =  6;
+    public static final int COPILOT2_BUTTON_7    =  7;
+    public static final int COPILOT2_BUTTON_8    =  8;
+    public static final int COPILOT2_BUTTON_9    =  9;
+    public static final int COPILOT2_BUTTON_10   = 10;
 
 
 

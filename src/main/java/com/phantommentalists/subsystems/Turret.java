@@ -63,7 +63,7 @@ public class Turret extends SubsystemBase {
    * Sets the amount of power for Yaw
    * @param voltage
    */
-  public void setTurretPower(double voltage) {
+  public void setYawPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
       turret.setVoltage(voltage / 12.0);
     }
@@ -93,7 +93,7 @@ public class Turret extends SubsystemBase {
    * Sets the power to the shooter, the wheels
    * @param outputVolts - amount of power you want to use
    */
-  public void setShooterPower(int outputVolts) {
+  public void setShooterPower(double outputVolts) {
     if (Parameters.TURRET_AVAILABLE) {
       shooter.setVoltage(outputVolts / 12.0);
     }
@@ -117,7 +117,9 @@ public class Turret extends SubsystemBase {
     if (Parameters.TURRET_AVAILABLE) {
       return shooter.get();
     }
-    return 0.0;
+    else{
+      return 0.0;
+    }
   }
 
   /**

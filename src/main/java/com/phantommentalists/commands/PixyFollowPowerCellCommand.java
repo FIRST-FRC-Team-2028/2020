@@ -67,6 +67,8 @@ public class PixyFollowPowerCellCommand extends CommandBase {
     if (!oi.isFollowFuelCellButton()) {
       return true;
     }
-    return false;
+    else {
+      return false;
+    }
   }
 }
