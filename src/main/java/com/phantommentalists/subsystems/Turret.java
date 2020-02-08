@@ -48,9 +48,11 @@ public class Turret extends SubsystemBase {
   public Turret() {
     if (Parameters.TURRET_AVAILABLE) {
       direction = new CANSparkMax(Parameters.CANIDs.TURRET_DIRECTION.getid(), MotorType.kBrushless);
+      direction.setIdleMode(IdleMode.kBrake);
       directionController = new PIDController(Parameters.PID.TURRET_DIRECTION.getP(), Parameters.PID.TURRET_DIRECTION.getI(), Parameters.PID.TURRET_DIRECTION.getD());
 
       directionEncoder = direction.getEncoder();
+      //FIXME: what does "setPositionConversionFactor"
       directionEncoder.setPositionConversionFactor(Parameters.TURRET_DIRECTION_POS_CONVERSION_FACTOR);
       direction.setSoftLimit(SoftLimitDirection.kForward, Parameters.TURRET_DIRECTION_FWD_LIMIT);
       direction.setSoftLimit(SoftLimitDirection.kReverse, Parameters.TURRET_DIRECTION_REV_LIMIT);
@@ -62,6 +64,7 @@ public class Turret extends SubsystemBase {
       shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOTER.getid(), MotorType.kBrushless);
       
       shooter.restoreFactoryDefaults();
+      shooter.setIdleMode(IdleMode.kCoast);
 
       shooterController = shooter.getPIDController();
       shooterController.setP(Parameters.PID.TURRET_SHOOTER_SPEED.getP());
@@ -88,6 +91,11 @@ public class Turret extends SubsystemBase {
    * @param pixels - Number of pixels from the center of the camera's view
    * 
    */
+
+  public void setDirectionHome() {
+    directionEncoder.setPosition(0);
+  }
+  
   public void setDirection(double pixels) {
     if (Parameters.TURRET_AVAILABLE) {
       directionInput = pixels;
@@ -104,7 +112,11 @@ public class Turret extends SubsystemBase {
       direction.setVoltage(voltage);
       mode = AutoMode.MANUAL;
     }
-  }  
+  }
+
+  public double getDirection() {
+    return directionEncoder.getPosition();
+  }
 
   // Hood methods *****************************************/
   
@@ -193,9 +205,7 @@ public class Turret extends SubsystemBase {
     return false;
   }
 
-  // public double getDirection() {
-  //   //return directionGyro.getAngle();
-  // }
+  
 
   // public void getHood() {
   //   if (Parameters.TURRET_AVAILABLE) {
@@ -214,6 +224,7 @@ public class Turret extends SubsystemBase {
       direction.set(directionPower);
     }
     SmartDashboard.putNumber("Shooter RPM", getShooterSpeed());
+    SmartDashboard.putNumber("Direction Pos:", getDirection());
   }  
   
   /**

@@ -65,7 +65,10 @@ public class TurretDefaultCommand extends CommandBase {
       turret.setShooterPower(0.0);
       // Turret_Shooter_Controller.setReference(0, ControlType.kVelocity);
     }
-    
+
+    if (oi.isTestButton()) {
+      turret.setDirectionHome();
+    }
 
   }
 
