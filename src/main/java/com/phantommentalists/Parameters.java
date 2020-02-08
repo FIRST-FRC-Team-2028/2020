@@ -184,6 +184,9 @@ public final class Parameters {
      public static final double TURRET_MANUAL_SPEED_SLOW = 2.5;
 
      public static final double TURRET_POSITION_SETPOINT = 160.0;
+     public static final float TURRET_DIRECTION_FWD_LIMIT = 10.0f;
+     public static final float TURRET_DIRECTION_REV_LIMIT = -10.0f;
+     public static final double TURRET_DIRECTION_POS_CONVERSION_FACTOR = 1.0;
 
      //Speeds/Voltage for Shooter
      public static final double TURRET_SHOOTER_SPEED = 3000.0;

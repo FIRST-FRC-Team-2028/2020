@@ -11,7 +11,7 @@ import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.commands.TurretDefaultCommand;
-
+import com.revrobotics.CANAnalog;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -48,8 +48,19 @@ public class Turret extends SubsystemBase {
   public Turret() {
     if (Parameters.TURRET_AVAILABLE) {
       direction = new CANSparkMax(Parameters.CANIDs.TURRET_DIRECTION.getid(), MotorType.kBrushless);
+      directionController = new PIDController(Parameters.PID.TURRET_DIRECTION.getP(), Parameters.PID.TURRET_DIRECTION.getI(), Parameters.PID.TURRET_DIRECTION.getD());
+
+      directionEncoder = direction.getEncoder();
+      directionEncoder.setPositionConversionFactor(Parameters.TURRET_DIRECTION_POS_CONVERSION_FACTOR);
+      direction.setSoftLimit(SoftLimitDirection.kForward, Parameters.TURRET_DIRECTION_FWD_LIMIT);
+      direction.setSoftLimit(SoftLimitDirection.kReverse, Parameters.TURRET_DIRECTION_REV_LIMIT);
+      direction.enableSoftLimit(SoftLimitDirection.kForward, true);
+      direction.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
       // hood = new CANSparkMax(Parameters.CANIDs.TURRET_HOOD.getid(), MotorType.kBrushless);
+      
       shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOTER.getid(), MotorType.kBrushless);
+      
       shooter.restoreFactoryDefaults();
 
       shooterController = shooter.getPIDController();
@@ -57,15 +68,12 @@ public class Turret extends SubsystemBase {
       shooterController.setI(Parameters.PID.TURRET_SHOOTER_SPEED.getI());
       shooterController.setD(Parameters.PID.TURRET_SHOOTER_SPEED.getD());
 
-      directionController = new PIDController(Parameters.PID.TURRET_DIRECTION.getP(), Parameters.PID.TURRET_DIRECTION.getI(), Parameters.PID.TURRET_DIRECTION.getD());
-
       shooterController.setIZone(Parameters.kLZ_SHOOTER);
       shooterController.setFF(Parameters.kFF_SHOOTER);
       shooterController.setOutputRange(Parameters.kMINOUTPUT_SHOOTER, Parameters.kMAXOUTPUT_SHOOTER);
 
       shooterEncoder = shooter.getEncoder();
-      directionEncoder = direction.getEncoder();
-
+    
       mode = AutoMode.MANUAL;
     }
   }
@@ -93,7 +101,7 @@ public class Turret extends SubsystemBase {
    */
   public void setDirectionPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
-      direction.setVoltage(voltage / 12.0);
+      direction.setVoltage(voltage);
       mode = AutoMode.MANUAL;
     }
   }  
@@ -116,7 +124,7 @@ public class Turret extends SubsystemBase {
    */
   public void setHoodPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
-      hood.setVoltage(voltage / 12.0);
+      hood.setVoltage(voltage);
     }
   }
 
