@@ -26,12 +26,11 @@ public final class Parameters {
      */
     public static final boolean DRIVE_AVAILABLE         = true;
     public static final boolean CAMERA_AVAILABLE        = false;
-    public static final boolean PICKUP_AVAILABLE        = false;
+    public static final boolean AIM_AVAILABLE           = false;
     public static final boolean TURRET_AVAILABLE        = true;
-    public static final boolean MAGAZINE_AVAILABLE      = false;
+    public static final boolean MAGAZINE_AVAILABLE      = true;
     public static final boolean CLIMBER_AVAILABLE       = false;
     public static final boolean CONTROLPANEL_AVAILABLE  = false;
-    public static final boolean AIM_AVAILABLE           = false;     // FIXME use camera_available?
     public static final boolean COMPRESSOR_AVAILABLE    = false;
     public static final boolean GYRO_AVAILABLE          = false;
     public static final boolean BUTTONBOX_AVAILABLE     = false;
@@ -65,7 +64,7 @@ public final class Parameters {
 
         TURRET_DIRECTION     (30, false, false), 
         TURRET_HOOD          (31, false, false),
-        TURRET_SHOOTER       (32, false, false),
+        TURRET_SHOOTER       (31, false, false), //FIXME change to 32
 
         ROLLER               (40, false, false), 
         MAGAZINE             (41, false, false),
@@ -127,6 +126,33 @@ public final class Parameters {
         FACE_FORWARD;
     }
 
+    public enum PID {
+        TURRET_SHOOTER_SPEED(5e-5, 1e-7, 5e-5),
+        TURRET_POSITION(0.005, 1.1e-5, 0.0),
+        TURRET_DIRECTION(0, 0, 0),
+        DRIVE_LEFT(0, 0, 0),
+        DRIVE_RIGHT(0, 0, 0);
+
+        private double p, i, d;
+
+        private PID(double newP, double newI, double newD) {
+            p = newP;
+            i = newI;
+            d = newD;
+        }
+
+        public double getP() {
+            return p;
+        }
+        
+        public double getI() {
+            return i;
+        }
+
+        public double getD() {
+            return d;
+        }
+    }
     /*----------------------------------------------------------------------------*/ 
     /*  Pixy Camera on front of used to find Power Cells                          */
     /*----------------------------------------------------------------------------*/ 
@@ -157,18 +183,16 @@ public final class Parameters {
      public static final double TURRET_MANUAL_SPEED_FAST = 7.0;
      public static final double TURRET_MANUAL_SPEED_SLOW = 2.5;
 
+     public static final double TURRET_POSITION_SETPOINT = 160.0;
+
      //Speeds/Voltage for Shooter
-     public static final double SHOOTER_SPEED = 1.0;
-     public static final double SHOOTER_VOLTAGE = 3.0;
+     public static final double TURRET_SHOOTER_SPEED = 3000.0;
 
      /* Distance between wheels measured inside to inside in inches
      */
     public static final double DRIVE_TRACK_WIDTH = 28.0;
     public static final double DRIVE_KS = 0.0;
     public static final double DRIVE_KV = 0.0;
-    public static final double DRIVE_KP = 0.0;
-    public static final double DRIVE_KI = 0.0;
-    public static final double DRIVE_KD = 0.0;
     public static final double DRIVE_LEFT_GEAR_RATIO = 1.0/8.333;    // 8.333 Low     3.667 High for 2 CIM Ball Shifter
     public static final double DRIVE_RIGHT_GEAR_RATIO = 1.0/8.333;
     public static final double DRIVE_WHEEL_DIAMETER = 4.25;
@@ -182,21 +206,15 @@ public final class Parameters {
     public static final double kI_Turret_Camera             =  0.0008;   // was 0.0008
     public static final double kD_Turret_Camera             =  0.0;      //
 
-    public static final double kP_Turret_Position           =  0.005;    //
-    public static final double kI_Turret_Position           =  1.1e-5;   //
-    public static final double kD_Turret_Position           =  0.0;      //
     public static final double klz_Turret_Position          =  0.0;      //
     public static final double kFF_Turret_Position          =  0.0;      //
     public static final double kMaxOutput_Turret_Position   =  1.0;      //
     public static final double kMinOutput_Turret_Position   = -1.0;      //
  
-    public static final double kP_Shooter                   =  5e-5;     //
-    public static final double kI_Shooter                   =  1e-6;     //
-    public static final double kD_Shooter                   =  0.0;      //
-    public static final double klz_Shooter                  =  0.0;      //
-    public static final double kFF_Shooter                  =  0.0;      //
-    public static final double kMaxOutput_Shooter           =  1.0;      //
-    public static final double kMinOutput_Shooter           = -1.0;      //
+    public static final double kLZ_SHOOTER                  =  0.0;      //
+    public static final double kFF_SHOOTER                  =  0.0;      //
+    public static final double kMAXOUTPUT_SHOOTER           =  1.0;      //
+    public static final double kMINOUTPUT_SHOOTER           = -1.0;      //
 
     //Drive PIDs
     public static final double kP_Drive_Gyro                =  0.008;    //

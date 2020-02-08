@@ -8,25 +8,23 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.OI;
-import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Magazine;
-import com.phantommentalists.subsystems.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ShootCommand extends CommandBase {
+public class MagazineShootCommand extends CommandBase {
   private OI oi;
-  private Turret turret;
   private Magazine magazine;
   /**
-   * Creates a new Shoot.
+   * Runs the magazine accelerator to send the power cells to the shooter
+   * Assumes shooter is running up to speed and turret is in position
    */
-  public ShootCommand(OI o, Turret t, Magazine m) {
+
+  public MagazineShootCommand(OI o, Magazine m) {
     // Use addRequirements() here to declare subsystem dependencies.
     oi = o;
-    turret = t;
     magazine = m;
-    addRequirements(turret);
+    addRequirements(magazine);
   }
 
   // Called when the command is initially scheduled.
@@ -37,7 +35,6 @@ public class ShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turret.setShooterPower(Parameters.SHOOTER_VOLTAGE);
     magazine.shootBall();
   }
 

@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.hal.ControlWord;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -24,12 +25,14 @@ public class Magazine extends SubsystemBase {
   private CANSparkMax accelerator;
   private CANSparkMax magazine;
   private int ballCount;
+
+  /** Used to inidicate if we start in autonomous */
   private ControlWord controlWord;
 
   public Magazine() {
     if (Parameters.MAGAZINE_AVAILABLE) {
-      accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
-      magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
+      // accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
+      // magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
     }
     controlWord = new ControlWord();
     if (controlWord.getAutonomous()) {
@@ -57,7 +60,7 @@ public class Magazine extends SubsystemBase {
   public void loadBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine.set(Parameters.MAGAZINE_LOAD_SPEED);
-      ++ballCount;
+    //  ++ballCount; FIXME: how do we know a ball is added?
     }
   }
 
@@ -67,7 +70,9 @@ public class Magazine extends SubsystemBase {
   public void shootBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       accelerator.set(Parameters.MAGAZINE_SHOOT_SPEED);
-      --ballCount;
+      if (ballCount > 0) {
+        --ballCount;
+      }
     }
   }
 
@@ -92,6 +97,7 @@ public class Magazine extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Ball Count:", getBallHeldCount());
   }
 
   public void initDefaultCommand(OI oi) {

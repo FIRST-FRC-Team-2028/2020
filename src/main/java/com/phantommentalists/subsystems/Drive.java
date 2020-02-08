@@ -30,7 +30,7 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.Gear;
 import com.phantommentalists.Parameters.PneumaticChannel;
 import com.phantommentalists.commands.DriveDefaultCommand;
-import com.phantommentalists.PixyAnalog;
+import com.phantommentalists.DrivePixy;
 /**
  * Drives robot using 3 wheel drive? Can spin
  */
@@ -55,7 +55,7 @@ public class Drive extends SubsystemBase {
   private SimpleMotorFeedforward feedForward;
   private DoubleSolenoid shifter;
   private OI oi;
-  private PixyAnalog pixyAnalog;
+  private DrivePixy pixyAnalog;
 
   public Drive(OI o) {
     oi = o;
@@ -87,9 +87,9 @@ public class Drive extends SubsystemBase {
     kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(Parameters.DRIVE_TRACK_WIDTH));
     odometry = new DifferentialDriveOdometry( /* kinematics, */ getChassisAngle());
     feedForward = new SimpleMotorFeedforward(Parameters.DRIVE_KS, Parameters.DRIVE_KV);
-    leftMotorController = new PIDController(Parameters.DRIVE_KP, Parameters.DRIVE_KI, Parameters.DRIVE_KD);
-    rightMotorController = new PIDController(Parameters.DRIVE_KP, Parameters.DRIVE_KI, Parameters.DRIVE_KD);
-    pixyAnalog = new PixyAnalog(Parameters.PIXY_ANALOG_CHANNEL);    
+    leftMotorController = new PIDController(Parameters.PID.DRIVE_LEFT.getP(), Parameters.PID.DRIVE_LEFT.getI(), Parameters.PID.DRIVE_LEFT.getD());
+    rightMotorController = new PIDController(Parameters.PID.DRIVE_RIGHT.getP(), Parameters.PID.DRIVE_RIGHT.getI(), Parameters.PID.DRIVE_RIGHT.getD());
+    pixyAnalog = new DrivePixy(Parameters.PIXY_ANALOG_CHANNEL);    
     follow_Ball_Controller = new PIDController(Parameters.kP_Drive_Pixy, Parameters.kI_Drive_Pixy,
         Parameters.kD_Drive_Pixy);
   }
@@ -300,7 +300,7 @@ public class Drive extends SubsystemBase {
     tankDrive((R - driveAdjust) * 12.0, (L + driveAdjust) * 12.0);    
   }
 
-  public PixyAnalog getPixyAnalog() {
+  public DrivePixy getDrivePixy() {
     return pixyAnalog;
   }
 }

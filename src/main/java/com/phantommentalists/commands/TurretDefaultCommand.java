@@ -7,10 +7,12 @@
 
 package com.phantommentalists.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Turret;
+import com.revrobotics.ControlType;
 
 /**
  * This command manual moves the Turret Direction based on monitoring the
@@ -18,12 +20,12 @@ import com.phantommentalists.subsystems.Turret;
  * does use the Pixy Camera or input from the Gyro. This is the default command
  * for the Turret
  */
-public class ManualTurretMoveCommand extends CommandBase {
+public class TurretDefaultCommand extends CommandBase {
   private OI oi;
   private Turret turret;
   private double speed;
 
-  public ManualTurretMoveCommand(OI o, Turret t) {
+  public TurretDefaultCommand(OI o, Turret t) {
     oi = o;
     turret = t;
     addRequirements(turret);
@@ -38,18 +40,32 @@ public class ManualTurretMoveCommand extends CommandBase {
   @Override
   public void execute() {
 
+    // Turret Direction controls   *****************************************/
     speed = Parameters.TURRET_MANUAL_SPEED_FAST;
 
     if (oi.isTurretFineMoveButton())
       speed = Parameters.TURRET_MANUAL_SPEED_SLOW;
 
     if (oi.isTurretMoveRightButton()) {
-      turret.setYawPower(speed);
+      turret.setDirectionPower(speed);
     } else if (oi.isTurretMoveLeftButton()) {
-      turret.setYawPower(-speed);
+      turret.setDirectionPower(-speed);
     } else {
-      turret.setYawPower(0.0);
+      turret.setDirectionPower(0.0);
     }
+
+    // Turret Hood controls   *****************************************/
+    // FIXME insert manual button methods for hood
+
+    // Turret Shooter controls   *****************************************/
+    if (oi.isShooterButtonPressed()) {
+      // turret.getShooterController().setReference(3000, ControlType.kVelocity);
+      turret.setShooterSpeed(Parameters.TURRET_SHOOTER_SPEED);
+    } else {
+      turret.setShooterSpeed(0.0);
+      // Turret_Shooter_Controller.setReference(0, ControlType.kVelocity);
+    }
+    
 
   }
 

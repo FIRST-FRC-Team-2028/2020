@@ -9,8 +9,8 @@ package com.phantommentalists.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.phantommentalists.subsystems.Drive;
+import com.phantommentalists.DrivePixy;
 import com.phantommentalists.OI;
-import com.phantommentalists.PixyAnalog;
 
 /**
  * Use data from pixycam to point the robot at a power cell.  It will
@@ -18,12 +18,12 @@ import com.phantommentalists.PixyAnalog;
  * the analog pixy camera to drive towards the ball.  It finishes when
  * both of the joystick pixycam buttons are released.
  */
-public class PixyFollowPowerCellCommand extends CommandBase {
+public class DrivePixyFollowPowerCellCommand extends CommandBase {
   private Drive drive;
-  private PixyAnalog pixyCam;
+  private DrivePixy pixyCam;
   private OI oi;
 
-  public PixyFollowPowerCellCommand(Drive drive, PixyAnalog pixyCam, OI o) {
+  public DrivePixyFollowPowerCellCommand(Drive drive, DrivePixy pixyCam, OI o) {
     // do I see a pixy cam
     this.drive = drive;
     this.pixyCam = pixyCam;
@@ -50,7 +50,7 @@ public class PixyFollowPowerCellCommand extends CommandBase {
     /* DriveAdjust steers the robot toward a Power Cell */
     /*----------------------------------------------------------------------------*/
 
-    driveAdjust = drive.follow_Ball_Controller.calculate(drive.getPixyAnalog().getAverageVoltage(), (3.3 / 2.0));
+    driveAdjust = drive.follow_Ball_Controller.calculate(drive.getDrivePixy().getAverageVoltage(), (3.3 / 2.0));
     drive.executeDrive(driveAdjust);
   }
 

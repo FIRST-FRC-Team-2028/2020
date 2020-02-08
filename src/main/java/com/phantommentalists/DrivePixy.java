@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
  * is 75 degrees horizontally. The analog signal from the pixy cam varied from 0
  * to 3.3 V as the target moves from left to right
  */
-public class PixyAnalog {
+public class DrivePixy {
   private AnalogInput pixyPowerCell;
 
   public PIDController follow_Ball_Controller;
@@ -26,7 +26,7 @@ public class PixyAnalog {
   // Parameters.kD_Drive_Pixy); // Yellow Ball
 
 
-  public PixyAnalog(int channel) {
+  public DrivePixy(int channel) {
      pixyPowerCell = new AnalogInput(channel); //TODO use pixyPowerCell
   }
 

@@ -28,7 +28,7 @@ public class ControlPanel extends SubsystemBase {
   public ControlPanel() {
     panelMotor = new CANSparkMax(Parameters.CANIDs.CONTROL_PANEL.getid(), MotorType.kBrushless);
     i2cPort = I2C.Port.kOnboard;
-    colorSensor = new ColorSensorV3(i2cPort);
+    //colorSensor = new ColorSensorV3(i2cPort);
   }
 
   // /**

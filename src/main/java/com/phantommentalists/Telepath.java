@@ -6,21 +6,24 @@
 /*----------------------------------------------------------------------------*/
 package com.phantommentalists;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.I2C;
+
 import com.phantommentalists.subsystems.Drive;
+import com.phantommentalists.subsystems.Magazine;
 import com.phantommentalists.subsystems.Turret;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.hal.ControlWord;
 
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
-import edu.wpi.first.wpilibj.Compressor;
 
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
@@ -38,6 +41,9 @@ public class Telepath extends TimedRobot {
   private OI m_oi;
   private Drive drive;
   private Turret turret;
+  private Magazine magazine;
+
+  private ControlWord controlWord;
 
   private Compressor compressor;
   // private DoubleSolenoid shifter
@@ -87,6 +93,10 @@ public class Telepath extends TimedRobot {
       turret = new Turret();
       turret.initDefaultCommand(m_oi);
     }
+    if (Parameters.MAGAZINE_AVAILABLE) {
+      magazine = new Magazine();
+    }
+    // controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
 
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
@@ -120,6 +130,15 @@ public class Telepath extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    if (Parameters.TURRET_AVAILABLE) {
+      turret.periodic();
+    }
+    if (Parameters.DRIVE_AVAILABLE) {
+      drive.periodic();
+    }
+    if (Parameters.MAGAZINE_AVAILABLE) {
+      magazine.periodic();
+    }
 
     /**
      * The method GetColor() returns a normalized color value from the sensor and

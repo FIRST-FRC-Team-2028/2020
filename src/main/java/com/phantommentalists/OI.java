@@ -9,11 +9,12 @@ package com.phantommentalists;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+
+import com.phantommentalists.commands.MagazineShootCommand;
 // //import edu.wpi.first.wpilibj.XboxController;
 // import com.phantommentalists.commands.DriveDefaultCommand;
 // import com.phantommentalists.commands.DriveSpinCommand;
-import com.phantommentalists.commands.PixyFollowPowerCellCommand;
-import com.phantommentalists.commands.ShootCommand;
+import com.phantommentalists.commands.DrivePixyFollowPowerCellCommand;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Magazine;
 import com.phantommentalists.subsystems.Turret;
@@ -31,8 +32,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class OI {
   // The robot's subsystems and commands are defined here...
   private final Drive drive;
-  private Turret turret;
-  private Magazine magazine;
   // private PixyAnalog frontPixy = new PixyAnalog(Parameters.PIXY_CHANNEL);
 
   private final Command m_autoCommand = null;  
@@ -74,13 +73,13 @@ public class OI {
 
     //PixyFollowPowerCell
     JoystickButton pilotStickPowerCellFollowButton = new JoystickButton(pilotJoystick, Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
-    pilotStickPowerCellFollowButton.whenPressed(new PixyFollowPowerCellCommand(drive, drive.getPixyAnalog(), this));
+    pilotStickPowerCellFollowButton.whenPressed(new DrivePixyFollowPowerCellCommand(drive, drive.getDrivePixy(), this));
     JoystickButton copilotStickPowerCellFollowButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
-    copilotStickPowerCellFollowButton.whenPressed(new PixyFollowPowerCellCommand(drive, drive.getPixyAnalog(), this));
+    copilotStickPowerCellFollowButton.whenPressed(new DrivePixyFollowPowerCellCommand(drive, drive.getDrivePixy(), this));
     
     //Shoot
-    JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
-    copilotStickShoot.whenPressed(new ShootCommand(this, turret, magazine));
+    //JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
+    //copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
 
     }
 
@@ -143,6 +142,14 @@ public class OI {
       Temp = true;
     }
     return Temp;
+  }
+
+  public boolean isShooterButtonPressed() {
+    boolean temp = false;
+    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_SHOOT)){
+      temp = true;
+    }
+    return temp;
   }
 
   public boolean isMagazineMoveUpButton() {
