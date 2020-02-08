@@ -62,7 +62,7 @@ public class TurretDefaultCommand extends CommandBase {
       // turret.getShooterController().setReference(3000, ControlType.kVelocity);
       turret.setShooterSpeed(Parameters.TURRET_SHOOTER_SPEED);
     } else {
-      turret.setShooterSpeed(0.0);
+      turret.setShooterPower(0.0);
       // Turret_Shooter_Controller.setReference(0, ControlType.kVelocity);
     }
     

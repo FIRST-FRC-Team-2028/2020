@@ -138,7 +138,7 @@ public class Turret extends SubsystemBase {
    */
   public void setShooterPower(double outputVolts) {
     if (Parameters.TURRET_AVAILABLE) {
-      shooter.setVoltage(outputVolts / 12.0);
+      shooter.setVoltage(outputVolts);
     }
   }
 
@@ -154,9 +154,10 @@ public class Turret extends SubsystemBase {
 
   /**
    * Retrieves the speed of the shooter
+   * 
+   * @return double - speed of shooter in RPM
    */
   public double getShooterSpeed() {
-    // returns RPM
     if (Parameters.TURRET_AVAILABLE) {
       return shooterEncoder.getVelocity();
     }

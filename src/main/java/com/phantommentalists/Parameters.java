@@ -127,7 +127,7 @@ public final class Parameters {
     }
 
     public enum PID {
-        TURRET_SHOOTER_SPEED(5e-5, 1e-7, 5e-5),
+        TURRET_SHOOTER_SPEED(5e-5, 1e-6, 5e-5),
         TURRET_POSITION(0.005, 1.1e-5, 0.0),
         TURRET_DIRECTION(0, 0, 0),
         DRIVE_LEFT(0, 0, 0),
@@ -168,7 +168,7 @@ public final class Parameters {
     //Speed/Voltage for subsystems
     public static final double PICKUP_ROLLER_SPEED = 0.7;
     public static final double MAGAZINE_LOAD_SPEED = 0.5;
-    public static final double MAGAZINE_SHOOT_SPEED = 1;
+    public static final double MAGAZINE_SHOOT_SPEED = 1.0;
 
      //used for climber currently not being used
      public static final int SOLENOID_EXTEND = 1;
