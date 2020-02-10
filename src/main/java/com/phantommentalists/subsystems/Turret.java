@@ -37,20 +37,26 @@ public class Turret extends SubsystemBase {
   private AutoMode mode;
   private Timer timer;
 
-  private CANEncoder shooterEncoder;
+  
   private CANEncoder directionEncoder;
-  private CANPIDController shooterController;
+  private double directionInput;
   private PIDController directionController;
 
-  private double directionInput;
+  private CANEncoder hoodEncoder;
+  private double hoodInput;
+
+  private CANEncoder shooterEncoder;
+  private CANPIDController shooterController;
 
 
   public Turret() {
     if (Parameters.TURRET_AVAILABLE) {
       direction = new CANSparkMax(Parameters.CANIDs.TURRET_DIRECTION.getid(), MotorType.kBrushless);
+      direction.setIdleMode(IdleMode.kBrake);
       directionController = new PIDController(Parameters.PID.TURRET_DIRECTION.getP(), Parameters.PID.TURRET_DIRECTION.getI(), Parameters.PID.TURRET_DIRECTION.getD());
 
       directionEncoder = direction.getEncoder();
+      //FIXME: what does "setPositionConversionFactor"
       directionEncoder.setPositionConversionFactor(Parameters.TURRET_DIRECTION_POS_CONVERSION_FACTOR);
       direction.setSoftLimit(SoftLimitDirection.kForward, Parameters.TURRET_DIRECTION_FWD_LIMIT);
       direction.setSoftLimit(SoftLimitDirection.kReverse, Parameters.TURRET_DIRECTION_REV_LIMIT);
@@ -62,6 +68,7 @@ public class Turret extends SubsystemBase {
       shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOTER.getid(), MotorType.kBrushless);
       
       shooter.restoreFactoryDefaults();
+      shooter.setIdleMode(IdleMode.kCoast);
 
       shooterController = shooter.getPIDController();
       shooterController.setP(Parameters.PID.TURRET_SHOOTER_SPEED.getP());
@@ -88,6 +95,11 @@ public class Turret extends SubsystemBase {
    * @param pixels - Number of pixels from the center of the camera's view
    * 
    */
+
+  public void setDirectionHome() {
+    directionEncoder.setPosition(0);
+  }
+  
   public void setDirection(double pixels) {
     if (Parameters.TURRET_AVAILABLE) {
       directionInput = pixels;
@@ -107,18 +119,20 @@ public class Turret extends SubsystemBase {
   }
 
   public double getDirection() {
-     return directionEncoder.getPosition();
+    return directionEncoder.getPosition();
   }
 
   // Hood methods *****************************************/
   
+  //FIXME: Methods are probably doing the wrong thing currently, need to be coordinated with the buttons on controller
   /**
    * Sets the hood of the turret
    * ^ v
    */
-  public void setHood(double AngleInDegrees) {
+  public void setHood(double angleInDegrees) {
     if (Parameters.TURRET_AVAILABLE) {
-      
+      hoodInput = angleInDegrees;
+      mode = AutoMode.AUTO;
     }
   }
 
@@ -129,7 +143,12 @@ public class Turret extends SubsystemBase {
   public void setHoodPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
       hood.setVoltage(voltage);
+      mode = AutoMode.MANUAL;
     }
+  }
+
+  public double getHood() {
+    return hoodEncoder.getPosition();
   }
 
   // Aim Enum  *****************************************/
@@ -150,7 +169,7 @@ public class Turret extends SubsystemBase {
    */
   public void setShooterPower(double outputVolts) {
     if (Parameters.TURRET_AVAILABLE) {
-      shooter.setVoltage(outputVolts / 12.0);
+      shooter.setVoltage(outputVolts);
     }
   }
 
@@ -166,9 +185,10 @@ public class Turret extends SubsystemBase {
 
   /**
    * Retrieves the speed of the shooter
+   * 
+   * @return double - speed of shooter in RPM
    */
   public double getShooterSpeed() {
-    // returns RPM
     if (Parameters.TURRET_AVAILABLE) {
       return shooterEncoder.getVelocity();
     }
@@ -215,6 +235,7 @@ public class Turret extends SubsystemBase {
       direction.set(directionPower);
     }
     SmartDashboard.putNumber("Shooter RPM", getShooterSpeed());
+    SmartDashboard.putNumber("Direction Pos:", getDirection());
   }  
   
   /**

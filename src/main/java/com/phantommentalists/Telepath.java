@@ -19,15 +19,10 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.hal.ControlWord;
 
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
-
-//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-
-import edu.wpi.first.wpilibj.controller.PIDController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -43,12 +38,8 @@ public class Telepath extends TimedRobot {
   private Turret turret;
   private Magazine magazine;
 
-  private ControlWord controlWord;
-
   private Compressor compressor;
   // private DoubleSolenoid shifter
-
-  private PIDController follow_Ball_Controller;
 
   /**
    * Change the I2C port below to match the connection of your color sensor
@@ -207,6 +198,9 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    if (Parameters.MAGAZINE_AVAILABLE) {
+      magazine.setBallHeldCount(0);
+    }
   }
 
   @Override
@@ -219,6 +213,9 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    if (Parameters.MAGAZINE_AVAILABLE) {
+      magazine.setBallHeldCount(3);
+    }
     m_autonomousCommand = m_oi.getAutonomousCommand();
 
     // schedule the autonomous command (example)

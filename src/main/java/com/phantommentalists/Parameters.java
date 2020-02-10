@@ -29,6 +29,7 @@ public final class Parameters {
     public static final boolean AIM_AVAILABLE           = false;
     public static final boolean TURRET_AVAILABLE        = true;
     public static final boolean MAGAZINE_AVAILABLE      = true;
+    public static final boolean PICKUP_AVAILABLE        = false;
     public static final boolean CLIMBER_AVAILABLE       = false;
     public static final boolean CONTROLPANEL_AVAILABLE  = false;
     public static final boolean COMPRESSOR_AVAILABLE    = false;
@@ -57,6 +58,7 @@ public final class Parameters {
      * Enum to hold all information about devices on the CAN bus
      */
     public enum CANIDs {
+        //FIXME: swap left and right motor controller IDs
         DRIVE_LEFT_LEADER    (10, false, true), 
         DRIVE_LEFT_FOLLOWER  (11, false, false),
         DRIVE_RIGHT_LEADER   (20, true, true), 
@@ -127,7 +129,7 @@ public final class Parameters {
     }
 
     public enum PID {
-        TURRET_SHOOTER_SPEED(5e-5, 1e-7, 5e-5),
+        TURRET_SHOOTER_SPEED(5e-5, 1e-6, 5e-5),
         TURRET_POSITION(0.005, 1.1e-5, 0.0),
         TURRET_DIRECTION(0, 0, 0),
         DRIVE_LEFT(0, 0, 0),
@@ -168,7 +170,7 @@ public final class Parameters {
     //Speed/Voltage for subsystems
     public static final double PICKUP_ROLLER_SPEED = 0.7;
     public static final double MAGAZINE_LOAD_SPEED = 0.5;
-    public static final double MAGAZINE_SHOOT_SPEED = 1;
+    public static final double MAGAZINE_SHOOT_SPEED = 1.0;
 
      //used for climber currently not being used
      public static final int SOLENOID_EXTEND = 1;
@@ -184,9 +186,9 @@ public final class Parameters {
      public static final double TURRET_MANUAL_SPEED_SLOW = 2.5;
 
      public static final double TURRET_POSITION_SETPOINT = 160.0;
-     public static final float TURRET_DIRECTION_FWD_LIMIT = 10.0f;
-     public static final float TURRET_DIRECTION_REV_LIMIT = -10.0f;
-     public static final double TURRET_DIRECTION_POS_CONVERSION_FACTOR = 1.0;
+     public static final float TURRET_DIRECTION_FWD_LIMIT = 10000.0f;
+     public static final float TURRET_DIRECTION_REV_LIMIT = -10000.0f;
+     public static final double TURRET_DIRECTION_POS_CONVERSION_FACTOR = 2.0;
 
      //Speeds/Voltage for Shooter
      public static final double TURRET_SHOOTER_SPEED = 3000.0;

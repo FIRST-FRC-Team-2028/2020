@@ -9,11 +9,10 @@ package com.phantommentalists.subsystems;
 
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
-import com.phantommentalists.commands.MagazineMoveCommand;
+import com.phantommentalists.commands.MagazineDefaultCommand;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.hal.ControlWord;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,21 +25,12 @@ public class Magazine extends SubsystemBase {
   private CANSparkMax magazine;
   private int ballCount;
 
-  /** Used to inidicate if we start in autonomous */
-  private ControlWord controlWord;
-
   public Magazine() {
     if (Parameters.MAGAZINE_AVAILABLE) {
-      // accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
-      // magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
+      accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
+      magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
     }
-    controlWord = new ControlWord();
-    if (controlWord.getAutonomous()) {
-      ballCount = 3;
-    }
-    else {
-      ballCount = 0;
-    }
+    ballCount = 0;
   }
 
   /**
@@ -52,6 +42,16 @@ public class Magazine extends SubsystemBase {
       return ballCount;
     }
     return 0;
+  }
+
+  /**
+   * Manually sets the ball-held count to the specified value.  Used when we 
+   * enter autonomous when we know we have exactly 3 fuel cells held.
+   * 
+   * @param newBallCount
+   */
+  public void setBallHeldCount(int newBallCount) {
+    ballCount = newBallCount;
   }
 
   /**
@@ -70,9 +70,6 @@ public class Magazine extends SubsystemBase {
   public void shootBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       accelerator.set(Parameters.MAGAZINE_SHOOT_SPEED);
-      if (ballCount > 0) {
-        --ballCount;
-      }
     }
   }
 
@@ -94,15 +91,19 @@ public class Magazine extends SubsystemBase {
     }
   }
 
+  /**
+   * This method will be called once per scheduler run
+   */
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Ball Count:", getBallHeldCount());
+    if (Parameters.MAGAZINE_AVAILABLE) {
+      SmartDashboard.putNumber("Ball Count:", getBallHeldCount());
+    }
   }
 
   public void initDefaultCommand(OI oi) {
     if (Parameters.MAGAZINE_AVAILABLE) {
-      setDefaultCommand(new MagazineMoveCommand(oi, this));
+      setDefaultCommand(new MagazineDefaultCommand(oi, this));
     }
   }
 

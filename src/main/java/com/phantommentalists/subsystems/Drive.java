@@ -83,7 +83,7 @@ public class Drive extends SubsystemBase {
       rightFollower.follow(rightLeader);
     }
 
-    // gyro = new ADXRS450_Gyro(Parameters.CHASSIS_GYRO_PORT);
+    gyro = new ADXRS450_Gyro(Parameters.CHASSIS_GYRO_PORT);
     kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(Parameters.DRIVE_TRACK_WIDTH));
     odometry = new DifferentialDriveOdometry( /* kinematics, */ getChassisAngle());
     feedForward = new SimpleMotorFeedforward(Parameters.DRIVE_KS, Parameters.DRIVE_KV);
@@ -125,6 +125,7 @@ public class Drive extends SubsystemBase {
       // SmartDashboard.putNumber("Right Current",rightLeader.getOutputCurrent());
       // SmartDashboard.putNumber("Left Output", leftLeader.getAppliedOutput());
       // SmartDashboard.putNumber("Left Current",leftLeader.getOutputCurrent());
+      SmartDashboard.putNumber("Chassis Angle: ", getChassisAngle().getDegrees());
 
       // pose = odometry.update(getChassisAngle(),
       // getWheelSpeeds().leftMetersPerSecond, getWheelSpeeds().rightMetersPerSecond);
@@ -137,8 +138,8 @@ public class Drive extends SubsystemBase {
    */
   public void tankDrive(double left, double right) {
     if (Parameters.DRIVE_AVAILABLE) {
-      leftLeader.set(left / 12.0);
-      rightLeader.set(right / 12.0);
+      leftLeader.setVoltage(left);
+      rightLeader.setVoltage(right);
     }
   }
 
@@ -149,8 +150,8 @@ public class Drive extends SubsystemBase {
    */
   public void spin(double voltage) {
     if (Parameters.DRIVE_AVAILABLE) {
-      leftLeader.set(voltage / 12);
-      rightLeader.set(-voltage / 12);
+      leftLeader.setVoltage(voltage);
+      rightLeader.setVoltage(-voltage);
     }
   }
 
@@ -213,9 +214,9 @@ public class Drive extends SubsystemBase {
    * @return - Rotation2d - The angle of the robot on the field.
    */
   public Rotation2d getChassisAngle() {
-    // return Rotation2d.fromDegrees(-1.0 * gyro.getAngle());
+    return Rotation2d.fromDegrees(-1.0 * gyro.getAngle());
     // FIXME
-    return Rotation2d.fromDegrees(0.0);
+    // return Rotation2d.fromDegrees(0.0);
   }
 
   /**
