@@ -104,7 +104,11 @@ public class Turret extends SubsystemBase {
       direction.setVoltage(voltage);
       mode = AutoMode.MANUAL;
     }
-  }  
+  }
+
+  public double getDirection() {
+     return directionEncoder.getPosition();
+  }
 
   // Hood methods *****************************************/
   
@@ -192,9 +196,7 @@ public class Turret extends SubsystemBase {
     return false;
   }
 
-  // public double getDirection() {
-  //   //return directionGyro.getAngle();
-  // }
+ 
 
   // public void getHood() {
   //   if (Parameters.TURRET_AVAILABLE) {
