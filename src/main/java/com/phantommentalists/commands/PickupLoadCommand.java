@@ -7,21 +7,25 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.Parameters;
-import com.phantommentalists.subsystems.Pickup;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/**
- * Turns off rollers Retracts arm
- */
-public class PickupRetractCommand extends CommandBase {
-  private Pickup pickup;
-  private Timer timer;
+import com.phantommentalists.OI;
+import com.phantommentalists.Parameters;
+import com.phantommentalists.subsystems.Pickup;
 
-  public PickupRetractCommand() {
+/**
+ * Extends PickUp and turns on rollers to get the power cell off the floor
+ * FIXME hold button till you think its done for manual mode, timer for auto. use selector/swtich for that
+ */
+public class PickupLoadCommand extends CommandBase {
+  Pickup pickup;
+  Timer timer;
+  OI oi;
+
+  public PickupLoadCommand(OI o, Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
+    oi = o;
     pickup = new Pickup();
     timer = new Timer();
     addRequirements(pickup);
@@ -38,8 +42,8 @@ public class PickupRetractCommand extends CommandBase {
   public void execute() {
     if (Parameters.PICKUP_AVAILABLE) {
       timer.start();
-      pickup.turnOffRollers();
-      pickup.retract();
+      pickup.extend();
+      pickup.turnOnRollers();
     }
   }
 
@@ -55,8 +59,8 @@ public class PickupRetractCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     if (Parameters.PICKUP_AVAILABLE) {
-      return pickup.isPickUpRetracted();
-    } else
-      return false;
+     return pickup.isPickUpExtended();
+    }
+    return false;
   }
 }

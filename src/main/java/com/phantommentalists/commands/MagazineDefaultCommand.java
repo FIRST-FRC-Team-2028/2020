@@ -13,13 +13,13 @@ import com.phantommentalists.subsystems.Magazine;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class MagazineMoveCommand extends CommandBase {
+public class MagazineDefaultCommand extends CommandBase {
   private OI oi;
   private Magazine magazine;
   /**
    * Creates a new ManualMagazineMoveCoommand.
    */
-  public MagazineMoveCommand(OI o, Magazine m) {
+  public MagazineDefaultCommand(OI o, Magazine m) {
     // Use addRequirements() here to declare subsystem dependencies.
     oi = o;
     magazine = m;

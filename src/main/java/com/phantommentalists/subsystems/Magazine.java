@@ -9,7 +9,7 @@ package com.phantommentalists.subsystems;
 
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
-import com.phantommentalists.commands.MagazineMoveCommand;
+import com.phantommentalists.commands.MagazineDefaultCommand;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -103,7 +103,7 @@ public class Magazine extends SubsystemBase {
 
   public void initDefaultCommand(OI oi) {
     if (Parameters.MAGAZINE_AVAILABLE) {
-      setDefaultCommand(new MagazineMoveCommand(oi, this));
+      setDefaultCommand(new MagazineDefaultCommand(oi, this));
     }
   }
 

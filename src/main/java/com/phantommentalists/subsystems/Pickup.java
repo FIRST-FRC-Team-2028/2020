@@ -7,53 +7,102 @@
 
 package com.phantommentalists.subsystems;
 
+import edu.wpi.first.wpilibj.Timer;
+
 import com.phantommentalists.Parameters;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 /**
-   * Extends/Retracts the power cell pickup arm
-   */
+ * Will extend arm and roll the wheels to pick up power cells from the floor
+ * Then retract arm
+ */
 public class Pickup extends SubsystemBase {
-  
-  private CANSparkMax pickupRollerWheels;
+  //FIXME do I need to set these to private?
+  CANSparkMax roller;
+  DoubleSolenoid arm;
+  Timer timer;
 
   public Pickup() {
-    pickupRollerWheels = new CANSparkMax(Parameters.CANIDs.ROLLER.getid(), MotorType.kBrushless);
+    roller = new CANSparkMax(Parameters.CANIDs.ROLLER.getid(), MotorType.kBrushless);
+    roller.setInverted(Parameters.CANIDs.ROLLER.isInverted());
+    // if (Parameters.CANIDs.ROLLER.isFollower())
+    // {
+    //   roller.follow(leader CAN ID);
+    // }
+    arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
+    timer = new Timer();
   }
 
+  /**
+   * Turn on rollers
+   */
+  public void turnOnRollers() {
+    if (Parameters.PICKUP_AVAILABLE) {
+      roller.set(Parameters.PICKUP_ROLLER_SPEED);
+      // roller.set(ControlMode.PercentOutput, Parameters.PICKUP_ROLLER_SPEED)
+    }
+  }
+
+  /**
+   * Turn off rollers
+   */
+  public void turnOffRollers() {
+    if (Parameters.PICKUP_AVAILABLE) {
+      roller.set(0.0);
+      // roller.set(ControlMode.PercentOutput, 0.0);
+    }
+  }
+
+  /**
+   * Extend arm
+   */
   public void extend() {
     if (Parameters.PICKUP_AVAILABLE) {
-      //TODO Add stuff
+      arm.set(Value.kForward);
     }
   }
 
+  /**
+   * Retract arm
+   */
   public void retract() {
     if (Parameters.PICKUP_AVAILABLE) {
-      //TODO Add stuff
+      arm.set(Value.kReverse);
     }
   }
 
-  public void turnOnRollers(double direction) {
+  /**
+   * Turn off DoubleSolenoid
+   * @return
+   */
+  public void turnArmOff() {
     if (Parameters.PICKUP_AVAILABLE) {
-      if (direction > 0) {
-        pickupRollerWheels.setVoltage(Parameters.PICKUP_ROLLER_SPEED);
-      }
-      else if (direction < 0) {
-        pickupRollerWheels.setVoltage(-Parameters.PICKUP_ROLLER_SPEED);
-      }
-      else {
-        pickupRollerWheels.setVoltage(0.0);
-      }
-    
+      arm.set(Value.kOff);
     }
   }
 
-  public void turnOffRollers() {
-    pickupRollerWheels.setVoltage(0.0);
+  public boolean isPickUpExtended() {
+    if (Parameters.PICKUP_AVAILABLE) {
+      if (timer.get() >= Parameters.EXTEND_TIME && arm.get() == Value.kForward) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean isPickUpRetracted() {
+    if (Parameters.PICKUP_AVAILABLE) {
+      if (timer.get() >= Parameters.RETRACT_TIME && arm.get() == Value.kReverse) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
