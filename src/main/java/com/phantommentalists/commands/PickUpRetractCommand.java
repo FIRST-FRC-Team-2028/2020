@@ -48,7 +48,7 @@ public class PickupRetractCommand extends CommandBase {
   public void end(boolean interrupted) {
     timer.stop();
     pickup.turnOffRollers();
-    pickup.turnArmOff();
+    pickup.stopArm();
   }
 
   // Returns true when the command should end.
@@ -56,7 +56,8 @@ public class PickupRetractCommand extends CommandBase {
   public boolean isFinished() {
     if (Parameters.PICKUP_AVAILABLE) {
       return pickup.isPickUpRetracted();
-    } else
+    } else {
       return false;
+    }
   }
 }

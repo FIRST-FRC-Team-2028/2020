@@ -196,6 +196,10 @@ public class OI {
     return drive;
   }
 
+  public boolean isPickupButton() {
+    return copilotJoystick1.getRawButtonPressed(Parameters.COPILOT1_PICKUP_ROLLERS);
+  }
+
   // public XboxController getXboxController() {
   // return xboxController;
   // }

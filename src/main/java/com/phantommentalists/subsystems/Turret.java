@@ -42,8 +42,8 @@ public class Turret extends SubsystemBase {
   private double directionInput;
   private PIDController directionController;
 
-  private CANEncoder hoodEncoder; //FIXME: Are we using an encoder
-  private double hoodInput; //FIXME: are we using an input
+  private CANEncoder hoodEncoder; //FIXME: Are we using an encoder?
+  private double hoodInput; //FIXME: are we using an input?
 
   private CANEncoder shooterEncoder;
   private CANPIDController shooterController;
@@ -216,7 +216,7 @@ public class Turret extends SubsystemBase {
     return false;
   }
 
- 
+  
 
   // public void getHood() {
   //   if (Parameters.TURRET_AVAILABLE) {

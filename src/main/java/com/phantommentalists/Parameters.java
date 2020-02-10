@@ -271,6 +271,8 @@ public final class Parameters {
     public static final int COPILOT2_BUTTON_9    =  9;
     public static final int COPILOT2_BUTTON_10   = 10;
 
+    public static final int COPILOT1_PICKUP_ROLLERS = 11; //FIXME: Needs a physical button and button ID, this was made purely to remove errors
+
 
 
 

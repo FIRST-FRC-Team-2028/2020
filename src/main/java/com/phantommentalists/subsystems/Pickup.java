@@ -81,7 +81,7 @@ public class Pickup extends SubsystemBase {
    * Turn off DoubleSolenoid
    * @return
    */
-  public void turnArmOff() {
+  public void stopArm() {
     if (Parameters.PICKUP_AVAILABLE) {
       arm.set(Value.kOff);
     }

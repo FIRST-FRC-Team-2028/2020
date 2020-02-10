@@ -7,7 +7,6 @@
 
 package com.phantommentalists.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import com.phantommentalists.OI;
@@ -15,34 +14,29 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Pickup;
 
 /**
- * Extends PickUp and turns on rollers to get the power cell off the floor
- * FIXME hold button till you think its done for manual mode, timer for auto. use selector/swtich for that
- */
-public class PickupLoadCommand extends CommandBase {
-  Pickup pickup;
-  Timer timer;
-  OI oi;
+   * Starts and stops the intake arm
+   */
+public class PickupSpinArmCommand extends CommandBase {
+  
+  private OI oi;
+  private Pickup pickup;
 
-  public PickupLoadCommand(OI o, Pickup p) {
+  public PickupSpinArmCommand(OI o, Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
     oi = o;
-    pickup = new Pickup();
-    timer = new Timer();
+    pickup = p;
     addRequirements(pickup);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (Parameters.PICKUP_AVAILABLE) {
-      timer.start();
-      pickup.extend();
       pickup.turnOnRollers();
     }
   }
@@ -50,18 +44,14 @@ public class PickupLoadCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    timer.stop();
-    pickup.turnOffRollers();
-    pickup.stopArm();
+    if (Parameters.PICKUP_AVAILABLE) {
+      pickup.turnOffRollers();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Parameters.PICKUP_AVAILABLE) {
-     return pickup.isPickUpExtended();
-    } else {
-      return false;
-    }
+    return !oi.isPickupButton();
   }
 }
