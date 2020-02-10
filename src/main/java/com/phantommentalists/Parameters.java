@@ -29,6 +29,7 @@ public final class Parameters {
     public static final boolean AIM_AVAILABLE           = false;
     public static final boolean TURRET_AVAILABLE        = true;
     public static final boolean MAGAZINE_AVAILABLE      = true;
+    public static final boolean PICKUP_AVAILABLE        = false;
     public static final boolean CLIMBER_AVAILABLE       = false;
     public static final boolean CONTROLPANEL_AVAILABLE  = false;
     public static final boolean COMPRESSOR_AVAILABLE    = false;
@@ -57,6 +58,7 @@ public final class Parameters {
      * Enum to hold all information about devices on the CAN bus
      */
     public enum CANIDs {
+        //FIXME: swap left and right motor controller IDs
         DRIVE_LEFT_LEADER    (10, false, true), 
         DRIVE_LEFT_FOLLOWER  (11, false, false),
         DRIVE_RIGHT_LEADER   (20, true, true), 

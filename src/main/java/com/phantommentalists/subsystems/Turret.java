@@ -37,12 +37,16 @@ public class Turret extends SubsystemBase {
   private AutoMode mode;
   private Timer timer;
 
-  private CANEncoder shooterEncoder;
+  
   private CANEncoder directionEncoder;
-  private CANPIDController shooterController;
+  private double directionInput;
   private PIDController directionController;
 
-  private double directionInput;
+  private CANEncoder hoodEncoder;
+  private double hoodInput;
+
+  private CANEncoder shooterEncoder;
+  private CANPIDController shooterController;
 
 
   public Turret() {
@@ -120,13 +124,15 @@ public class Turret extends SubsystemBase {
 
   // Hood methods *****************************************/
   
+  //FIXME: Methods are probably doing the wrong thing currently, need to be coordinated with the buttons on controller
   /**
    * Sets the hood of the turret
    * ^ v
    */
-  public void setHood(double AngleInDegrees) {
+  public void setHood(double angleInDegrees) {
     if (Parameters.TURRET_AVAILABLE) {
-      
+      hoodInput = angleInDegrees;
+      mode = AutoMode.AUTO;
     }
   }
 
@@ -137,7 +143,12 @@ public class Turret extends SubsystemBase {
   public void setHoodPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
       hood.setVoltage(voltage);
+      mode = AutoMode.MANUAL;
     }
+  }
+
+  public double getHood() {
+    return hoodEncoder.getPosition();
   }
 
   // Aim Enum  *****************************************/

@@ -11,6 +11,7 @@ import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.commands.MagazineMoveCommand;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,8 +27,8 @@ public class Magazine extends SubsystemBase {
 
   public Magazine() {
     if (Parameters.MAGAZINE_AVAILABLE) {
-      // accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
-      // magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
+      accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
+      magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
     }
     ballCount = 0;
   }

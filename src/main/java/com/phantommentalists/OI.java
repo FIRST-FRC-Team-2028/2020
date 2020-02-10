@@ -144,6 +144,8 @@ public class OI {
     return Temp;
   }
 
+  //FIXME: Need hood stuffs
+
   public boolean isShooterButtonPressed() {
     boolean temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_SHOOT)){
