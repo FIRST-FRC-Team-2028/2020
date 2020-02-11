@@ -40,7 +40,7 @@ public class Turret extends SubsystemBase {
   
   private CANEncoder directionEncoder;
   private double directionInput;
-  private PIDController directionController;
+  private CANPIDController directionController;
 
   private CANEncoder hoodEncoder; //FIXME: Are we using an encoder?
   private double hoodInput; //FIXME: are we using an input?
@@ -53,9 +53,22 @@ public class Turret extends SubsystemBase {
     if (Parameters.TURRET_AVAILABLE) {
       direction = new CANSparkMax(Parameters.CANIDs.TURRET_DIRECTION.getid(), MotorType.kBrushless);
       direction.setIdleMode(IdleMode.kBrake);
-      directionController = new PIDController(Parameters.PID.TURRET_DIRECTION.getP(), Parameters.PID.TURRET_DIRECTION.getI(), Parameters.PID.TURRET_DIRECTION.getD());
-
+      directionController = direction.getPIDController();
       directionEncoder = direction.getEncoder();
+
+      directionController.setP(Parameters.SmartPID.TURRET_DIRECTION.getP());
+      directionController.setI(Parameters.SmartPID.TURRET_DIRECTION.getI());
+      directionController.setD(Parameters.SmartPID.TURRET_DIRECTION.getD());
+      directionController.setIZone(Parameters.SmartPID.TURRET_DIRECTION.getIz());
+      directionController.setFF(Parameters.SmartPID.TURRET_DIRECTION.getFF());
+      directionController.setOutputRange(Parameters.SmartPID.TURRET_DIRECTION.getMinOut(), Parameters.SmartPID.TURRET_DIRECTION.getMaxOut());
+
+      int smartMotionSlot = 0;
+      directionController.setSmartMotionMaxVelocity(Parameters.SmartPID.TURRET_DIRECTION.getMaxVel(), smartMotionSlot);
+      directionController.setSmartMotionMinOutputVelocity(Parameters.SmartPID.TURRET_DIRECTION.getMinVel(), smartMotionSlot);
+      directionController.setSmartMotionMaxAccel(Parameters.SmartPID.TURRET_DIRECTION.getMaxAcc(), smartMotionSlot);
+      directionController.setSmartMotionAllowedClosedLoopError(Parameters.SmartPID.TURRET_DIRECTION.getAllowedErr(), smartMotionSlot);
+
       //FIXME: what does "setPositionConversionFactor"
       directionEncoder.setPositionConversionFactor(Parameters.TURRET_DIRECTION_POS_CONVERSION_FACTOR);
       direction.setSoftLimit(SoftLimitDirection.kForward, Parameters.TURRET_DIRECTION_FWD_LIMIT);
@@ -231,8 +244,12 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     if (mode == Parameters.AutoMode.AUTO) {
-      double directionPower = directionController.calculate(directionInput, Parameters.TURRET_POSITION_SETPOINT);
-      direction.set(directionPower);
+      double directionCurrentPos = directionEncoder.getPosition();
+      double setPoint = (Parameters.TURRET_POSITION_SETPOINT - directionInput) * 10.5 + directionCurrentPos;
+      directionController.setReference(setPoint, ControlType.kSmartMotion);
+      // will SmartMotion work with a changing setpoint?
+      //double directionPower = directionController.calculate(directionInput, Parameters.TURRET_POSITION_SETPOINT);
+      //direction.set(directionPower);
     }
     SmartDashboard.putNumber("Shooter RPM", getShooterSpeed());
     SmartDashboard.putNumber("Direction Pos:", getDirection());

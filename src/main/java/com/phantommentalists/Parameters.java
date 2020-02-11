@@ -128,10 +128,74 @@ public final class Parameters {
         FACE_FORWARD;
     }
 
+    public enum SmartPID {
+        TURRET_DIRECTION(0.0, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
+
+        private double p, i, d, iz, ff, minOut, maxOut, maxVel, minVel, maxAcc, allowedErr;
+
+        private SmartPID(double newP, double newI, double newD, double newIz, double newFF, double newMinOut, double newMaxOut, double newMaxVel, double newMinVel, double newMaxAcc, double newAllowedErr) {
+            p = newP;
+            i = newI;
+            d = newD;
+            iz = newIz;
+            ff = newFF;
+            minOut = newMinOut;
+            maxOut = newMaxOut;
+            maxVel = newMaxVel;
+            minVel = newMinVel;
+            maxAcc = newMaxAcc;
+            allowedErr = newAllowedErr;
+        }
+
+        public double getP() {
+            return p;
+        }
+        
+        public double getI() {
+            return i;
+        }
+
+        public double getD() {
+            return d;
+        }
+        
+        public double getIz() {
+            return iz;
+        }
+
+        public double getFF() {
+            return ff;
+        }
+
+        public double getMinOut() {
+            return minOut;
+        }
+
+        public double getMaxOut() {
+            return maxOut;
+        }
+
+        public double getMaxVel() {
+            return maxVel;
+        }
+
+        public double getMinVel() {
+            return minVel;
+        }
+
+        public double getMaxAcc() {
+            return maxAcc;
+        }
+
+        public double getAllowedErr() {
+            return allowedErr;
+        }
+    }
+
     public enum PID {
+        TURRET_DIRECTION(0, 0, 0),
         TURRET_SHOOTER_SPEED(5e-5, 1e-6, 5e-5),
         TURRET_POSITION(0.005, 1.1e-5, 0.0),
-        TURRET_DIRECTION(0, 0, 0),
         DRIVE_LEFT(0, 0, 0),
         DRIVE_RIGHT(0, 0, 0);
 
