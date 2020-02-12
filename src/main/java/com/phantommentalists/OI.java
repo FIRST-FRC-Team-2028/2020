@@ -159,7 +159,7 @@ public class OI {
     return temp;
   }
 
-  public boolean isMagazineMoveUpButton() {
+  public boolean isMagazineLoadUpButton() {
     boolean temp = false;
     if (copilotJoystick2.getRawButtonPressed(Parameters.COPILOT2_MAGAZINE_UP)) {
       temp = true;
@@ -167,7 +167,7 @@ public class OI {
     return temp;
   }
 
-  public boolean isMagazineMoveDownButton() {
+  public boolean isMagazineLoadDownButton() {
     boolean temp = false;
     if (copilotJoystick2.getRawButtonPressed(Parameters.COPILOT1_MAGAZINE_DOWN)) {
       temp = true;
@@ -185,11 +185,11 @@ public class OI {
 
 
   public boolean isHighGearButton() {
-    return pilotJoystick.getRawButton(Parameters.PILOT_BUTTON_1);   ///FIXME   will need to be changed from but 3
+    return pilotJoystick.getRawButton(Parameters.PILOT_BUTTON_1);
   }
 
   public boolean isTestButton() {
-    return pilotJoystick.getRawButton(Parameters.PILOT_BUTTON_3);   ///FIXME   will need to be changed from but 3
+    return pilotJoystick.getRawButton(Parameters.PILOT_BUTTON_3);
   }
 
   public Drive getDrive() {
@@ -197,7 +197,11 @@ public class OI {
   }
 
   public boolean isPickupButton() {
-    return copilotJoystick1.getRawButtonPressed(Parameters.COPILOT1_PICKUP_ROLLERS);
+    return copilotJoystick1.getRawButton(Parameters.COPILOT1_PICKUP_ROLLERS);
+  }
+
+  public boolean isClimb() {
+    return copilotJoystick2.getRawButton(Parameters.COPILOT2_CLIMB);
   }
 
   // public XboxController getXboxController() {

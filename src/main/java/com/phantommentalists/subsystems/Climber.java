@@ -11,6 +11,8 @@ import com.phantommentalists.Parameters;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -18,13 +20,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class Climber extends SubsystemBase {
 
+  //FIXME: is a double solenoid correct?
+  private DoubleSolenoid armRelease;
   private CANSparkMax leftClimberMotor; 
   private CANSparkMax rightClimberMotor;
-  private double reelSpeed = 1.0;
 
   public Climber() {
     leftClimberMotor = new CANSparkMax(Parameters.CANIDs.CLIMB_LEFT.getid(), MotorType.kBrushless);
     rightClimberMotor = new CANSparkMax(Parameters.CANIDs.CLIMB_RIGHT.getid(), MotorType.kBrushless);
+    armRelease = new DoubleSolenoid(Parameters.SOLENOID_EXTEND, Parameters.SOLENOID_RETRACT);
   }
 
   /**
@@ -33,6 +37,7 @@ public class Climber extends SubsystemBase {
   public void releaseArm() {
     if (Parameters.CLIMBER_AVAILABLE) {
       //utilizes pneumatics (pancake cylinder)
+      armRelease.set(Value.kForward); //FIXME: is this right?
     }
   }
 
@@ -41,8 +46,8 @@ public class Climber extends SubsystemBase {
    */
   public void climbUp() {
     if (Parameters.CLIMBER_AVAILABLE) {
-      leftClimberMotor.set(reelSpeed); //may need to be negative
-      rightClimberMotor.set(reelSpeed); //may need to be negative
+      leftClimberMotor.set(Parameters.CLIMBER_REEL_SPEED); //may need to be negative
+      rightClimberMotor.set(Parameters.CLIMBER_REEL_SPEED); //may need to be negative
     }
   }
 
@@ -61,7 +66,7 @@ public class Climber extends SubsystemBase {
    */
   public void releaseWinch() {
     if (Parameters.CLIMBER_AVAILABLE) {
-
+      
     }
   }
 
@@ -71,7 +76,7 @@ public class Climber extends SubsystemBase {
    */
   public boolean isClimberDeployed() {
     if (Parameters.CLIMBER_AVAILABLE) {
-
+      //TODO: how do we figure this out?
     }
     return false;
   }

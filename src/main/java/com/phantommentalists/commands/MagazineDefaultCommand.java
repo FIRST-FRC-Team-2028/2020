@@ -17,7 +17,7 @@ public class MagazineDefaultCommand extends CommandBase {
   private OI oi;
   private Magazine magazine;
   /**
-   * Creates a new ManualMagazineMoveCoommand.
+   * Moves the power cells through the magazine
    */
   public MagazineDefaultCommand(OI o, Magazine m) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -34,9 +34,9 @@ public class MagazineDefaultCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (oi.isMagazineMoveUpButton()) {
+    if (oi.isMagazineLoadUpButton()) {
       magazine.setLoaderPower(Parameters.MAGAZINE_LOAD_SPEED);
-    } else if (oi.isMagazineMoveDownButton()) {
+    } else if (oi.isMagazineLoadDownButton()) {
       magazine.setLoaderPower(-Parameters.MAGAZINE_LOAD_SPEED);
     } else {
       magazine.setLoaderPower(0.0);

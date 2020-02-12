@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * Turns off rollers Retracts arm
+ * Turns off rollers and retracts arm
  */
 public class PickupRetractCommand extends CommandBase {
   private Pickup pickup;

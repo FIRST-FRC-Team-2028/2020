@@ -239,6 +239,7 @@ public final class Parameters {
      //used for climber currently not being used
      public static final int SOLENOID_EXTEND = 1;
      public static final int SOLENOID_RETRACT = 2;
+     public static final double CLIMBER_REEL_SPEED = 1.0;
 
      // public static final double PICKUP_TIME = 0.5;
      public static final double EXTEND_TIME = 0.5;
