@@ -59,10 +59,10 @@ public final class Parameters {
      */
     public enum CANIDs {
         //FIXME: swap left and right motor controller IDs
-        DRIVE_LEFT_LEADER    (10, false, true), 
-        DRIVE_LEFT_FOLLOWER  (11, false, false),
-        DRIVE_RIGHT_LEADER   (20, true, true), 
-        DRIVE_RIGHT_FOLLOWER (21, true, false), 
+        DRIVE_LEFT_LEADER    (20, false, true), 
+        DRIVE_LEFT_FOLLOWER  (21, false, false),
+        DRIVE_RIGHT_LEADER   (10, true, true), 
+        DRIVE_RIGHT_FOLLOWER (11, true, false), 
 
         TURRET_DIRECTION     (30, false, false), 
         TURRET_HOOD          (31, false, false),
@@ -129,8 +129,8 @@ public final class Parameters {
     }
 
     public enum SmartPID {
-        TURRET_DIRECTION(0.0, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
-
+        TURRET_DIRECTION(0.005, 0.0008, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
+        
         private double p, i, d, iz, ff, minOut, maxOut, maxVel, minVel, maxAcc, allowedErr;
 
         private SmartPID(double newP, double newI, double newD, double newIz, double newFF, double newMinOut, double newMaxOut, double newMaxVel, double newMinVel, double newMaxAcc, double newAllowedErr) {
@@ -250,7 +250,15 @@ public final class Parameters {
      public static final double TURRET_MANUAL_SPEED_FAST = 7.0;
      public static final double TURRET_MANUAL_SPEED_SLOW = 2.5;
 
-     public static final double TURRET_POSITION_SETPOINT = 160.0;
+     public static final double TURRET_DIRECTION_SETPOINT = 160.0;
+
+     // encoder = 42 counts per rev, 64:1 gearbox ratio, 92 teeth on turret, 18 teeth on motor
+     // 92 / 18 * 64 * 42 = 13739 counts per turret rev, / 360 deg = 38.2 counts / deg
+     // camera = 75 deg, 320 pixels
+     // 320 / 75 = 4.27 pixels / deg
+     // 38.2 (counts / deg ) / 4.27 (pixels / deg) = 8.9 counts / pixel
+     public static final double TURRET_DIRECTION_COUNTS_PER_PIXEL = 8.9;
+
      public static final float TURRET_DIRECTION_FWD_LIMIT = 10000.0f;
      public static final float TURRET_DIRECTION_REV_LIMIT = -10000.0f;
      public static final double TURRET_DIRECTION_POS_CONVERSION_FACTOR = 2.0;

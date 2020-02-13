@@ -35,7 +35,7 @@ public class DrivePixyFollowPowerCellCommand extends CommandBase {
   @Override
   public void initialize() {
     // TODO can I see a ball
-    // if (pixyCam.isAquired() == false)
+    // if (pixyCam.isAcquired() == false)
     // {
     // inWindowCount = 5.0;
     // }

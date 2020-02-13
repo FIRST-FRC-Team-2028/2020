@@ -34,6 +34,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class OI {
   // The robot's subsystems and commands are defined here...
   private final Drive drive;
+  private final Magazine magazine;
+  //private final Pickup pickup;
   // private PixyAnalog frontPixy = new PixyAnalog(Parameters.PIXY_CHANNEL);
   private final Command m_autoCommand = null;  
   // DriveDefaultCommand();
@@ -50,16 +52,25 @@ public class OI {
       drive = new Drive(this);
       drive.initDefaultCommand();
     }
+
+    if (Parameters.MAGAZINE_AVAILABLE) {
+      magazine = new Magazine();
+      magazine.initDefaultCommand(this);
+    }
+
+    // if (Parameters.PICKUP_AVAILABLE) {
+    //   pickup = new Pickup();
+    //   pickup.initDefaultCommand();
+    // }
+
     pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
     copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
     copilotJoystick2 = new Joystick(Parameters.USB_STICK_COPILOT2);
 
-    //FIXME How is fuelCellCam going to be used
+    //FIXME How is powerCellCam going to be used
 
     configureButtonBindings();
 
-    // drive.setDefaultCommand(driveDefaultCommand);
-    // FIXME why is this set in the Oi?
   }
 
   /**
@@ -79,8 +90,8 @@ public class OI {
     copilotStickPowerCellFollowButton.whenPressed(new DrivePixyFollowPowerCellCommand(drive, drive.getDrivePixy(), this));
     
     //Shoot
-    //JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
-    //copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
+    JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
+    copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
 
     //Pickup
     //JoystickButton copilotStickPickupExtend = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_PICKUP);
@@ -113,40 +124,41 @@ public class OI {
   /*----------------------------------------------------------------------------*/
   /*  Allows both Pilot and CoPilot to select "Follow Fuel Cell"           */
   /*----------------------------------------------------------------------------*/
+  
   public boolean isFollowFuelCellButton() {
-    boolean Temp = false;
+    boolean temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON)) {
-      Temp = true;
+      temp = true;
     }
     if (pilotJoystick.getRawButton(Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON)) {
-      Temp = true;
+      temp = true;
     }
-    return Temp;
+    return temp;
   }
 
 
   public boolean isTurretMoveRightButton() {
-    boolean Temp = false;
+    boolean temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_RIGHT)) {
-      Temp = true;
+      temp = true;
     }
-    return Temp;
+    return temp;
   }
 
   public boolean isTurretMoveLeftButton() {
-    boolean Temp = false;
+    boolean temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_LEFT)) {
-      Temp = true;
+      temp = true;
     }
-    return Temp;
+    return temp;
   }
 
   public boolean isTurretFineMoveButton() {
-    boolean Temp = false;
+    boolean temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_TURRET_FINE_ADJUST)) {
-      Temp = true;
+      temp = true;
     }
-    return Temp;
+    return temp;
   }
 
   //FIXME: Need hood stuffs
@@ -176,11 +188,7 @@ public class OI {
   }
 
   public boolean isShoot() {
-    boolean temp = false;
-    if (copilotJoystick1.getRawButtonPressed(Parameters.COPILOT1_SHOOT)) {
-      temp = true;
-    }
-    return temp;
+    return copilotJoystick1.getRawButtonPressed(Parameters.COPILOT1_SHOOT); 
   }
 
 

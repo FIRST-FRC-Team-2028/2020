@@ -41,18 +41,15 @@ public class DrivePixy {
 
 
   public double getAverageVoltage() {
-    
     return pixyPowerCell.getAverageVoltage();
   }
 
 
   public double getDriveFollowAdjust() {
-    
     return follow_Ball_Controller.calculate(pixyPowerCell.getAverageVoltage(), (3.3 / 2.0));
   }
 
-  public boolean isAquired() {
-    
+  public boolean isAcquired() {
     return false;
   }
 }
