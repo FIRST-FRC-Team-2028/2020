@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.Turret;
 import com.revrobotics.ControlType;
 
@@ -40,15 +41,22 @@ public class TurretDefaultCommand extends CommandBase {
   @Override
   public void execute() {
 
+    if (oi.isTurretAutoButton()) {
+      turret.setAimMode(Parameters.AutoMode.AUTO);
+    }
+
+    
+
+    
     // Turret Direction controls   *****************************************/
     speed = Parameters.TURRET_MANUAL_SPEED_FAST;
 
-    if (oi.isTurretFineMoveButton())
+    if (oi.isTurretDirectionFineMoveButton())
       speed = Parameters.TURRET_MANUAL_SPEED_SLOW;
 
-    if (oi.isTurretMoveRightButton()) {
+    if (oi.isTurretDirectionMoveRightButton()) {
       turret.setDirectionPower(speed);
-    } else if (oi.isTurretMoveLeftButton()) {
+    } else if (oi.isTurretDirectionMoveLeftButton()) {
       turret.setDirectionPower(-speed);
     } else {
       turret.setDirectionPower(0.0);
@@ -56,6 +64,14 @@ public class TurretDefaultCommand extends CommandBase {
 
     // Turret Hood controls   *****************************************/
     // FIXME insert manual button methods for hood
+
+    if (oi.isTurretHoodClose()) {
+      turret.setHoodPosition(Parameters.TURRET_HOOD_CLOSE);
+    } else if (oi.isTurretHoodMedium()) {
+      turret.setHoodPosition(Parameters.TURRET_HOOD_MEDIUM);
+    } else if (oi.isTurretHoodFar()) {
+      turret.setHoodPosition(Parameters.TURRET_HOOD_FAR);
+    }
 
     // Turret Shooter controls   *****************************************/
     if (oi.isShooterButtonPressed()) {
@@ -69,8 +85,8 @@ public class TurretDefaultCommand extends CommandBase {
     if (oi.isTestButton()) {
       turret.setDirectionHome();
     }
-
   }
+
 
   // Called once the command ends or is interrupted.
   @Override

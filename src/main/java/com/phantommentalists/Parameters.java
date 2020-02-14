@@ -130,7 +130,7 @@ public final class Parameters {
 
     public enum SmartPID {
         TURRET_DIRECTION(0.005, 0.0008, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
-        
+
         private double p, i, d, iz, ff, minOut, maxOut, maxVel, minVel, maxAcc, allowedErr;
 
         private SmartPID(double newP, double newI, double newD, double newIz, double newFF, double newMinOut, double newMaxOut, double newMaxVel, double newMinVel, double newMaxAcc, double newAllowedErr) {
@@ -252,19 +252,38 @@ public final class Parameters {
 
      public static final double TURRET_DIRECTION_SETPOINT = 160.0;
 
-     // encoder = 42 counts per rev, 64:1 gearbox ratio, 92 teeth on turret, 18 teeth on motor
+     // direction encoder = 42 counts per rev, 64:1 gearbox ratio, 92 teeth on turret, 18 teeth on motor
      // 92 / 18 * 64 * 42 = 13739 counts per turret rev, / 360 deg = 38.2 counts / deg
-     // camera = 75 deg, 320 pixels
+     // camera in X = 320 pixels, 75 deg
      // 320 / 75 = 4.27 pixels / deg
-     // 38.2 (counts / deg ) / 4.27 (pixels / deg) = 8.9 counts / pixel
+     // 38.2 (counts / deg) / 4.27 (pixels / deg) = 8.9 counts / pixel (direction)
      public static final double TURRET_DIRECTION_COUNTS_PER_PIXEL = 8.9;
 
      public static final float TURRET_DIRECTION_FWD_LIMIT = 10000.0f;
      public static final float TURRET_DIRECTION_REV_LIMIT = -10000.0f;
      public static final double TURRET_DIRECTION_POS_CONVERSION_FACTOR = 2.0;
 
-     //Speeds/Voltage for Shooter
-     public static final double TURRET_SHOOTER_SPEED = 3000.0;
+     //Hood positions
+     public static final double TURRET_HOOD_CLOSE = 200.0;
+     public static final double TURRET_HOOD_MEDIUM = 100.0;
+     public static final double TURRET_HOOD_FAR = 50.0;
+
+     public static final double TURRET_HOOD_MIDPOINT = 100.0;
+
+     // degrees that hood will be traveling = ?
+     // hood encoder = 42 counts per rev, 64:1 (subject to change) gearbox ratio, teeth ratio is 1-to-1
+     // (42 / 42 = 1) * 64 * 42 = 2688 counts per timing belt rev (hood) / 360 deg = 7.47 counts / deg
+     // camera in Y = 200 pixels, 47 deg
+     // 200 / 47 = 4.26 pixels / deg
+     // 7.47 (counts / deg) / 4.26 (pixels / deg) = 1.8 counts / pixel
+     public static final double TURRET_HOOD_COUNTS_PER_PIXEL = 1.8;
+
+     //Speed for Shooter
+     public static final double TURRET_SHOOTER_SPEED = 5000.0;
+     public static final double TURRET_SHOOTER_SPEED_CLOSE = 5000.0;
+     public static final double TURRET_SHOOTER_SPEED_MEDIUM = 5000.0;
+     public static final double TURRET_SHOOTER_SPEED_FAR = 5000.0;
+     
 
      /* Distance between wheels measured inside to inside in inches
      */

@@ -12,6 +12,7 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.TurretPixy;
 import com.phantommentalists.TurretPixyException;
 import com.phantommentalists.TurretPixyPacket;
+import com.phantommentalists.TurretTrajectory;
 import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.commands.TurretDefaultCommand;
 import com.revrobotics.CANAnalog;
@@ -37,17 +38,19 @@ public class Turret extends SubsystemBase {
   private CANSparkMax direction;
   private CANSparkMax hood;
   private CANSparkMax shooter;
-  private AutoMode mode;
+  public AutoMode mode;
   private Timer timer;
 
   private CANEncoder directionEncoder;
   private double directionInput;
   private CANPIDController directionController;
 
-  private CANEncoder hoodEncoder; // FIXME: Are we using an encoder?
-  private double hoodInput; // FIXME: are we using an input?
+  private CANEncoder hoodEncoder;
+  private double hoodInput;
+  private CANPIDController hoodController;
 
   private CANEncoder shooterEncoder;
+  private double shooterInput;
   private CANPIDController shooterController;
 
   private double X, Y;
@@ -57,6 +60,7 @@ public class Turret extends SubsystemBase {
   private TurretPixyPacket[] packet1 = new TurretPixyPacket[7];
   private TurretPixy turretPixy;
   private TurretPixyPacket turretTarget;
+  private TurretTrajectory tragic; //FIXME: make a better name
 
   public Turret() {
     if (Parameters.TURRET_AVAILABLE) {
@@ -126,12 +130,13 @@ public class Turret extends SubsystemBase {
     directionEncoder.setPosition(0);
   }
 
-  public void setDirection(double pixels) {
-    if (Parameters.TURRET_AVAILABLE) {
-      directionInput = pixels;
-      mode = AutoMode.AUTO;
-    }
-  }
+  // not used
+  // public void setDirection(double pixels) {
+  //   if (Parameters.TURRET_AVAILABLE) {
+  //     directionInput = pixels;
+  //     mode = AutoMode.AUTO;
+  //   }
+  // }
 
   /**
    * Sets the amount of power for direction
@@ -156,21 +161,22 @@ public class Turret extends SubsystemBase {
   /**
    * Sets the hood of the turret ^ v
    */
-  public void setHood(double angleInDegrees) {
-    if (Parameters.TURRET_AVAILABLE) {
-      hoodInput = angleInDegrees;
-      mode = AutoMode.AUTO;
-    }
-  }
+  // not used
+  // public void setHood(double angleInDegrees) {
+  //   if (Parameters.TURRET_AVAILABLE) {
+  //     hoodInput = angleInDegrees;
+  //     mode = AutoMode.AUTO;
+  //   }
+  // }
 
   /**
    * Sets the amount of power used for hood
    * 
    * @param voltage
    */
-  public void setHoodPower(double voltage) {
+  public void setHoodPosition(double position) {
     if (Parameters.TURRET_AVAILABLE) {
-      hood.setVoltage(voltage);
+      hoodEncoder.setPosition(position);
       mode = AutoMode.MANUAL;
     }
   }
@@ -210,7 +216,7 @@ public class Turret extends SubsystemBase {
    */
   public void setShooterSpeed(double rpm) {
     if (Parameters.TURRET_AVAILABLE) {
-      shooterController.setReference(rpm, ControlType.kVelocity);
+      shooterController.setReference(-rpm, ControlType.kVelocity);
     }
   }
 
@@ -246,18 +252,31 @@ public class Turret extends SubsystemBase {
     return false;
   }
 
-  // public void getHood() {
-  // if (Parameters.TURRET_AVAILABLE) {
-  // hood.get();
-  // }
-  // }
-  // FIXME is using the CANSparkmax good for getting the Hood and Direction?
+  public TurretTrajectory getTrajectory(double y) {
+    TurretTrajectory trajectory = new TurretTrajectory();
+    if (y > 0 && y < 10) {
+      trajectory.hoodTarget = Parameters.TURRET_HOOD_CLOSE;
+      trajectory.shooterTarget = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
+    } else if (y > 10 && y < 20) {
+      trajectory.hoodTarget = Parameters.TURRET_HOOD_MEDIUM;
+      trajectory.shooterTarget = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
+    } else if (y > 20 && y < 30) {
+      trajectory.hoodTarget = Parameters.TURRET_HOOD_FAR;
+      trajectory.shooterTarget = Parameters.TURRET_SHOOTER_SPEED_FAR;
+    }
+    return trajectory;
+  }
 
   /**
    * This method will be called once per scheduler run
    */
   @Override
-  public void periodic() {
+  public void periodic() { 
+    // if (oi.isTurretAutoButton()) {
+    //   setAimMode(Parameters.AutoMode.AUTO);
+    // }
+    // ^ is in TurretDefaultCommand
+    
     if (mode == Parameters.AutoMode.AUTO) {
       turretTarget = getTurretTarget(); // get camera data
       
@@ -273,7 +292,9 @@ public class Turret extends SubsystemBase {
       // Parameters.TURRET_POSITION_SETPOINT);
       // direction.set(directionPower);
 
-      hoodInput = turretTarget.Y;
+      tragic = getTrajectory(turretTarget.Y);
+      hoodInput = tragic.hoodTarget;
+      shooterInput = tragic.shooterTarget;
       
 
     }

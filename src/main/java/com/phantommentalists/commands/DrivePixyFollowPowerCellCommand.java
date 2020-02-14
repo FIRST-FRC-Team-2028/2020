@@ -64,7 +64,7 @@ public class DrivePixyFollowPowerCellCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     // value reaches 0, return true
-    if (!oi.isFollowFuelCellButton()) {
+    if (!oi.isFollowPowerCellButton()) {
       return true;
     }
     else {

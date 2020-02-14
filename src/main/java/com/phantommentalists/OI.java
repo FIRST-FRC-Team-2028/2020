@@ -125,7 +125,7 @@ public class OI {
   /*  Allows both Pilot and CoPilot to select "Follow Fuel Cell"           */
   /*----------------------------------------------------------------------------*/
   
-  public boolean isFollowFuelCellButton() {
+  public boolean isFollowPowerCellButton() {
     boolean temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON)) {
       temp = true;
@@ -136,8 +136,11 @@ public class OI {
     return temp;
   }
 
+  public boolean isTurretAutoButton() {
+    return copilotJoystick1.getRawButton(Parameters.COPILOT1_FIND_TARGET);
+  }
 
-  public boolean isTurretMoveRightButton() {
+  public boolean isTurretDirectionMoveRightButton() {
     boolean temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_RIGHT)) {
       temp = true;
@@ -145,7 +148,7 @@ public class OI {
     return temp;
   }
 
-  public boolean isTurretMoveLeftButton() {
+  public boolean isTurretDirectionMoveLeftButton() {
     boolean temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_LEFT)) {
       temp = true;
@@ -153,7 +156,7 @@ public class OI {
     return temp;
   }
 
-  public boolean isTurretFineMoveButton() {
+  public boolean isTurretDirectionFineMoveButton() {
     boolean temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_TURRET_FINE_ADJUST)) {
       temp = true;
@@ -161,7 +164,17 @@ public class OI {
     return temp;
   }
 
-  //FIXME: Need hood stuffs
+  public boolean isTurretHoodClose() {
+    return copilotJoystick1.getRawButton(Parameters.COPILOT1_HOOD_CLOSE);
+  }
+
+  public boolean isTurretHoodMedium() {
+    return copilotJoystick2.getRawButton(Parameters.COPILOT2_HOOD_MEDIUM);
+  }
+  
+  public boolean isTurretHoodFar() {
+    return copilotJoystick1.getRawButton(Parameters.COPILOT1_HOOD_FAR);
+  }
 
   public boolean isShooterButtonPressed() {
     boolean temp = false;
@@ -173,7 +186,7 @@ public class OI {
 
   public boolean isMagazineLoadUpButton() {
     boolean temp = false;
-    if (copilotJoystick2.getRawButtonPressed(Parameters.COPILOT2_MAGAZINE_UP)) {
+    if (copilotJoystick2.getRawButton(Parameters.COPILOT2_MAGAZINE_UP)) {
       temp = true;
     }
     return temp;
@@ -181,14 +194,14 @@ public class OI {
 
   public boolean isMagazineLoadDownButton() {
     boolean temp = false;
-    if (copilotJoystick2.getRawButtonPressed(Parameters.COPILOT1_MAGAZINE_DOWN)) {
+    if (copilotJoystick2.getRawButton(Parameters.COPILOT1_MAGAZINE_DOWN)) {
       temp = true;
     }
     return temp;
   }
 
   public boolean isShoot() {
-    return copilotJoystick1.getRawButtonPressed(Parameters.COPILOT1_SHOOT); 
+    return copilotJoystick1.getRawButton(Parameters.COPILOT1_SHOOT); 
   }
 
 
@@ -211,6 +224,8 @@ public class OI {
   public boolean isClimb() {
     return copilotJoystick2.getRawButton(Parameters.COPILOT2_CLIMB);
   }
+
+  
 
   // public XboxController getXboxController() {
   // return xboxController;
