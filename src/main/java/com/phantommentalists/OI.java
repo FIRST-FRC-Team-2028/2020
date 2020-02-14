@@ -34,7 +34,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class OI {
   // The robot's subsystems and commands are defined here...
   private final Drive drive;
-  private final Magazine magazine;
+  // private final Magazine magazine;
   //private final Pickup pickup;
   // private PixyAnalog frontPixy = new PixyAnalog(Parameters.PIXY_CHANNEL);
   private final Command m_autoCommand = null;  
@@ -54,8 +54,8 @@ public class OI {
     }
 
     if (Parameters.MAGAZINE_AVAILABLE) {
-      magazine = new Magazine();
-      magazine.initDefaultCommand(this);
+      // magazine = new Magazine();
+      // magazine.initDefaultCommand(this);
     }
 
     // if (Parameters.PICKUP_AVAILABLE) {
@@ -91,7 +91,7 @@ public class OI {
     
     //Shoot
     JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
-    copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
+    // copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
 
     //Pickup
     //JoystickButton copilotStickPickupExtend = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_PICKUP);

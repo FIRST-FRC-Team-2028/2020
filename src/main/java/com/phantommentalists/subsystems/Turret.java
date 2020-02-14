@@ -60,7 +60,9 @@ public class Turret extends SubsystemBase {
   private TurretPixyPacket[] packet1 = new TurretPixyPacket[7];
   private TurretPixy turretPixy;
   private TurretPixyPacket turretTarget;
-  private TurretTrajectory tragic; //FIXME: make a better name
+  private TurretTrajectory traject;
+
+  private boolean hoodInitialized = false;
 
   public Turret() {
     if (Parameters.TURRET_AVAILABLE) {
@@ -92,8 +94,22 @@ public class Turret extends SubsystemBase {
       direction.enableSoftLimit(SoftLimitDirection.kForward, true);
       direction.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
-      // hood = new CANSparkMax(Parameters.CANIDs.TURRET_HOOD.getid(),
-      // MotorType.kBrushless);
+      // // hood = new CANSparkMax(Parameters.CANIDs.TURRET_HOOD.getid(), MotorType.kBrushless);
+      // hood.setSoftLimit(SoftLimitDirection.kForward, Parameters.TURRET_HOOD_FWD_LIMIT);
+      // hood.setSoftLimit(SoftLimitDirection.kReverse, Parameters.TURRET_HOOD_REV_LIMIT);
+      // hood.enableSoftLimit(SoftLimitDirection.kForward, true);
+      // hood.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+      // hoodController = hood.getPIDController();
+      // hoodController.setP(Parameters.SmartPID.TURRET_HOOD.getP());
+      // hoodController.setI(Parameters.SmartPID.TURRET_HOOD.getI());
+      // hoodController.setD(Parameters.SmartPID.TURRET_HOOD.getD());
+
+      // hoodController.setIZone(Parameters.SmartPID.TURRET_HOOD.getIz());
+      // hoodController.setFF(Parameters.SmartPID.TURRET_HOOD.getFF());
+      // hoodController.setOutputRange(Parameters.SmartPID.TURRET_HOOD.getMinOut(), Parameters.SmartPID.TURRET_HOOD.getMaxOut());
+
+      // hoodEncoder = hood.getEncoder();
 
       shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOTER.getid(), MotorType.kBrushless);
 
@@ -123,11 +139,12 @@ public class Turret extends SubsystemBase {
    * value of -1 - -159.
    * 
    * @param pixels - Number of pixels from the center of the camera's view
-   * 
+   *    
+   * @param voltage
    */
 
   public void setDirectionHome() {
-    directionEncoder.setPosition(0);
+    directionEncoder.setPosition(0.0);
   }
 
   // not used
@@ -141,7 +158,6 @@ public class Turret extends SubsystemBase {
   /**
    * Sets the amount of power for direction
    * 
-   * @param voltage
    */
   public void setDirectionPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
@@ -169,14 +185,40 @@ public class Turret extends SubsystemBase {
   //   }
   // }
 
+  public void setHoodHome() {
+    hoodEncoder.setPosition(0.0);
+  } 
+
+  public double getHoodCurrent() {
+    return hood.getOutputCurrent();
+  }
+
+  public void initHood() {
+    if (!hoodInitialized) {
+      setHoodPower(Parameters.TURRET_HOOD_INIT_POWER);
+
+      if (getHoodCurrent() > Parameters.TURRET_HOOD_CURRENT_LIMIT) {
+        setHoodPower(0.0);
+        setHoodHome();
+        hoodInitialized = true;
+      }
+    }
+  }
+
   /**
    * Sets the amount of power used for hood
    * 
    * @param voltage
    */
+  public void setHoodPower(double voltage) {
+    if (Parameters.TURRET_AVAILABLE) {
+      hood.setVoltage(voltage);
+    }
+  }
+
   public void setHoodPosition(double position) {
     if (Parameters.TURRET_AVAILABLE) {
-      hoodEncoder.setPosition(position);
+    //  hoodController.setReference(position, ControlType.kPosition);
       mode = AutoMode.MANUAL;
     }
   }
@@ -260,7 +302,7 @@ public class Turret extends SubsystemBase {
     } else if (y > 10 && y < 20) {
       trajectory.hoodTarget = Parameters.TURRET_HOOD_MEDIUM;
       trajectory.shooterTarget = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
-    } else if (y > 20 && y < 30) {
+    } else if (y > 25 && y < 36) {
       trajectory.hoodTarget = Parameters.TURRET_HOOD_FAR;
       trajectory.shooterTarget = Parameters.TURRET_SHOOTER_SPEED_FAR;
     }
@@ -278,23 +320,28 @@ public class Turret extends SubsystemBase {
     // ^ is in TurretDefaultCommand
     
     if (mode == Parameters.AutoMode.AUTO) {
-      turretTarget = getTurretTarget(); // get camera data
+      //gc turretTarget = getTurretTarget(); // get camera data
       
       double directionCurrentPos = this.getDirection();
-      directionInput = turretTarget.X;
+      //gc directionInput = turretTarget.X;
 
       // Get camera input, determines how far from center the target is, and
       // calculates encoder counts to move
-      double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput) * 10.5 + directionCurrentPos;
+      
+      //gc double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput) * 10.5 + directionCurrentPos;
+     
+     // gc testing try to get a PID to work but it won't go to auto
+      System.out.println("Setpoint 100");
+      double setPoint = 100.0;
       directionController.setReference(setPoint, ControlType.kPosition);
       // will SmartMotion work with a changing setpoint?
       // double directionPower = directionController.calculate(directionInput,
       // Parameters.TURRET_POSITION_SETPOINT);
       // direction.set(directionPower);
 
-      tragic = getTrajectory(turretTarget.Y);
-      hoodInput = tragic.hoodTarget;
-      shooterInput = tragic.shooterTarget;
+      traject = getTrajectory(turretTarget.Y);
+      hoodInput = traject.hoodTarget;
+      shooterInput = traject.shooterTarget;
       
 
     }

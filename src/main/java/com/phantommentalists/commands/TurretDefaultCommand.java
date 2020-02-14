@@ -25,6 +25,7 @@ public class TurretDefaultCommand extends CommandBase {
   private OI oi;
   private Turret turret;
   private double speed;
+  private double shooterSpeed;
 
   public TurretDefaultCommand(OI o, Turret t) {
     oi = o;
@@ -74,17 +75,26 @@ public class TurretDefaultCommand extends CommandBase {
     }
 
     // Turret Shooter controls   *****************************************/
+    if (oi.isTurretHoodClose()) {
+      shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
+    } else if (oi.isTurretHoodMedium()) {
+      shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
+    } else if (oi.isTurretHoodFar()) {
+      shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_FAR;
+    }
+
     if (oi.isShooterButtonPressed()) {
-      // turret.getShooterController().setReference(3000, ControlType.kVelocity);
-      turret.setShooterSpeed(Parameters.TURRET_SHOOTER_SPEED);
+      turret.setShooterSpeed(shooterSpeed);
     } else {
       turret.setShooterPower(0.0);
-      // Turret_Shooter_Controller.setReference(0, ControlType.kVelocity);
     }
+    
 
     if (oi.isTestButton()) {
       turret.setDirectionHome();
     }
+
+    SmartDashboard.putNumber("Shooter Speed 2", shooterSpeed);
   }
 
 

@@ -28,7 +28,7 @@ public final class Parameters {
     public static final boolean CAMERA_AVAILABLE        = false;
     public static final boolean AIM_AVAILABLE           = false;
     public static final boolean TURRET_AVAILABLE        = true;
-    public static final boolean MAGAZINE_AVAILABLE      = true;
+    public static final boolean MAGAZINE_AVAILABLE      = false;
     public static final boolean PICKUP_AVAILABLE        = false;
     public static final boolean CLIMBER_AVAILABLE       = false;
     public static final boolean CONTROLPANEL_AVAILABLE  = false;
@@ -66,7 +66,7 @@ public final class Parameters {
 
         TURRET_DIRECTION     (30, false, false), 
         TURRET_HOOD          (31, false, false),
-        TURRET_SHOOTER       (31, false, false), //FIXME change to 32
+        TURRET_SHOOTER       (31, false, false), //FIXME change to 32 when correct motor controller gets used
 
         ROLLER               (40, false, false), 
         MAGAZINE             (41, false, false),
@@ -129,7 +129,8 @@ public final class Parameters {
     }
 
     public enum SmartPID {
-        TURRET_DIRECTION(0.005, 0.0008, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
+        TURRET_DIRECTION(0.005, 0.0008, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.0),
+        TURRET_HOOD(0.005, 1.1e-5, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
 
         private double p, i, d, iz, ff, minOut, maxOut, maxVel, minVel, maxAcc, allowedErr;
 
@@ -193,9 +194,9 @@ public final class Parameters {
     }
 
     public enum PID {
-        TURRET_DIRECTION(0, 0, 0),
+        //TURRET_DIRECTION(0, 0, 0),
         TURRET_SHOOTER_SPEED(5e-5, 1e-6, 5e-5),
-        TURRET_POSITION(0.005, 1.1e-5, 0.0),
+        TURRET_HOOD(0.005, 1.1e-5, 0.0),
         DRIVE_LEFT(0, 0, 0),
         DRIVE_RIGHT(0, 0, 0);
 
@@ -259,8 +260,8 @@ public final class Parameters {
      // 38.2 (counts / deg) / 4.27 (pixels / deg) = 8.9 counts / pixel (direction)
      public static final double TURRET_DIRECTION_COUNTS_PER_PIXEL = 8.9;
 
-     public static final float TURRET_DIRECTION_FWD_LIMIT = 10000.0f;
-     public static final float TURRET_DIRECTION_REV_LIMIT = -10000.0f;
+     public static final float TURRET_DIRECTION_FWD_LIMIT = 125.0f;
+     public static final float TURRET_DIRECTION_REV_LIMIT = -125.0f;
      public static final double TURRET_DIRECTION_POS_CONVERSION_FACTOR = 2.0;
 
      //Hood positions
@@ -278,11 +279,17 @@ public final class Parameters {
      // 7.47 (counts / deg) / 4.26 (pixels / deg) = 1.8 counts / pixel
      public static final double TURRET_HOOD_COUNTS_PER_PIXEL = 1.8;
 
+     public static final double TURRET_HOOD_INIT_POWER = 2.5;
+     public static final double TURRET_HOOD_CURRENT_LIMIT = 40.0;
+
+     public static final float TURRET_HOOD_FWD_LIMIT = 1000.0f;
+     public static final float TURRET_HOOD_REV_LIMIT = -1000.0f;
+
      //Speed for Shooter
-     public static final double TURRET_SHOOTER_SPEED = 5000.0;
-     public static final double TURRET_SHOOTER_SPEED_CLOSE = 5000.0;
-     public static final double TURRET_SHOOTER_SPEED_MEDIUM = 5000.0;
-     public static final double TURRET_SHOOTER_SPEED_FAR = 5000.0;
+     public static final double TURRET_SHOOTER_SPEED = 2000.0;
+     public static final double TURRET_SHOOTER_SPEED_CLOSE = 4700.0;
+     public static final double TURRET_SHOOTER_SPEED_MEDIUM = 5200.0;
+     public static final double TURRET_SHOOTER_SPEED_FAR = 5700.0;
      
 
      /* Distance between wheels measured inside to inside in inches
