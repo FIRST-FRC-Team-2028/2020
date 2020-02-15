@@ -13,6 +13,7 @@ import com.phantommentalists.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -40,6 +41,7 @@ public class Telepath extends TimedRobot {
 
   private Compressor compressor;
   // private DoubleSolenoid shifter
+  private PowerDistributionPanel pdp;
 
   /**
    * Change the I2C port below to match the connection of your color sensor
@@ -101,6 +103,8 @@ public class Telepath extends TimedRobot {
     compressor = new Compressor(0);
     compressor.setClosedLoopControl(true);
     compressor.start();
+
+    pdp = new PowerDistributionPanel();
   }
 
   /**
@@ -130,6 +134,7 @@ public class Telepath extends TimedRobot {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine.periodic();
     }
+    SmartDashboard.putNumber("PDP #0", pdp.getCurrent(0));
 
     /**
      * The method GetColor() returns a normalized color value from the sensor and
@@ -255,9 +260,6 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    // if(turret != null) {
-    // turret.periodic();
-    // }
 
     String gameData;
     gameData = DriverStation.getInstance().getGameSpecificMessage();

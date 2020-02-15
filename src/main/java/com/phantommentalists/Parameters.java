@@ -66,7 +66,7 @@ public final class Parameters {
 
         TURRET_DIRECTION     (30, false, false), 
         TURRET_HOOD          (31, false, false),
-        TURRET_SHOOTER       (31, false, false), //FIXME change to 32 when correct motor controller gets used
+        TURRET_SHOOTER       (32, false, false),
 
         ROLLER               (40, false, false), 
         MAGAZINE             (41, false, false),
@@ -129,7 +129,7 @@ public final class Parameters {
     }
 
     public enum SmartPID {
-        TURRET_DIRECTION(0.005, 0.0008, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.0),
+        TURRET_DIRECTION(0.005, 0.9e-5, 0.0, 0.0, 0.0, -2.0, 2.0, 0.0, 0.0, 0.0, 0.0),
         TURRET_HOOD(0.005, 1.1e-5, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
 
         private double p, i, d, iz, ff, minOut, maxOut, maxVel, minVel, maxAcc, allowedErr;
@@ -248,8 +248,8 @@ public final class Parameters {
      public static final double SHOOTER_TIME = 0.7;
 
      //Speeds for Turret Direction
-     public static final double TURRET_MANUAL_SPEED_FAST = 7.0;
-     public static final double TURRET_MANUAL_SPEED_SLOW = 2.5;
+     public static final double TURRET_MANUAL_SPEED_FAST = 3.5;
+     public static final double TURRET_MANUAL_SPEED_SLOW = 1.5;
 
      public static final double TURRET_DIRECTION_SETPOINT = 160.0;
 
@@ -262,12 +262,13 @@ public final class Parameters {
 
      public static final float TURRET_DIRECTION_FWD_LIMIT = 125.0f;
      public static final float TURRET_DIRECTION_REV_LIMIT = -125.0f;
-     public static final double TURRET_DIRECTION_POS_CONVERSION_FACTOR = 2.0;
+     public static final double TURRET_DIRECTION_POS_CONVERSION_FACTOR = 1.0;
 
      //Hood positions
      public static final double TURRET_HOOD_CLOSE = 200.0;
      public static final double TURRET_HOOD_MEDIUM = 100.0;
      public static final double TURRET_HOOD_FAR = 50.0;
+     public static final double TURRET_HOOD_VOLTAGE = 0.4;
 
      public static final double TURRET_HOOD_MIDPOINT = 100.0;
 
@@ -279,8 +280,8 @@ public final class Parameters {
      // 7.47 (counts / deg) / 4.26 (pixels / deg) = 1.8 counts / pixel
      public static final double TURRET_HOOD_COUNTS_PER_PIXEL = 1.8;
 
-     public static final double TURRET_HOOD_INIT_POWER = 2.5;
-     public static final double TURRET_HOOD_CURRENT_LIMIT = 40.0;
+     public static final double TURRET_HOOD_INIT_POWER = 1.0;
+     public static final double TURRET_HOOD_CURRENT_LIMIT = 1.0;
 
      public static final float TURRET_HOOD_FWD_LIMIT = 1000.0f;
      public static final float TURRET_HOOD_REV_LIMIT = -1000.0f;

@@ -137,7 +137,7 @@ public class OI {
   }
 
   public boolean isTurretAutoButton() {
-    return copilotJoystick1.getRawButton(Parameters.COPILOT1_FIND_TARGET);
+    return copilotJoystick1.getRawButtonPressed(Parameters.COPILOT1_FIND_TARGET);
   }
 
   public boolean isTurretDirectionMoveRightButton() {
@@ -194,7 +194,7 @@ public class OI {
 
   public boolean isMagazineLoadDownButton() {
     boolean temp = false;
-    if (copilotJoystick2.getRawButton(Parameters.COPILOT1_MAGAZINE_DOWN)) {
+    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_MAGAZINE_DOWN)) {
       temp = true;
     }
     return temp;

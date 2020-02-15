@@ -25,7 +25,6 @@ public class TurretDefaultCommand extends CommandBase {
   private OI oi;
   private Turret turret;
   private double speed;
-  private double shooterSpeed;
 
   public TurretDefaultCommand(OI o, Turret t) {
     oi = o;
@@ -41,48 +40,65 @@ public class TurretDefaultCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    double shooterSpeed = Parameters.TURRET_SHOOTER_SPEED;
+    
     if (oi.isTurretAutoButton()) {
-      turret.setAimMode(Parameters.AutoMode.AUTO);
+      if (turret.mode == Parameters.AutoMode.MANUAL) {
+        turret.setAimMode(Parameters.AutoMode.AUTO);
+      } else if (turret.mode == Parameters.AutoMode.AUTO) {
+        turret.setAimMode(Parameters.AutoMode.MANUAL);
+      }
     }
 
-    
+    // Turret Direction controls *****************************************/
+    if (turret.mode == Parameters.AutoMode.MANUAL) {
+      speed = Parameters.TURRET_MANUAL_SPEED_FAST;
 
-    
-    // Turret Direction controls   *****************************************/
-    speed = Parameters.TURRET_MANUAL_SPEED_FAST;
-
-    if (oi.isTurretDirectionFineMoveButton())
-      speed = Parameters.TURRET_MANUAL_SPEED_SLOW;
-
-    if (oi.isTurretDirectionMoveRightButton()) {
-      turret.setDirectionPower(speed);
-    } else if (oi.isTurretDirectionMoveLeftButton()) {
-      turret.setDirectionPower(-speed);
-    } else {
-      turret.setDirectionPower(0.0);
+      if (oi.isTurretDirectionFineMoveButton()){
+        speed = Parameters.TURRET_MANUAL_SPEED_SLOW;
+      }
+      if (oi.isTurretDirectionMoveRightButton()) {
+        turret.setDirectionPower(-speed);
+      } else if (oi.isTurretDirectionMoveLeftButton()) {
+        turret.setDirectionPower(speed);
+      } else {
+        turret.setDirectionPower(0.0);
+      }
     }
 
     // Turret Hood controls   *****************************************/
-    // FIXME insert manual button methods for hood
-
-    if (oi.isTurretHoodClose()) {
-      turret.setHoodPosition(Parameters.TURRET_HOOD_CLOSE);
-    } else if (oi.isTurretHoodMedium()) {
-      turret.setHoodPosition(Parameters.TURRET_HOOD_MEDIUM);
-    } else if (oi.isTurretHoodFar()) {
-      turret.setHoodPosition(Parameters.TURRET_HOOD_FAR);
+    if (turret.mode == Parameters.AutoMode.MANUAL) {
+      if (oi.isMagazineLoadUpButton()) {
+        turret.setHoodPower(-Parameters.TURRET_HOOD_VOLTAGE);
+      } else if (oi.isMagazineLoadDownButton()) {
+        turret.setHoodPower(Parameters.TURRET_HOOD_VOLTAGE);
+      } else {
+        turret.setHoodPower(0.0);
+      }
     }
+    if (turret.mode == Parameters.AutoMode.MANUAL) {
+      if (oi.isTurretHoodClose()) {
+        turret.setHoodPosition(Parameters.TURRET_HOOD_CLOSE);
+      } else if (oi.isTurretHoodMedium()) {
+        turret.setHoodPosition(Parameters.TURRET_HOOD_MEDIUM);
+      } else if (oi.isTurretHoodFar()) {
+        turret.setHoodPosition(Parameters.TURRET_HOOD_FAR);
+      }
+    }
+    
 
     // Turret Shooter controls   *****************************************/
-    if (oi.isTurretHoodClose()) {
-      shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
-    } else if (oi.isTurretHoodMedium()) {
-      shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
-    } else if (oi.isTurretHoodFar()) {
-      shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_FAR;
+    if (turret.mode == Parameters.AutoMode.MANUAL) {
+      if (oi.isTurretHoodClose()) {
+        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
+      } else if (oi.isTurretHoodMedium()) {
+        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
+      } else if (oi.isTurretHoodFar()) {
+        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_FAR;
+      }
     }
 
+    
     if (oi.isShooterButtonPressed()) {
       turret.setShooterSpeed(shooterSpeed);
     } else {
