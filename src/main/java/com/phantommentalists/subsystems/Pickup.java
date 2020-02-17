@@ -35,8 +35,8 @@ public class Pickup extends SubsystemBase {
     // {
     //   roller.follow(leader CAN ID);
     // }
-    arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
-    timer = new Timer();
+    //arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
+    //timer = new Timer();
   }
 
   /**

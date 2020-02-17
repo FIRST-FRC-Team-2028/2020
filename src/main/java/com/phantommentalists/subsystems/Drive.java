@@ -31,6 +31,7 @@ import com.phantommentalists.Parameters.Gear;
 import com.phantommentalists.Parameters.PneumaticChannel;
 import com.phantommentalists.commands.DriveDefaultCommand;
 import com.phantommentalists.DrivePixy;
+
 /**
  * Drives robot using 3 wheel drive? Can spin
  */
@@ -64,8 +65,8 @@ public class Drive extends SubsystemBase {
     rightLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_LEADER.getid(), MotorType.kBrushless);
     leftFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.getid(), MotorType.kBrushless);
     rightFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_FOLLOWER.getid(), MotorType.kBrushless);
-    shifter = new DoubleSolenoid(PneumaticChannel.DRIVE_LOW_GEAR.getChannel(),
-        PneumaticChannel.DRIVE_HIGH_GEAR.getChannel());
+    // shifter = new DoubleSolenoid(PneumaticChannel.DRIVE_LOW_GEAR.getChannel(),
+    // PneumaticChannel.DRIVE_HIGH_GEAR.getChannel());
 
     // leftLeader.restoreFactoryDefaults();
     // leftFollower.restoreFactoryDefaults();
@@ -74,7 +75,9 @@ public class Drive extends SubsystemBase {
 
     // No need to set inverted on followers, per Rev Robotics documentation for 2020
     rightLeader.setInverted(Parameters.CANIDs.DRIVE_RIGHT_LEADER.isInverted());
+    rightFollower.setInverted(Parameters.CANIDs.DRIVE_RIGHT_FOLLOWER.isInverted());
     leftLeader.setInverted(Parameters.CANIDs.DRIVE_LEFT_LEADER.isInverted());
+    leftFollower.setInverted(Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.isInverted());
 
     if (Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.isFollower()) {
       leftFollower.follow(leftLeader);
@@ -86,10 +89,12 @@ public class Drive extends SubsystemBase {
     gyro = new ADXRS450_Gyro(Parameters.CHASSIS_GYRO_PORT);
     kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(Parameters.DRIVE_TRACK_WIDTH));
     odometry = new DifferentialDriveOdometry( /* kinematics, */ getChassisAngle());
-    feedForward = new SimpleMotorFeedforward(Parameters.DRIVE_KS, Parameters.DRIVE_KV);
-    leftMotorController = new PIDController(Parameters.PID.DRIVE_LEFT.getP(), Parameters.PID.DRIVE_LEFT.getI(), Parameters.PID.DRIVE_LEFT.getD());
-    rightMotorController = new PIDController(Parameters.PID.DRIVE_RIGHT.getP(), Parameters.PID.DRIVE_RIGHT.getI(), Parameters.PID.DRIVE_RIGHT.getD());
-    pixyAnalog = new DrivePixy(Parameters.PIXY_ANALOG_CHANNEL);    
+    feedForward = new SimpleMotorFeedforward(Parameters.DRIVE_KS, Parameters.DRIVE_KV, Parameters.DRIVE_KA);
+    leftMotorController = new PIDController(Parameters.PID.DRIVE_LEFT.getP(), Parameters.PID.DRIVE_LEFT.getI(),
+        Parameters.PID.DRIVE_LEFT.getD());
+    rightMotorController = new PIDController(Parameters.PID.DRIVE_RIGHT.getP(), Parameters.PID.DRIVE_RIGHT.getI(),
+        Parameters.PID.DRIVE_RIGHT.getD());
+    pixyAnalog = new DrivePixy(Parameters.PIXY_ANALOG_CHANNEL);
     follow_Ball_Controller = new PIDController(Parameters.kP_Drive_Pixy, Parameters.kI_Drive_Pixy,
         Parameters.kD_Drive_Pixy);
   }
@@ -98,25 +103,46 @@ public class Drive extends SubsystemBase {
    * wheel distance is motor encoder counts/ counts per revolution * gear ratio *
    * wheel circumference
    * 
-   * @return
+   * @return DifferentialDriveWheelSpeeds
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     double leftDistanceMeters = leftLeader.getEncoder().getVelocity() / Parameters.DRIVE_LEFT_GEAR_RATIO * 2 * Math.PI
-        * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60;
+        * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60.0;
     double rightDistanceMeters = rightLeader.getEncoder().getVelocity() / Parameters.DRIVE_RIGHT_GEAR_RATIO * 2
-        * Math.PI * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60;
+        * Math.PI * Units.inchesToMeters(Parameters.DRIVE_WHEEL_DIAMETER / 2) / 60.0;
     return new DifferentialDriveWheelSpeeds(leftDistanceMeters, rightDistanceMeters);
   }
 
   /**
-   * FIXME
+   * Returns the drive's kinematics
    * 
-   * @return SimpleMotorFeedForward - FIXME
+   * @return DifferentialDriveKinematics
+   */
+  public DifferentialDriveKinematics getKinematics() {
+    return kinematics;
+  }
+
+  /**
+   * 
+   * @return SimpleMotorFeedForward
    */
   public SimpleMotorFeedforward getFeedForward() {
     return feedForward;
   }
 
+  /**
+   * Returns the estimated robot position
+   * 
+   * @return Pose2d - The estimated pose
+   */
+  public Pose2d getPose() {
+    return pose;
+  }
+
+  /**
+   * Method run once every 1/20 second to perform telemetry & diagnostics
+   * 
+   */
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -127,19 +153,19 @@ public class Drive extends SubsystemBase {
       // SmartDashboard.putNumber("Left Current",leftLeader.getOutputCurrent());
       SmartDashboard.putNumber("Chassis Angle: ", getChassisAngle().getDegrees());
 
-      // pose = odometry.update(getChassisAngle(),
-      // getWheelSpeeds().leftMetersPerSecond, getWheelSpeeds().rightMetersPerSecond);
+      pose = odometry.update(getChassisAngle(), getWheelSpeeds().leftMetersPerSecond,
+          getWheelSpeeds().rightMetersPerSecond);
     }
   }
 
   /**
-   * @param left - Requires motor voltage for the left side of the robot's drive
+   * @param left  - Requires motor voltage for the left side of the robot's drive
    * @param right - Requires motor voltage for the right side of the robot
    */
-  public void tankDrive(double left, double right) {
+  public void tankDrive(Double left, Double right) {
     if (Parameters.DRIVE_AVAILABLE) {
-      leftLeader.setVoltage(left);
-      rightLeader.setVoltage(right);
+      leftLeader.setVoltage(left.doubleValue());
+      rightLeader.setVoltage(right.doubleValue());
     }
   }
 
@@ -172,7 +198,7 @@ public class Drive extends SubsystemBase {
    */
   public double getAllMotorCurrent() {
     if (Parameters.DRIVE_AVAILABLE) {
-      return leftLeader.getOutputCurrent() + rightLeader.getOutputCurrent();
+      return leftLeader.getOutputCurrent() + rightLeader.getOutputCurrent() + leftFollower.getOutputCurrent() + rightFollower.getOutputCurrent();
     } else {
       return 0.0;
     }
@@ -187,14 +213,13 @@ public class Drive extends SubsystemBase {
     }
   }
 
-
   /**
    * sets which gear we are in
    * 
    * @param newGear
    */
   public void setGear(Gear newGear) {
-    if (Parameters.DRIVE_AVAILABLE) {
+    if (Parameters.DRIVE_AVAILABLE && shifter != null) {
       gear = newGear;
       if (gear == Gear.LOW) {
         shifter.set(Value.kForward);
@@ -215,8 +240,6 @@ public class Drive extends SubsystemBase {
    */
   public Rotation2d getChassisAngle() {
     return Rotation2d.fromDegrees(-1.0 * gyro.getAngle());
-    // FIXME
-    // return Rotation2d.fromDegrees(0.0);
   }
 
   /**
@@ -259,15 +282,21 @@ public class Drive extends SubsystemBase {
 
   }
 
+  /**
+   * This method reads joystick values from oi and sets the speed accordingly
+   * 
+   * @param driveAdjust - Adjustment to the drive controls from a sensor (analog
+   *                    pixy) to allow the robot to follow a power cell
+   */
   public void executeDrive(double driveAdjust) {
     // XboxController xboxController = oi.getXboxController();
     // double left = xboxController.getRawAxis(Parameters.LEFT_STICK);
     // double right = xboxController.getRawAxis(Parameters.RIGHT_STICK);
     // if (Math.abs(left) < Parameters.DRIVE_DEAD_BAND) {
-    //   left = 0;
+    // left = 0;
     // }
     // if (Math.abs(right) < Parameters.DRIVE_DEAD_BAND) {
-    //   right = 0;
+    // right = 0;
     // }
     // drive.tankDrive(left, right);
     double Y = oi.getPilotStick().getY();
@@ -298,10 +327,23 @@ public class Drive extends SubsystemBase {
       setGear(Gear.LOW);
     }
 
-    tankDrive((R - driveAdjust) * 12.0, (L + driveAdjust) * 12.0);    
+    tankDrive((R - driveAdjust) * 12.0, (L + driveAdjust) * 12.0);
   }
 
+  /**
+   * Getter to return reference to analog pixy camera
+   * 
+   * @return DrivePixy
+   */
   public DrivePixy getDrivePixy() {
     return pixyAnalog;
+  }
+
+  /**
+   * Reset the gyro to read zero degrees
+   * 
+   */
+  public void resetGyro() {
+    gyro.reset();
   }
 }

@@ -27,9 +27,9 @@ public final class Parameters {
     public static final boolean DRIVE_AVAILABLE         = true;
     public static final boolean CAMERA_AVAILABLE        = false;
     public static final boolean AIM_AVAILABLE           = false;
-    public static final boolean TURRET_AVAILABLE        = true;
+    public static final boolean TURRET_AVAILABLE        = false;
     public static final boolean MAGAZINE_AVAILABLE      = false;
-    public static final boolean PICKUP_AVAILABLE        = false;
+    public static final boolean PICKUP_AVAILABLE        = true;
     public static final boolean CLIMBER_AVAILABLE       = false;
     public static final boolean CONTROLPANEL_AVAILABLE  = false;
     public static final boolean COMPRESSOR_AVAILABLE    = false;
@@ -68,7 +68,7 @@ public final class Parameters {
         TURRET_HOOD          (31, false, false),
         TURRET_SHOOTER       (32, false, false),
 
-        ROLLER               (40, false, false), 
+        ROLLER               (40, true, false), 
         MAGAZINE             (41, false, false),
         ACCELERATOR          (42, false, false), 
 
@@ -197,8 +197,8 @@ public final class Parameters {
         //TURRET_DIRECTION(0, 0, 0),
         TURRET_SHOOTER_SPEED(5e-5, 1e-6, 5e-5),
         TURRET_HOOD(0.005, 1.1e-5, 0.0),
-        DRIVE_LEFT(0, 0, 0),
-        DRIVE_RIGHT(0, 0, 0);
+        DRIVE_LEFT(0.259, 0, 0),
+        DRIVE_RIGHT(0.259, 0, 0);
 
         private double p, i, d;
 
@@ -293,14 +293,16 @@ public final class Parameters {
      public static final double TURRET_SHOOTER_SPEED_FAR = 5700.0;
      
 
-     /* Distance between wheels measured inside to inside in inches
-     */
-    public static final double DRIVE_TRACK_WIDTH = 28.0;
-    public static final double DRIVE_KS = 0.0;
-    public static final double DRIVE_KV = 0.0;
-    public static final double DRIVE_LEFT_GEAR_RATIO = 1.0/8.333;    // 8.333 Low     3.667 High for 2 CIM Ball Shifter
-    public static final double DRIVE_RIGHT_GEAR_RATIO = 1.0/8.333;
-    public static final double DRIVE_WHEEL_DIAMETER = 4.25;
+     /** Distance between wheels measured inside to inside in inches  */
+    public static final double DRIVE_TRACK_WIDTH = 24.50;
+    public static final double DRIVE_KS = 0.142;
+    public static final double DRIVE_KV = 0.0589;
+    public static final double DRIVE_KA = 0.00575;
+    public static final double DRIVE_LEFT_GEAR_RATIO = 1.0/6.2;    // 6.2:1 Low  14.09:1 High for competition chassis
+    public static final double DRIVE_RIGHT_GEAR_RATIO = 1.0/6.2;   // 6.2:1 Low  14.09:1 High for competition chassis
+    //public static final double DRIVE_LEFT_GEAR_RATIO = 1.0/8.333;    // 8.333 Low     3.667 High for 2 CIM Ball Shifter
+    //public static final double DRIVE_RIGHT_GEAR_RATIO = 1.0/8.333;
+    public static final double DRIVE_WHEEL_DIAMETER = 6.0;
     // FIXME fill in/ fix all of the values
 
     //used in Turret sets port for gyro

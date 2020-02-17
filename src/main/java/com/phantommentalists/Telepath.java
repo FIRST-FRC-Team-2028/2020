@@ -7,9 +7,13 @@
 package com.phantommentalists;
 
 
+import java.lang.reflect.Parameter;
+
+import com.phantommentalists.commands.AutonomousCenterPickupPowerCells;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Magazine;
 import com.phantommentalists.subsystems.Turret;
+import com.phantommentalists.subsystems.Pickup;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
@@ -20,6 +24,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Joystick;
 
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
@@ -38,6 +43,7 @@ public class Telepath extends TimedRobot {
   private Drive drive;
   private Turret turret;
   private Magazine magazine;
+  private Pickup pickup;
 
   private Compressor compressor;
   // private DoubleSolenoid shifter
@@ -89,6 +95,9 @@ public class Telepath extends TimedRobot {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine = new Magazine();
     }
+    if (Parameters.PICKUP_AVAILABLE) {
+      pickup = new Pickup();
+    }
     // controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
 
     m_colorMatcher.addColorMatch(kBlueTarget);
@@ -96,13 +105,13 @@ public class Telepath extends TimedRobot {
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
 
-    //m_gyro = new ADXRS450_Gyro();
-
     drive = m_oi.getDrive();
 
-    compressor = new Compressor(0);
-    compressor.setClosedLoopControl(true);
-    compressor.start();
+    if (Parameters.COMPRESSOR_AVAILABLE) {
+      compressor = new Compressor(0);
+      compressor.setClosedLoopControl(true);
+      compressor.start();
+    }
 
     pdp = new PowerDistributionPanel();
   }
@@ -221,8 +230,10 @@ public class Telepath extends TimedRobot {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine.setBallHeldCount(3);
     }
-    m_autonomousCommand = m_oi.getAutonomousCommand();
-
+    m_autonomousCommand = AutonomousCenterPickupPowerCells.createCommand(drive);
+    if (Parameters.DRIVE_AVAILABLE) {
+      drive.resetGyro();
+    }
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -261,6 +272,15 @@ public class Telepath extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
+    if (Parameters.PICKUP_AVAILABLE) {
+      Joystick stick = m_oi.getPilotStick();
+      if (stick.getRawButton(5)) {
+        pickup.turnOnRollers();
+      }
+      else {
+        pickup.turnOffRollers();
+      }
+    }
     String gameData;
     gameData = DriverStation.getInstance().getGameSpecificMessage();
     if (gameData.length() > 0) {

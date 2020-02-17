@@ -10,16 +10,11 @@ package com.phantommentalists;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 
-import com.phantommentalists.commands.MagazineShootCommand;
-import com.phantommentalists.commands.PickupLoadCommand;
 // import edu.wpi.first.wpilibj.XboxController;
 // import com.phantommentalists.commands.DriveDefaultCommand;
 // import com.phantommentalists.commands.DriveSpinCommand;
 import com.phantommentalists.commands.DrivePixyFollowPowerCellCommand;
 import com.phantommentalists.subsystems.Drive;
-import com.phantommentalists.subsystems.Magazine;
-import com.phantommentalists.subsystems.Turret;
-import com.phantommentalists.subsystems.Pickup;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -52,16 +47,6 @@ public class OI {
       drive = new Drive(this);
       drive.initDefaultCommand();
     }
-
-    if (Parameters.MAGAZINE_AVAILABLE) {
-      // magazine = new Magazine();
-      // magazine.initDefaultCommand(this);
-    }
-
-    // if (Parameters.PICKUP_AVAILABLE) {
-    //   pickup = new Pickup();
-    //   pickup.initDefaultCommand();
-    // }
 
     pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
     copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
