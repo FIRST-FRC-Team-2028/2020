@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
-import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.Turret;
 import com.revrobotics.ControlType;
 

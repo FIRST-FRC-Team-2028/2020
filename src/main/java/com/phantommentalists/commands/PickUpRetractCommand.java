@@ -16,11 +16,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * Turns off rollers and retracts arm
  */
-public class PickupRetractCommand extends CommandBase {
+public class PickUpRetractCommand extends CommandBase {
   private Pickup pickup;
   private Timer timer;
 
-  public PickupRetractCommand() {
+  public PickUpRetractCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     pickup = new Pickup();
     timer = new Timer();

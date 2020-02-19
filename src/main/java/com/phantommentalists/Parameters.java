@@ -59,35 +59,38 @@ public final class Parameters {
      */
     public enum CANIDs {
         //FIXME: swap left and right motor controller IDs
-        DRIVE_LEFT_LEADER    (20, false, true), 
-        DRIVE_LEFT_FOLLOWER  (21, false, false),
-        DRIVE_RIGHT_LEADER   (10, true, true), 
-        DRIVE_RIGHT_FOLLOWER (11, true, false), 
+        DRIVE_LEFT_LEADER    (20, false, true, 14), 
+        DRIVE_LEFT_FOLLOWER  (21, false, false, 15),
+        DRIVE_RIGHT_LEADER   (10, true, true, 1), 
+        DRIVE_RIGHT_FOLLOWER (11, true, false, 0), 
 
-        TURRET_DIRECTION     (30, false, false), 
-        TURRET_HOOD          (31, false, false),
-        TURRET_SHOOTER       (32, false, false),
+        //FIXME add pdpPort
+        TURRET_DIRECTION     (30, false, false, 99), 
+        TURRET_HOOD          (31, false, false, 99),
+        TURRET_SHOOTER       (32, false, false, 99),
 
-        ROLLER               (40, true, false), 
-        MAGAZINE             (41, false, false),
-        ACCELERATOR          (42, false, false), 
+        ROLLER               (40, true, false, 99), 
+        MAGAZINE             (41, false, false, 99),
+        ACCELERATOR          (42, false, false, 99), 
 
-        CLIMB_RIGHT          (50, true, false),
-        CLIMB_LEFT           (51, false, false),
+        CLIMB_RIGHT          (50, true, false, 99),
+        CLIMB_LEFT           (51, false, false, 99),
 
-        CONTROL_PANEL        (60, false, false), 
+        CONTROL_PANEL        (60, false, false, 99), 
 
-        SPARE                (28, false, false);
+        SPARE                (28, false, false, 99);
 
 
         private final int canid;
         private final boolean inverted;
         private final boolean leader;
+        private final int pdpPort;
 
-        CANIDs(final int id, final boolean inverted, final boolean leader) {
+        CANIDs(final int id, final boolean inverted, final boolean leader, final int pdpPort) {
             this.canid = id;
             this.inverted = inverted;
             this.leader = leader;
+            this.pdpPort = pdpPort;
         }
 
         public int getid() {
@@ -100,6 +103,10 @@ public final class Parameters {
 
         public boolean isInverted() {
             return inverted;
+        }
+
+        public int getPdpPort() {
+            return pdpPort;
         }
     }
 
