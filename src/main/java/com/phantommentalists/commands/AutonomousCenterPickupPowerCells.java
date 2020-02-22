@@ -34,7 +34,7 @@ public class AutonomousCenterPickupPowerCells {
             DriverStation.reportError("Unable to open trajectory file " + trajectoryJsonFile, exception.getStackTrace());
         }
         final RamseteCommand command = new RamseteCommand(
-            trajectory, 
+            trajectory,
             drive::getPose, 
             new RamseteController(2.0, 0.7),
             drive.getFeedForward(), 

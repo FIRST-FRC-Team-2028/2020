@@ -107,7 +107,7 @@ public class OI {
   }
 
   /*----------------------------------------------------------------------------*/
-  /*  Allows both Pilot and CoPilot to select "Follow Fuel Cell"           */
+  /*  Allows both Pilot and CoPilot to select "Follow Power Cell"           */
   /*----------------------------------------------------------------------------*/
   
   public boolean isFollowPowerCellButton() {

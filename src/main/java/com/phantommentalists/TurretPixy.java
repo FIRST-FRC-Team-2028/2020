@@ -21,7 +21,7 @@ public class TurretPixy {
     String print;
 
     public TurretPixy(String id, I2C argPixy, TurretPixyPacket[] argPixyPacket, TurretPixyException argPixyException,
-    TurretPixyPacket argValues) {
+            TurretPixyPacket argValues) {
         pixy = argPixy;
         packets = argPixyPacket;
         pExc = argPixyException;

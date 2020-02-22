@@ -272,7 +272,6 @@ public final class Parameters {
 
      public static final double TURRET_HOOD_MIDPOINT = 100.0;
 
-     // degrees that hood will be traveling = ?
      // hood encoder = 42 counts per rev, 64:1 (subject to change) gearbox ratio, teeth ratio is 1-to-1
      // (42 / 42 = 1) * 64 * 42 = 2688 counts per timing belt rev (hood) / 360 deg = 7.47 counts / deg
      // camera in Y = 200 pixels, 47 deg
