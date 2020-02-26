@@ -15,8 +15,11 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Pickup;
 
 /**
- * Extends PickUp and turns on rollers to get the power cell off the floor
- * FIXME hold button till you think its done for manual mode, timer for auto. use selector/swtich for that
+ * Extends PickUp and turns on rollers to get the power cell off the floor FIXME
+ * hold button till you think its done for manual mode, timer for auto. use
+ * selector/swtich for that
+ * 
+ * FIXME: PickupSpinArmCommand is doing the same thing as this...
  */
 public class PickupLoadCommand extends CommandBase {
   Pickup pickup;
@@ -41,9 +44,17 @@ public class PickupLoadCommand extends CommandBase {
   @Override
   public void execute() {
     if (Parameters.PICKUP_AVAILABLE) {
-      timer.start();
-      pickup.extend();
-      pickup.turnOnRollers();
+      // FIXME: What is the point of timer?
+      //timer.start();
+      //pickup.extend();
+      //pickup.turnOnRollers();
+
+      if (oi.isPickupButton()) {
+        pickup.turnOnRollers();
+      } 
+      else {
+        pickup.turnOffRollers();
+      }
     }
   }
 
@@ -58,10 +69,12 @@ public class PickupLoadCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Parameters.PICKUP_AVAILABLE) {
-     return pickup.isPickUpExtended();
-    } else {
-      return false;
-    }
+    // if (Parameters.PICKUP_AVAILABLE) {
+    //   return pickup.isPickUpExtended();
+    // } else {
+    //   return false;
+    // }
+    return false;
   }
+  
 }

@@ -28,8 +28,9 @@ public final class Parameters {
     public static final boolean CAMERA_AVAILABLE        = false;
     public static final boolean AIM_AVAILABLE           = false;
     public static final boolean TURRET_AVAILABLE        = false;
-    public static final boolean MAGAZINE_AVAILABLE      = false;
+    public static final boolean MAGAZINE_AVAILABLE      = true;
     public static final boolean PICKUP_AVAILABLE        = true;
+    public static final boolean KICKER_AVAILABLE        = false;
     public static final boolean CLIMBER_AVAILABLE       = false;
     public static final boolean CONTROLPANEL_AVAILABLE  = false;
     public static final boolean COMPRESSOR_AVAILABLE    = false;
@@ -68,8 +69,9 @@ public final class Parameters {
         TURRET_HOOD          (31, false, false),
         TURRET_SHOOTER       (32, false, false),
 
-        ROLLER               (40, true, false), 
-        MAGAZINE             (41, false, false),
+        PICKUP               (41, true, false), 
+        KICKER               (43, false, false),
+        MAGAZINE             (40, false, false),
         ACCELERATOR          (42, false, false), 
 
         CLIMB_RIGHT          (50, true, false),
@@ -79,7 +81,7 @@ public final class Parameters {
 
         SPARE                (28, false, false);
 
-
+//      
         private final int canid;
         private final boolean inverted;
         private final boolean leader;
@@ -234,8 +236,9 @@ public final class Parameters {
 
     //Speed/Voltage for subsystems
     public static final double PICKUP_ROLLER_SPEED = 0.7;
-    public static final double MAGAZINE_LOAD_SPEED = 0.5;
-    public static final double MAGAZINE_SHOOT_SPEED = 1.0;
+    public static final double KICKER_SPEED = 0.5;
+    public static final double MAGAZINE_LOAD_SPEED = 6.0;
+    public static final double MAGAZINE_SHOOT_SPEED = 6.0;
 
      //used for climber currently not being used
      public static final int SOLENOID_EXTEND = 1;
@@ -412,7 +415,7 @@ public final class Parameters {
     public static final double LED_FOREST_TWINKLES         = -0.47;   //  27	-0.47	Fixed Palette Pattern	Twinkles, Forest Palette
     public static final double LED_RAINBOW_WAVES           = -0.45;   //  28	-0.45	Fixed Palette Pattern	Color Waves, Rainbow Palette
     public static final double LED_PARTY_WAVES             = -0.43;   //  29	-0.43	Fixed Palette Pattern	Color Waves, Party Palette
-    public static final double LED_OCEAN_WAVES            = -0.41;   //  30	-0.41	Fixed Palette Pattern	Color Waves, Ocean Palette
+    public static final double LED_OCEAN_WAVES             = -0.41;   //  30	-0.41	Fixed Palette Pattern	Color Waves, Ocean Palette
     public static final double LED_LAVA_WAVES              = -0.39;   //  31	-0.39	Fixed Palette Pattern	Color Waves, Lava Palette
     public static final double LED_FOREST_WAVES            = -0.37;   //  32	-0.37	Fixed Palette Pattern	Color Waves, Forest Palette
     public static final double LED_RED_LARSON              = -0.35;   //  33	-0.35	Fixed Palette Pattern	Larson Scanner, Red
@@ -434,7 +437,7 @@ public final class Parameters {
     public static final double LED_END_TO_END_BLEND_BLACK1 = -0.03;   //  49	-0.03	Color 1 Pattern	        End to End Blend to Black
     public static final double LED_LARSON_SCAN1            = -0.01;   //  50	-0.01	Color 1 Pattern         Larson Scanner
     public static final double LED_LIGHT_CHASE1            =  0.01;   //  51	0.01	Color 1 Pattern	        Light Chase
-    public static final double LED_SLOW_HEARTBEAT1        =  0.03;   //  52	0.03	Color 1 Pattern	        Heartbeat Slow
+    public static final double LED_SLOW_HEARTBEAT1         =  0.03;   //  52	0.03	Color 1 Pattern	        Heartbeat Slow
     public static final double LED_MEDIUM_HEARTBEAT1       =  0.05;   //  53	0.05	Color 1 Pattern	        Heartbeat Medium
     public static final double LED_FAST_HEARTBEAT1         =  0.07;   //  54	0.07	Color 1 Pattern	        Heartbeat Fast
     public static final double LED_SLOW_BREATH1            =  0.09;   //  55	0.09	Color 1 Pattern	        Breath Slow

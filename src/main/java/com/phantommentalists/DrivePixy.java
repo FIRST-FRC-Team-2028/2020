@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 package com.phantommentalists;
 
-import com.phantommentalists.Parameters;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

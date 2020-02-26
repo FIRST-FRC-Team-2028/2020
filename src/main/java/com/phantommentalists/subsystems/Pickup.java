@@ -9,7 +9,9 @@ package com.phantommentalists.subsystems;
 
 import edu.wpi.first.wpilibj.Timer;
 
+import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.commands.PickupLoadCommand;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -23,19 +25,19 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * Then retract arm
  */
 public class Pickup extends SubsystemBase {
-  private CANSparkMax roller;
+  private CANSparkMax pickup;
   private DoubleSolenoid arm;
   private Timer timer;
 
   public Pickup() {
-    roller = new CANSparkMax(Parameters.CANIDs.ROLLER.getid(), MotorType.kBrushless);
-    roller.setInverted(Parameters.CANIDs.ROLLER.isInverted());
-    // if (Parameters.CANIDs.ROLLER.isFollower())
+    pickup = new CANSparkMax(Parameters.CANIDs.PICKUP.getid(), MotorType.kBrushless);
+    pickup.setInverted(Parameters.CANIDs.PICKUP.isInverted());
+    // if (Parameters.CANIDs.PICKUP.isFollower())
     // {
     //   roller.follow(leader CAN ID);
     // }
-    //arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
-    //timer = new Timer();
+    arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
+    timer = new Timer();
   }
 
   /**
@@ -43,8 +45,7 @@ public class Pickup extends SubsystemBase {
    */
   public void turnOnRollers() {
     if (Parameters.PICKUP_AVAILABLE) {
-      roller.set(Parameters.PICKUP_ROLLER_SPEED);
-      // roller.set(ControlMode.PercentOutput, Parameters.PICKUP_ROLLER_SPEED)
+      pickup.set(Parameters.PICKUP_ROLLER_SPEED);
     }
   }
 
@@ -53,7 +54,7 @@ public class Pickup extends SubsystemBase {
    */
   public void turnOffRollers() {
     if (Parameters.PICKUP_AVAILABLE) {
-      roller.set(0.0);
+      pickup.set(0.0);
       // roller.set(ControlMode.PercentOutput, 0.0);
     }
   }
@@ -63,7 +64,7 @@ public class Pickup extends SubsystemBase {
    */
   public void extend() {
     if (Parameters.PICKUP_AVAILABLE) {
-      arm.set(Value.kForward);
+      // arm.set(Value.kForward);
     }
   }
 
@@ -85,7 +86,7 @@ public class Pickup extends SubsystemBase {
       arm.set(Value.kOff);
     }
   }
-
+  
   public boolean isPickUpExtended() {
     if (Parameters.PICKUP_AVAILABLE) {
       if (timer.get() >= Parameters.EXTEND_TIME && arm.get() == Value.kForward) {
@@ -94,7 +95,7 @@ public class Pickup extends SubsystemBase {
     }
     return false;
   }
-
+  
   public boolean isPickUpRetracted() {
     if (Parameters.PICKUP_AVAILABLE) {
       if (timer.get() >= Parameters.RETRACT_TIME && arm.get() == Value.kReverse) {
@@ -102,7 +103,8 @@ public class Pickup extends SubsystemBase {
       }
     }
     return false;
-  }
+  } 
+  
 
   @Override
   public void periodic() {

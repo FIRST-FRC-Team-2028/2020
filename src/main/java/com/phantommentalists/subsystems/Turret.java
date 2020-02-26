@@ -15,6 +15,7 @@ import com.phantommentalists.TurretPixyPacket;
 import com.phantommentalists.TurretTrajectory;
 import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.commands.TurretDefaultCommand;
+
 import com.revrobotics.CANAnalog;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
@@ -24,6 +25,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANError;
 import com.revrobotics.CANPIDController;
+import com.revrobotics.CANDigitalInput;
+import com.revrobotics.CANDigitalInput.LimitSwitch;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
@@ -50,6 +54,7 @@ public class Turret extends SubsystemBase {
   private CANEncoder hoodEncoder;
   private double hoodInput;
   private CANPIDController hoodController;
+  private CANDigitalInput hoodForwardLimit;
 
   private CANEncoder shooterEncoder;
   private double shooterInput;
@@ -107,6 +112,9 @@ public class Turret extends SubsystemBase {
       hood.setSoftLimit(SoftLimitDirection.kReverse, Parameters.TURRET_HOOD_REV_LIMIT);
       hood.enableSoftLimit(SoftLimitDirection.kForward, false);
       hood.enableSoftLimit(SoftLimitDirection.kReverse, false);
+      
+      hoodForwardLimit = hood.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+      hoodForwardLimit.enableLimitSwitch(true);
 
       hoodController = hood.getPIDController();
       hoodController.setP(Parameters.SmartPID.TURRET_HOOD.getP());
@@ -191,6 +199,9 @@ public class Turret extends SubsystemBase {
   // }
   // }
 
+  /**
+   * Sets the hood to zero
+   */
   public void setHoodHome() {
     hoodEncoder.setPosition(0.0);
   }
@@ -199,17 +210,21 @@ public class Turret extends SubsystemBase {
     return hood.getOutputCurrent();
   }
 
+  /**
+   * Zeros the hood
+   */
   public void initHood() {
     if (!hoodInitialized) {
       setHoodPower(Parameters.TURRET_HOOD_INIT_POWER);
-      if (hoodTimeout >= 10) {
-        if (getHoodCurrent() > Parameters.TURRET_HOOD_CURRENT_LIMIT) {
+      //if (hoodTimeout >= 10) {
+        //if (getHoodCurrent() > Parameters.TURRET_HOOD_CURRENT_LIMIT)
+        if (hoodForwardLimit.get()) {
           setHoodPower(0.0);
           setHoodHome();
           hoodInitialized = true;
         }
-      }
-      hoodTimeout++;
+      //}
+      //hoodTimeout++;
     }
   }
 

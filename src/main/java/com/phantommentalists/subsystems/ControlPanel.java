@@ -9,7 +9,7 @@ package com.phantommentalists.subsystems;
 
 import com.phantommentalists.Parameters;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -21,13 +21,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Turns to designated color and rotates wheel to given amount of times
  */
 public class ControlPanel extends SubsystemBase {
-  private CANSparkMax panelMotor;
-  private ColorSensorV3 colorSensor;
-  private I2C.Port i2cPort;
+  // private CANSparkMax panelMotor;
+  // private ColorSensorV3 colorSensor;
+  // private I2C.Port i2cPort;
 
-  public ControlPanel() {
-    panelMotor = new CANSparkMax(Parameters.CANIDs.CONTROL_PANEL.getid(), MotorType.kBrushless);
-    i2cPort = I2C.Port.kOnboard;
+  // public ControlPanel() {
+  //   panelMotor = new CANSparkMax(Parameters.CANIDs.CONTROL_PANEL.getid(), MotorType.kBrushless);
+  //   i2cPort = I2C.Port.kOnboard;
     //colorSensor = new ColorSensorV3(i2cPort);
   }
 
@@ -52,26 +52,26 @@ public class ControlPanel extends SubsystemBase {
 
   /**
    * sets the power for the motor when spinning the wheel TODO: Add a constant for this method in parameters
-   * @param voltage
-   */
-  public void setPower(double voltage) {
-    if (Parameters.CONTROLPANEL_AVAILABLE) {
-      panelMotor.setVoltage(voltage);
-    }
-  }
+  //  * @param voltage
+  //  */
+  // public void setPower(double voltage) {
+  //   if (Parameters.CONTROLPANEL_AVAILABLE) {
+  //     panelMotor.setVoltage(voltage);
+  //   }
+  // }
 
-  //Use the Color Sensors code to getColor()
-  public Color getReadColor() {
-    return colorSensor.getColor();
-  }
+  // //Use the Color Sensors code to getColor()
+  // public Color getReadColor() {
+  //   return colorSensor.getColor();
+  // }
 
-  //Uses the color sensor to spin to the correct color
-  private void spinToColor(Color color) {
-    //TODO: help plz
-  }
+  // //Uses the color sensor to spin to the correct color
+  // private void spinToColor(Color color) {
+  //   //TODO: help plz
+  // }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-}
+  // @Override
+  // public void periodic() {
+  //   // This method will be called once per scheduler run
+  // }
+// }

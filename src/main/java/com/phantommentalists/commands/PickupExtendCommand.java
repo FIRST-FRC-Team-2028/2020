@@ -7,45 +7,55 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.OI;
-import com.phantommentalists.subsystems.Magazine;
+import edu.wpi.first.wpilibj.Timer;
+
+import com.phantommentalists.Parameters;
+import com.phantommentalists.subsystems.Pickup;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class MagazineShootCommand extends CommandBase {
-  private OI oi;
-  private Magazine magazine;
-  /**
-   * Runs the magazine accelerator to send the power cells to the shooter
-   * Assumes shooter is running up to speed and turret is in position
-   */
+public class PickupExtendCommand extends CommandBase {
+  private Pickup pickup;
+  private Timer timer;
 
-  public MagazineShootCommand(OI o, Magazine m) {
+  /**
+   * Creates a new PickupExtendCommand.
+   */
+  public PickupExtendCommand(Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
-    oi = o;
-    magazine = m;
-    addRequirements(magazine);
+    pickup = p;
+    timer = new Timer();
+    addRequirements(pickup);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    magazine.shootBall();
+    timer.start();
+    pickup.extend();
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    timer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !oi.isShoot();
+    if (Parameters.PICKUP_AVAILABLE) {
+      return pickup.isPickUpExtended();
+    } 
+    else {
+      return false;
+    }
   }
 }

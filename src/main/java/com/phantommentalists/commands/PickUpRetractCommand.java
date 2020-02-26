@@ -47,7 +47,6 @@ public class PickupRetractCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     timer.stop();
-    pickup.turnOffRollers();
     pickup.stopArm();
   }
 

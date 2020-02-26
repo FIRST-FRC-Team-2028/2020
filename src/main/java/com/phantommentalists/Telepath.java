@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 package com.phantommentalists;
 
-
 import java.lang.reflect.Parameter;
 
 import com.phantommentalists.commands.AutonomousCenterPickupPowerCells;
@@ -14,6 +13,7 @@ import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Magazine;
 import com.phantommentalists.subsystems.Turret;
 import com.phantommentalists.subsystems.Pickup;
+import com.phantommentalists.OI;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
@@ -58,7 +58,7 @@ public class Telepath extends TimedRobot {
    * A Rev Color Sensor V3 object is constructed with an I2C port as a parameter.
    * The device will be automatically initialized with default parameters.
    */
-  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  //private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
   /**
    * A Rev Color Match object is used to register and detect known colors. This
@@ -67,16 +67,24 @@ public class Telepath extends TimedRobot {
    * This object uses a simple euclidian distance to estimate the closest match
    * with given confidence range.
    */
-  private final ColorMatch m_colorMatcher = new ColorMatch();
+  //private final ColorMatch m_colorMatcher = new ColorMatch();
 
   /**
    * Note: Any example colors should be calibrated as the user needs, these are
    * here as a basic example.
    */
-  private final Color kBlueTarget = ColorMatch.makeColor(100.0, 0.0, 0.0);
-  private final Color kGreenTarget = ColorMatch.makeColor(100.0, 0.0, 100.0);
-  private final Color kRedTarget = ColorMatch.makeColor(0.0, 100.0, 100.0);
-  private final Color kYellowTarget = ColorMatch.makeColor(0.0, 0.0, 100.0);
+  //private final Color kBlueTarget = ColorMatch.makeColor(100.0, 0.0, 0.0);
+  //private final Color kGreenTarget = ColorMatch.makeColor(100.0, 0.0, 100.0);
+  //private final Color kRedTarget = ColorMatch.makeColor(0.0, 100.0, 100.0);
+  //private final Color kYellowTarget = ColorMatch.makeColor(0.0, 0.0, 100.0);
+
+  public Pickup getPickup() {
+    return pickup;
+  }
+
+  public Magazine getMagazine() {
+    return magazine;
+  }
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -84,26 +92,26 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
+    m_oi = new OI(this);
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
     if (Parameters.TURRET_AVAILABLE) {
       turret = new Turret();
-      turret.initDefaultCommand(m_oi);
     }
     if (Parameters.MAGAZINE_AVAILABLE) {
-      magazine = new Magazine();
+      magazine = new Magazine(m_oi);
     }
     if (Parameters.PICKUP_AVAILABLE) {
       pickup = new Pickup();
+      // pickup = m_oi.getPickup();
     }
     // controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
 
-    m_colorMatcher.addColorMatch(kBlueTarget);
-    m_colorMatcher.addColorMatch(kGreenTarget);
-    m_colorMatcher.addColorMatch(kRedTarget);
-    m_colorMatcher.addColorMatch(kYellowTarget);
+    //m_colorMatcher.addColorMatch(kBlueTarget);
+    //m_colorMatcher.addColorMatch(kGreenTarget);
+    //m_colorMatcher.addColorMatch(kRedTarget);
+    //m_colorMatcher.addColorMatch(kYellowTarget);
 
     drive = m_oi.getDrive();
 
@@ -155,41 +163,41 @@ public class Telepath extends TimedRobot {
      * is the more light from the surroundings will bleed into the measurements and
      * make it difficult to accurately determine its color.
      */
-    Color detectedColor = m_colorSensor.getColor();
+    //Color detectedColor = m_colorSensor.getColor();
 
     /**
      * The sensor returns a raw IR value of the infrared light detected. FIXME: do
      * we need this?
      */
-    double IR = m_colorSensor.getIR();
+   // double IR = m_colorSensor.getIR();
 
     /**
      * Run the color match algorithm on our detected color
      */
-    String colorString;
-    ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+    //String colorString;
+    //ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
-    if (match.color == kBlueTarget) {
-      colorString = "Blue";
-    } else if (match.color == kRedTarget) {
-      colorString = "Red";
-    } else if (match.color == kGreenTarget) {
-      colorString = "Green";
-    } else if (match.color == kYellowTarget) {
-      colorString = "Yellow";
-    } else {
-      colorString = "Unknown";
-    }
+    //if (match.color == kBlueTarget) {
+    //  colorString = "Blue";
+   // } else if (match.color == kRedTarget) {
+   //   colorString = "Red";
+   // } else if (match.color == kGreenTarget) {
+   //   colorString = "Green";
+   // } else if (match.color == kYellowTarget) {
+   //   colorString = "Yellow";
+   // } else {
+   //   colorString = "Unknown";
+   // }
 
     /**
      * Open Smart Dashboard or Shuffleboard to see the color detected by the sensor.
      */
-    SmartDashboard.putNumber("Red", detectedColor.red);
-    SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
-    SmartDashboard.putNumber("Confidence", match.confidence);
-    SmartDashboard.putString("Detected Color", colorString);
-    SmartDashboard.putNumber("IR", IR);
+    //SmartDashboard.putNumber("Red", detectedColor.red);
+    //SmartDashboard.putNumber("Green", detectedColor.green);
+    //SmartDashboard.putNumber("Blue", detectedColor.blue);
+    //SmartDashboard.putNumber("Confidence", match.confidence);
+    //SmartDashboard.putString("Detected Color", colorString);
+    //SmartDashboard.putNumber("IR", IR);
 
     /**
      * In addition to RGB IR values, the color sensor can also return an infrared
@@ -202,9 +210,9 @@ public class Telepath extends TimedRobot {
      * provide a threshold for when an object is close enough to provide accurate
      * color values.
      */
-    int proximity = m_colorSensor.getProximity();
+    //int proximity = m_colorSensor.getProximity();
 
-    SmartDashboard.putNumber("Proximity", proximity);
+   // SmartDashboard.putNumber("Proximity", proximity);
   }
 
   /**
@@ -326,6 +334,5 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-
   }
 }

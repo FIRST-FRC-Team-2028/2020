@@ -68,23 +68,23 @@ public class TurretDefaultCommand extends CommandBase {
 
     // Turret Hood controls   *****************************************/
     if (turret.mode == Parameters.AutoMode.MANUAL) {
-      if (oi.isMagazineLoadUpButton()) {
+      if (oi.isTurretHoodMedium()) {
         turret.setHoodPower(-Parameters.TURRET_HOOD_VOLTAGE);
-      } else if (oi.isMagazineLoadDownButton()) {
+      } else if (oi.isTurretHoodClose()) {
         turret.setHoodPower(Parameters.TURRET_HOOD_VOLTAGE);
       } else {
         turret.setHoodPower(0.0);
       }
     }
-    if (turret.mode == Parameters.AutoMode.MANUAL) {
-      if (oi.isTurretHoodClose()) {
-        turret.setHoodPosition(Parameters.TURRET_HOOD_CLOSE);
-      } else if (oi.isTurretHoodMedium()) {
-        turret.setHoodPosition(Parameters.TURRET_HOOD_MEDIUM);
-      } else if (oi.isTurretHoodFar()) {
-        turret.setHoodPosition(Parameters.TURRET_HOOD_FAR);
-      }
-    }
+    // if (turret.mode == Parameters.AutoMode.MANUAL) {
+    //   if (oi.isTurretHoodClose()) {
+    //     turret.setHoodPosition(Parameters.TURRET_HOOD_CLOSE);
+    //   } else if (oi.isTurretHoodMedium()) {
+    //     turret.setHoodPosition(Parameters.TURRET_HOOD_MEDIUM);
+    //   } else if (oi.isTurretHoodFar()) {
+    //     turret.setHoodPosition(Parameters.TURRET_HOOD_FAR);
+    //   }
+    // }
     
 
     // Turret Shooter controls   *****************************************/
