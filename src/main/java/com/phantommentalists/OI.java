@@ -55,12 +55,13 @@ public class OI {
     }
 
     if (Parameters.MAGAZINE_AVAILABLE) {
-      magazine = robot.getMagazine();
-   //   magazine.initDefaultCommand();    // FIXME    *****
+      magazine = new Magazine(this);
+      //magazine = robot.getMagazine();
+      magazine.initDefaultCommand();    // FIXME    ***** uncomment the magazine available stuff when it works
     }
 
-    // pickup = new Pickup(); //FIXME: Why does this work but robot.getPickup() doesn't?
-    pickup = robot.getPickup(); 
+    pickup = new Pickup(); //FIXME: Why does this work but robot.getPickup() doesn't?
+    //pickup = robot.getPickup(); 
 
     pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
     copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
@@ -89,13 +90,13 @@ public class OI {
     
     //Shoot
     JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
-    //copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
+    copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
 
     //Pickup
     JoystickButton copilotStickPickupExtend = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_PICKUP);
     copilotStickPickupExtend.whileHeld(new PickupLoadCommand(this, pickup));
 
-    }
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

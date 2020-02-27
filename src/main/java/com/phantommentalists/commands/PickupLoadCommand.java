@@ -37,7 +37,7 @@ public class PickupLoadCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
+    // timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,21 +49,25 @@ public class PickupLoadCommand extends CommandBase {
       //pickup.extend();
       //pickup.turnOnRollers();
 
-      if (oi.isPickupButton()) {
-        pickup.turnOnRollers();
-      } 
-      else {
-        pickup.turnOffRollers();
-      }
+      //THIS WORKS
+      pickup.turnOnRollers();
+
+      // This code is set up like this is a default command
+      // if (oi.isPickupButton()) {
+      //   pickup.turnOnRollers();
+      // } 
+      // else {
+      //   pickup.turnOffRollers();
+      // }
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    timer.stop();
-    pickup.turnOffRollers();
-    pickup.stopArm();
+    //timer.stop();
+    //pickup.turnOffRollers();
+    //pickup.stopArm(); //FIXME uncomment
   }
 
   // Returns true when the command should end.
@@ -75,6 +79,11 @@ public class PickupLoadCommand extends CommandBase {
     //   return false;
     // }
     return false;
+    // if (!oi.isPickupButton()){
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
   
 }

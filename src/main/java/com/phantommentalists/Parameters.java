@@ -39,10 +39,12 @@ public final class Parameters {
 
     /** Enum to hold all information about pneumatic solenoids */
     public enum PneumaticChannel {
-        DRIVE_LOW_GEAR(4),
-        DRIVE_HIGH_GEAR(5),
-        PICKUP_EXTEND(6),
-        PICKUP_RETRACT(7);
+        DRIVE_LOW_GEAR(0),
+        DRIVE_HIGH_GEAR(1),
+        PICKUP_EXTEND(2),
+        PICKUP_RETRACT(3),
+        OPEN_ACCELERATOR_FLAPS(4),
+        CLOSE_ACCELERATOR_FLAPS(5);
 
         private final int channel;
 
@@ -59,19 +61,18 @@ public final class Parameters {
      * Enum to hold all information about devices on the CAN bus
      */
     public enum CANIDs {
-        //FIXME: swap left and right motor controller IDs
-        DRIVE_LEFT_LEADER    (20, false, true), 
-        DRIVE_LEFT_FOLLOWER  (21, false, false),
-        DRIVE_RIGHT_LEADER   (10, true, true), 
-        DRIVE_RIGHT_FOLLOWER (11, true, false), 
+        DRIVE_LEFT_LEADER    (20, true, true), 
+        DRIVE_LEFT_FOLLOWER  (21, true, false),
+        DRIVE_RIGHT_LEADER   (10, false, true), 
+        DRIVE_RIGHT_FOLLOWER (11, false, false), 
 
         TURRET_DIRECTION     (30, false, false), 
         TURRET_HOOD          (31, false, false),
         TURRET_SHOOTER       (32, false, false),
 
-        PICKUP               (41, true, false), 
+        PICKUP               (40, true, false),
         KICKER               (43, false, false),
-        MAGAZINE             (40, false, false),
+        MAGAZINE             (41, false, false),
         ACCELERATOR          (42, false, false), 
 
         CLIMB_RIGHT          (50, true, false),
@@ -81,7 +82,7 @@ public final class Parameters {
 
         SPARE                (28, false, false);
 
-//      
+      
         private final int canid;
         private final boolean inverted;
         private final boolean leader;
@@ -235,10 +236,10 @@ public final class Parameters {
     public static final double DRIVE_DEAD_BAND = 0.1;
 
     //Speed/Voltage for subsystems
-    public static final double PICKUP_ROLLER_SPEED = 0.7;
+    public static final double PICKUP_ROLLER_SPEED = 0.3;
     public static final double KICKER_SPEED = 0.5;
-    public static final double MAGAZINE_LOAD_SPEED = 6.0;
-    public static final double MAGAZINE_SHOOT_SPEED = 6.0;
+    public static final double MAGAZINE_LOAD_SPEED = 0.3;
+    public static final double MAGAZINE_SHOOT_SPEED = 0.3;
 
      //used for climber currently not being used
      public static final int SOLENOID_EXTEND = 1;

@@ -36,8 +36,8 @@ public class Pickup extends SubsystemBase {
     // {
     //   roller.follow(leader CAN ID);
     // }
-    arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
-    timer = new Timer();
+    //arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
+    //timer = new Timer();
   }
 
   /**
@@ -45,7 +45,7 @@ public class Pickup extends SubsystemBase {
    */
   public void turnOnRollers() {
     if (Parameters.PICKUP_AVAILABLE) {
-      pickup.set(Parameters.PICKUP_ROLLER_SPEED);
+      pickup.set(-Parameters.PICKUP_ROLLER_SPEED);
     }
   }
 
@@ -89,7 +89,7 @@ public class Pickup extends SubsystemBase {
   
   public boolean isPickUpExtended() {
     if (Parameters.PICKUP_AVAILABLE) {
-      if (timer.get() >= Parameters.EXTEND_TIME && arm.get() == Value.kForward) {
+      if (timer.get() >= Parameters.EXTEND_TIME) { //&& arm.get() == Value.kForward) {
         return true;
       }
     }

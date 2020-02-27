@@ -28,7 +28,7 @@ public class Magazine extends SubsystemBase {
 
   public Magazine(OI o) {
     if (Parameters.MAGAZINE_AVAILABLE) {
-      // accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
+      accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
       magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
 
       oi = o;
