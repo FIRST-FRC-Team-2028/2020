@@ -65,8 +65,8 @@ public class Drive extends SubsystemBase {
     rightLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_LEADER.getid(), MotorType.kBrushless);
     leftFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.getid(), MotorType.kBrushless);
     rightFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_FOLLOWER.getid(), MotorType.kBrushless);
-    // shifter = new DoubleSolenoid(PneumaticChannel.DRIVE_LOW_GEAR.getChannel(),
-    // PneumaticChannel.DRIVE_HIGH_GEAR.getChannel());
+    shifter = new DoubleSolenoid(PneumaticChannel.DRIVE_LOW_GEAR.getChannel(),
+    PneumaticChannel.DRIVE_HIGH_GEAR.getChannel());
 
     // leftLeader.restoreFactoryDefaults();
     // leftFollower.restoreFactoryDefaults();
@@ -300,7 +300,7 @@ public class Drive extends SubsystemBase {
     // }
     // drive.tankDrive(left, right);
     double Y = oi.getPilotStick().getY();
-    double X = oi.getPilotStick().getX();
+    double X = -oi.getPilotStick().getX();
 
     // "Exponential" drive, where the movements are more sensitive during slow
     // movement, permitting easier fine control

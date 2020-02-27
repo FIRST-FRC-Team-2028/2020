@@ -15,6 +15,7 @@ import com.phantommentalists.TurretPixyPacket;
 import com.phantommentalists.TurretTrajectory;
 import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.commands.TurretDefaultCommand;
+
 import com.revrobotics.CANAnalog;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
@@ -24,6 +25,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANError;
 import com.revrobotics.CANPIDController;
+import com.revrobotics.CANDigitalInput;
+import com.revrobotics.CANDigitalInput.LimitSwitch;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
@@ -50,6 +54,7 @@ public class Turret extends SubsystemBase {
   private CANEncoder hoodEncoder;
   private double hoodInput;
   private CANPIDController hoodController;
+  private CANDigitalInput hoodForwardLimit;
 
   private CANEncoder shooterEncoder;
   private double shooterInput;
@@ -70,7 +75,7 @@ public class Turret extends SubsystemBase {
   public Turret() {
     if (Parameters.TURRET_AVAILABLE) {
       direction = new CANSparkMax(Parameters.CANIDs.TURRET_DIRECTION.getid(), MotorType.kBrushless);
-      //direction.restoreFactoryDefaults();
+      // direction.restoreFactoryDefaults();
       direction.setIdleMode(IdleMode.kBrake);
       directionController = direction.getPIDController();
       directionEncoder = direction.getEncoder();
@@ -80,18 +85,20 @@ public class Turret extends SubsystemBase {
       directionController.setD(Parameters.SmartPID.TURRET_DIRECTION.getD());
       // directionController.setIZone(Parameters.SmartPID.TURRET_DIRECTION.getIz());
       // directionController.setFF(Parameters.SmartPID.TURRET_DIRECTION.getFF());
-      // directionController.setOutputRange(Parameters.SmartPID.TURRET_DIRECTION.getMinOut(), Parameters.SmartPID.TURRET_DIRECTION.getMaxOut());
-      
+      // directionController.setOutputRange(Parameters.SmartPID.TURRET_DIRECTION.getMinOut(),
+      // Parameters.SmartPID.TURRET_DIRECTION.getMaxOut());
+
       // PID Tuning: display PID coefficients on SmartDashboard
-    
 
       // int smartMotionSlot = 0;
-      // directionController.setSmartMotionMaxVelocity(Parameters.SmartPID.TURRET_DIRECTION.getMaxVel(), smartMotionSlot);
+      // directionController.setSmartMotionMaxVelocity(Parameters.SmartPID.TURRET_DIRECTION.getMaxVel(),
+      // smartMotionSlot);
       // directionController.setSmartMotionMinOutputVelocity(Parameters.SmartPID.TURRET_DIRECTION.getMinVel(),
-      //     smartMotionSlot);
-      // directionController.setSmartMotionMaxAccel(Parameters.SmartPID.TURRET_DIRECTION.getMaxAcc(), smartMotionSlot);
+      // smartMotionSlot);
+      // directionController.setSmartMotionMaxAccel(Parameters.SmartPID.TURRET_DIRECTION.getMaxAcc(),
+      // smartMotionSlot);
       // directionController.setSmartMotionAllowedClosedLoopError(Parameters.SmartPID.TURRET_DIRECTION.getAllowedErr(),
-      //     smartMotionSlot);
+      // smartMotionSlot);
 
       // FIXME: what does "setPositionConversionFactor"
       // directionEncoder.setPositionConversionFactor(Parameters.TURRET_DIRECTION_POS_CONVERSION_FACTOR);
@@ -100,13 +107,14 @@ public class Turret extends SubsystemBase {
       direction.enableSoftLimit(SoftLimitDirection.kForward, true);
       direction.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
-      
-
       hood = new CANSparkMax(Parameters.CANIDs.TURRET_HOOD.getid(), MotorType.kBrushless);
       hood.setSoftLimit(SoftLimitDirection.kForward, Parameters.TURRET_HOOD_FWD_LIMIT);
       hood.setSoftLimit(SoftLimitDirection.kReverse, Parameters.TURRET_HOOD_REV_LIMIT);
       hood.enableSoftLimit(SoftLimitDirection.kForward, false);
       hood.enableSoftLimit(SoftLimitDirection.kReverse, false);
+      
+      hoodForwardLimit = hood.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+      hoodForwardLimit.enableLimitSwitch(true);
 
       hoodController = hood.getPIDController();
       hoodController.setP(Parameters.SmartPID.TURRET_HOOD.getP());
@@ -115,10 +123,10 @@ public class Turret extends SubsystemBase {
 
       hoodController.setIZone(Parameters.SmartPID.TURRET_HOOD.getIz());
       hoodController.setFF(Parameters.SmartPID.TURRET_HOOD.getFF());
-      hoodController.setOutputRange(Parameters.SmartPID.TURRET_HOOD.getMinOut(), Parameters.SmartPID.TURRET_HOOD.getMaxOut());
+      hoodController.setOutputRange(Parameters.SmartPID.TURRET_HOOD.getMinOut(),
+          Parameters.SmartPID.TURRET_HOOD.getMaxOut());
 
       hoodEncoder = hood.getEncoder();
-      
 
       shooter = new CANSparkMax(Parameters.CANIDs.TURRET_SHOOTER.getid(), MotorType.kBrushless);
 
@@ -147,8 +155,8 @@ public class Turret extends SubsystemBase {
    * will have positive value 1 - 160. A target to the left of center will have a
    * value of -1 - -159.
    * 
-   * @param pixels - Number of pixels from the center of the camera's view
-   *    
+   * @param pixels  - Number of pixels from the center of the camera's view
+   * 
    * @param voltage
    */
 
@@ -158,10 +166,10 @@ public class Turret extends SubsystemBase {
 
   // not used
   // public void setDirection(double pixels) {
-  //   if (Parameters.TURRET_AVAILABLE) {
-  //     directionInput = pixels;
-  //     mode = AutoMode.AUTO;
-  //   }
+  // if (Parameters.TURRET_AVAILABLE) {
+  // directionInput = pixels;
+  // mode = AutoMode.AUTO;
+  // }
   // }
 
   /**
@@ -171,7 +179,7 @@ public class Turret extends SubsystemBase {
   public void setDirectionPower(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
       direction.setVoltage(voltage);
-      //mode = AutoMode.MANUAL;
+      // mode = AutoMode.MANUAL;
     }
   }
 
@@ -180,39 +188,43 @@ public class Turret extends SubsystemBase {
   }
 
   // Hood methods *****************************************/
-
-  // FIXME: Methods are probably doing the wrong thing currently, need to be
-  // coordinated with the buttons on controller
   /**
    * Sets the hood of the turret ^ v
    */
   // not used
   // public void setHood(double angleInDegrees) {
-  //   if (Parameters.TURRET_AVAILABLE) {
-  //     hoodInput = angleInDegrees;
-  //     mode = AutoMode.AUTO;
-  //   }
+  // if (Parameters.TURRET_AVAILABLE) {
+  // hoodInput = angleInDegrees;
+  // mode = AutoMode.AUTO;
+  // }
   // }
 
+  /**
+   * Sets the hood to zero
+   */
   public void setHoodHome() {
     hoodEncoder.setPosition(0.0);
-  } 
+  }
 
   public double getHoodCurrent() {
     return hood.getOutputCurrent();
   }
 
+  /**
+   * Zeros the hood
+   */
   public void initHood() {
     if (!hoodInitialized) {
       setHoodPower(Parameters.TURRET_HOOD_INIT_POWER);
-      if (hoodTimeout >= 10) {
-        if (getHoodCurrent() > Parameters.TURRET_HOOD_CURRENT_LIMIT) {
+      //if (hoodTimeout >= 10) {
+        //if (getHoodCurrent() > Parameters.TURRET_HOOD_CURRENT_LIMIT)
+        if (hoodForwardLimit.get()) {
           setHoodPower(0.0);
           setHoodHome();
           hoodInitialized = true;
         }
-      }
-      hoodTimeout++;
+      //}
+      //hoodTimeout++;
     }
   }
 
@@ -229,8 +241,8 @@ public class Turret extends SubsystemBase {
 
   public void setHoodPosition(double position) {
     if (Parameters.TURRET_AVAILABLE) {
-    //  hoodController.setReference(position, ControlType.kPosition);
-      //mode = AutoMode.MANUAL;
+      // hoodController.setReference(position, ControlType.kPosition);
+      // mode = AutoMode.MANUAL;
     }
   }
 
@@ -256,12 +268,12 @@ public class Turret extends SubsystemBase {
    * 
    * @param outputVolts - amount of power you want to use
    */
-  
+
   public void setShooterPower(double outputVolts) {
     if (Parameters.TURRET_AVAILABLE) {
       shooter.setVoltage(outputVolts);
     }
-  } 
+  }
 
   /**
    * Sets the speed for the shooter, wheels
@@ -326,12 +338,11 @@ public class Turret extends SubsystemBase {
    * This method will be called once per scheduler run
    */
   @Override
-  public void periodic() { 
+  public void periodic() {
     // if (oi.isTurretAutoButton()) {
-    //   setAimMode(Parameters.AutoMode.AUTO);
+    // setAimMode(Parameters.AutoMode.AUTO);
     // }
     // ^ is in TurretDefaultCommand
-    
 
     SmartDashboard.putNumber("P Gain", directionController.getP());
     SmartDashboard.putNumber("I Gain", directionController.getI());
@@ -340,59 +351,62 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("Feed Forward", directionController.getFF());
     SmartDashboard.putNumber("Max Output", directionController.getOutputMax());
     SmartDashboard.putNumber("Min Output", directionController.getOutputMin());
-    
+
     if (mode == Parameters.AutoMode.AUTO) {
-      //gc turretTarget = getTurretTarget(); // FIXME get camera data
-      
+      // gc turretTarget = getTurretTarget(); // FIXME get camera data
+
       double directionCurrentPos = this.getDirection();
-      //gc directionInput = turretTarget.X;
+      // gc directionInput = turretTarget.X;
 
       // Get camera input, determines how far from center the target is, and
       // calculates encoder counts to move
-      
-      //gc double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput) * 10.5 + directionCurrentPos;
+
+      // gc double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput)
+      // * 10.5 + directionCurrentPos;
 
       // PID Tuning: read PID coefficients from SmartDashboard
-    // double p = SmartDashboard.getNumber("P Gain", 0);
-    // double i = SmartDashboard.getNumber("I Gain", 0);
-    // double d = SmartDashboard.getNumber("D Gain", 0);
-    // double iz = SmartDashboard.getNumber("I Zone", 0);
-    // double ff = SmartDashboard.getNumber("Feed Forward", 0);
-    // double max = SmartDashboard.getNumber("Max Output", 0);
-    // double min = SmartDashboard.getNumber("Min Output", 0);
-     double setPoint = SmartDashboard.getNumber("Set Point", 0);
-     // if PID coefficients on SmartDashboard have changed, write new values to controller
-    // if((p != directionController.getP())) { directionController.setP(p); }
-    // if((i != directionController.getI())) { directionController.setI(i); }
-    // if((d != directionController.getD())) { directionController.setD(d); }
-    // if((iz != directionController.getIZone())) { directionController.setIZone(iz); }
-    // if((ff != directionController.getFF())) { directionController.setFF(ff); }
-    // if((max != directionController.getOutputMax()) || (min != directionController.getOutputMin())) { 
-    //   directionController.setOutputRange(min, max);
-    //}
-    
-    directionController.setReference(setPoint, ControlType.kPosition);
+      // double p = SmartDashboard.getNumber("P Gain", 0);
+      // double i = SmartDashboard.getNumber("I Gain", 0);
+      // double d = SmartDashboard.getNumber("D Gain", 0);
+      // double iz = SmartDashboard.getNumber("I Zone", 0);
+      // double ff = SmartDashboard.getNumber("Feed Forward", 0);
+      // double max = SmartDashboard.getNumber("Max Output", 0);
+      // double min = SmartDashboard.getNumber("Min Output", 0);
+      double setPoint = SmartDashboard.getNumber("Set Point", 0);
+      // if PID coefficients on SmartDashboard have changed, write new values to
+      // controller
+      // if((p != directionController.getP())) { directionController.setP(p); }
+      // if((i != directionController.getI())) { directionController.setI(i); }
+      // if((d != directionController.getD())) { directionController.setD(d); }
+      // if((iz != directionController.getIZone())) {
+      // directionController.setIZone(iz); }
+      // if((ff != directionController.getFF())) { directionController.setFF(ff); }
+      // if((max != directionController.getOutputMax()) || (min !=
+      // directionController.getOutputMin())) {
+      // directionController.setOutputRange(min, max);
+      // }
+
+      directionController.setReference(setPoint, ControlType.kPosition);
       // will SmartMotion work with a changing setpoint?
       // double directionPower = directionController.calculate(directionInput,
       // Parameters.TURRET_POSITION_SETPOINT);
       // direction.set(directionPower);
 
-      // FIXME
+      // FIXME uncomment when ready
       // if (!hoodInitialized) {
-      //   initHood();
+      // initHood();
       // }
 
       // traject = getTrajectory(turretTarget.Y);
       // hoodInput = traject.hoodTarget;
       // shooterInput = traject.shooterTarget; FIXME no camera
-      
 
     }
     SmartDashboard.putNumber("Shooter RPM", getShooterSpeed());
     SmartDashboard.putNumber("Direction Pos:", getDirection());
     if (mode == Parameters.AutoMode.MANUAL) {
       modeString = "Manual";
-    } else if  (mode == Parameters.AutoMode.AUTO) {
+    } else if (mode == Parameters.AutoMode.AUTO) {
       modeString = "Auto";
     }
     SmartDashboard.putString("Turret Mode", modeString);
@@ -403,7 +417,7 @@ public class Turret extends SubsystemBase {
   }
 
   private void tunePID(CANPIDController pid) {
-      
+
   }
 
   /**
@@ -454,13 +468,13 @@ public class Turret extends SubsystemBase {
 
       // SmartDashboard.putNumber("Distance to Target: ", );
       // PixyCamera.getDistancetoTarget(targetYAvg));
-      
+
       target.X = targetXAvg;
       target.Y = targetYAvg;
       target.width = width;
       target.height = height;
-   
+
     }
     return target;
-  }   
+  }
 }

@@ -28,8 +28,9 @@ public final class Parameters {
     public static final boolean CAMERA_AVAILABLE        = false;
     public static final boolean AIM_AVAILABLE           = false;
     public static final boolean TURRET_AVAILABLE        = false;
-    public static final boolean MAGAZINE_AVAILABLE      = false;
+    public static final boolean MAGAZINE_AVAILABLE      = true;
     public static final boolean PICKUP_AVAILABLE        = true;
+    public static final boolean KICKER_AVAILABLE        = false;
     public static final boolean CLIMBER_AVAILABLE       = false;
     public static final boolean CONTROLPANEL_AVAILABLE  = false;
     public static final boolean COMPRESSOR_AVAILABLE    = false;
@@ -38,10 +39,12 @@ public final class Parameters {
 
     /** Enum to hold all information about pneumatic solenoids */
     public enum PneumaticChannel {
-        DRIVE_LOW_GEAR(4),
-        DRIVE_HIGH_GEAR(5),
-        PICKUP_EXTEND(6),
-        PICKUP_RETRACT(7);
+        DRIVE_LOW_GEAR(0),
+        DRIVE_HIGH_GEAR(1),
+        PICKUP_EXTEND(2),
+        PICKUP_RETRACT(3),
+        OPEN_ACCELERATOR_FLAPS(4),
+        CLOSE_ACCELERATOR_FLAPS(5);
 
         private final int channel;
 
@@ -58,20 +61,34 @@ public final class Parameters {
      * Enum to hold all information about devices on the CAN bus
      */
     public enum CANIDs {
+<<<<<<< HEAD
         //FIXME: swap left and right motor controller IDs
         DRIVE_LEFT_LEADER    (20, false, true, 14), 
         DRIVE_LEFT_FOLLOWER  (21, false, false, 15),
         DRIVE_RIGHT_LEADER   (10, true, true, 1), 
         DRIVE_RIGHT_FOLLOWER (11, true, false, 0), 
+=======
+        DRIVE_LEFT_LEADER    (20, true, true), 
+        DRIVE_LEFT_FOLLOWER  (21, true, false),
+        DRIVE_RIGHT_LEADER   (10, false, true), 
+        DRIVE_RIGHT_FOLLOWER (11, false, false), 
+>>>>>>> 8ae85296639404a573c51d8209a1b5057f3c8f31
 
         //FIXME add pdpPort
         TURRET_DIRECTION     (30, false, false, 99), 
         TURRET_HOOD          (31, false, false, 99),
         TURRET_SHOOTER       (32, false, false, 99),
 
+<<<<<<< HEAD
         ROLLER               (40, true, false, 99), 
         MAGAZINE             (41, false, false, 99),
         ACCELERATOR          (42, false, false, 99), 
+=======
+        PICKUP               (40, true, false),
+        KICKER               (43, false, false),
+        MAGAZINE             (41, false, false),
+        ACCELERATOR          (42, false, false), 
+>>>>>>> 8ae85296639404a573c51d8209a1b5057f3c8f31
 
         CLIMB_RIGHT          (50, true, false, 99),
         CLIMB_LEFT           (51, false, false, 99),
@@ -80,7 +97,7 @@ public final class Parameters {
 
         SPARE                (28, false, false, 99);
 
-
+      
         private final int canid;
         private final boolean inverted;
         private final boolean leader;
@@ -240,9 +257,10 @@ public final class Parameters {
     public static final double DRIVE_DEAD_BAND = 0.1;
 
     //Speed/Voltage for subsystems
-    public static final double PICKUP_ROLLER_SPEED = 0.7;
-    public static final double MAGAZINE_LOAD_SPEED = 0.5;
-    public static final double MAGAZINE_SHOOT_SPEED = 1.0;
+    public static final double PICKUP_ROLLER_SPEED = 0.3;
+    public static final double KICKER_SPEED = 0.5;
+    public static final double MAGAZINE_LOAD_SPEED = 0.3;
+    public static final double MAGAZINE_SHOOT_SPEED = 0.3;
 
      //used for climber currently not being used
      public static final int SOLENOID_EXTEND = 1;
@@ -279,7 +297,6 @@ public final class Parameters {
 
      public static final double TURRET_HOOD_MIDPOINT = 100.0;
 
-     // degrees that hood will be traveling = ?
      // hood encoder = 42 counts per rev, 64:1 (subject to change) gearbox ratio, teeth ratio is 1-to-1
      // (42 / 42 = 1) * 64 * 42 = 2688 counts per timing belt rev (hood) / 360 deg = 7.47 counts / deg
      // camera in Y = 200 pixels, 47 deg
@@ -420,7 +437,7 @@ public final class Parameters {
     public static final double LED_FOREST_TWINKLES         = -0.47;   //  27	-0.47	Fixed Palette Pattern	Twinkles, Forest Palette
     public static final double LED_RAINBOW_WAVES           = -0.45;   //  28	-0.45	Fixed Palette Pattern	Color Waves, Rainbow Palette
     public static final double LED_PARTY_WAVES             = -0.43;   //  29	-0.43	Fixed Palette Pattern	Color Waves, Party Palette
-    public static final double LED_OCEAN_WAVES            = -0.41;   //  30	-0.41	Fixed Palette Pattern	Color Waves, Ocean Palette
+    public static final double LED_OCEAN_WAVES             = -0.41;   //  30	-0.41	Fixed Palette Pattern	Color Waves, Ocean Palette
     public static final double LED_LAVA_WAVES              = -0.39;   //  31	-0.39	Fixed Palette Pattern	Color Waves, Lava Palette
     public static final double LED_FOREST_WAVES            = -0.37;   //  32	-0.37	Fixed Palette Pattern	Color Waves, Forest Palette
     public static final double LED_RED_LARSON              = -0.35;   //  33	-0.35	Fixed Palette Pattern	Larson Scanner, Red
@@ -442,7 +459,7 @@ public final class Parameters {
     public static final double LED_END_TO_END_BLEND_BLACK1 = -0.03;   //  49	-0.03	Color 1 Pattern	        End to End Blend to Black
     public static final double LED_LARSON_SCAN1            = -0.01;   //  50	-0.01	Color 1 Pattern         Larson Scanner
     public static final double LED_LIGHT_CHASE1            =  0.01;   //  51	0.01	Color 1 Pattern	        Light Chase
-    public static final double LED_SLOW_HEARTBEAT1        =  0.03;   //  52	0.03	Color 1 Pattern	        Heartbeat Slow
+    public static final double LED_SLOW_HEARTBEAT1         =  0.03;   //  52	0.03	Color 1 Pattern	        Heartbeat Slow
     public static final double LED_MEDIUM_HEARTBEAT1       =  0.05;   //  53	0.05	Color 1 Pattern	        Heartbeat Medium
     public static final double LED_FAST_HEARTBEAT1         =  0.07;   //  54	0.07	Color 1 Pattern	        Heartbeat Fast
     public static final double LED_SLOW_BREATH1            =  0.09;   //  55	0.09	Color 1 Pattern	        Breath Slow

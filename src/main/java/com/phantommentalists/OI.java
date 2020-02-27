@@ -14,7 +14,11 @@ import edu.wpi.first.wpilibj.Joystick;
 // import com.phantommentalists.commands.DriveDefaultCommand;
 // import com.phantommentalists.commands.DriveSpinCommand;
 import com.phantommentalists.commands.DrivePixyFollowPowerCellCommand;
+import com.phantommentalists.commands.MagazineShootCommand;
+import com.phantommentalists.commands.PickupLoadCommand;
 import com.phantommentalists.subsystems.Drive;
+import com.phantommentalists.subsystems.Magazine;
+import com.phantommentalists.subsystems.Pickup;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -29,11 +33,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class OI {
   // The robot's subsystems and commands are defined here...
   private final Drive drive;
-  // private final Magazine magazine;
-  //private final Pickup pickup;
+  private final Magazine magazine;
+  private final Pickup pickup;
   // private PixyAnalog frontPixy = new PixyAnalog(Parameters.PIXY_CHANNEL);
   private final Command m_autoCommand = null;  
   // DriveDefaultCommand();
+  private final Telepath robot;
 
   // private XboxController xboxController;
   private Joystick pilotJoystick, copilotJoystick1, copilotJoystick2;
@@ -41,12 +46,22 @@ public class OI {
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public OI() {
+  public OI(Telepath r) {
     // Configure the button bindings
+    robot = r;
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive(this);
       drive.initDefaultCommand();
     }
+
+    if (Parameters.MAGAZINE_AVAILABLE) {
+      magazine = new Magazine(this);
+      //magazine = robot.getMagazine();
+      magazine.initDefaultCommand();    // FIXME    ***** uncomment the magazine available stuff when it works
+    }
+
+    pickup = new Pickup(); //FIXME: Why does this work but robot.getPickup() doesn't?
+    //pickup = robot.getPickup(); 
 
     pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
     copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
@@ -55,7 +70,6 @@ public class OI {
     //FIXME How is powerCellCam going to be used
 
     configureButtonBindings();
-
   }
 
   /**
@@ -76,13 +90,13 @@ public class OI {
     
     //Shoot
     JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
-    // copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
+    copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
 
     //Pickup
-    //JoystickButton copilotStickPickupExtend = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_PICKUP);
-    //copilotStickPickupExtend.whenPressed(new PickupLoadCommand(this, pickup));
+    JoystickButton copilotStickPickupExtend = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_PICKUP);
+    copilotStickPickupExtend.whileHeld(new PickupLoadCommand(this, pickup));
 
-    }
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -107,18 +121,11 @@ public class OI {
   }
 
   /*----------------------------------------------------------------------------*/
-  /*  Allows both Pilot and CoPilot to select "Follow Fuel Cell"           */
+  /*  Allows both Pilot and CoPilot to select "Follow Power Cell"               */
   /*----------------------------------------------------------------------------*/
   
   public boolean isFollowPowerCellButton() {
-    boolean temp = false;
-    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON)) {
-      temp = true;
-    }
-    if (pilotJoystick.getRawButton(Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON)) {
-      temp = true;
-    }
-    return temp;
+    return pilotJoystick.getRawButton(Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
   }
 
   public boolean isTurretAutoButton() {
@@ -126,27 +133,15 @@ public class OI {
   }
 
   public boolean isTurretDirectionMoveRightButton() {
-    boolean temp = false;
-    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_RIGHT)) {
-      temp = true;
-    }
-    return temp;
+    return copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_RIGHT);
   }
 
   public boolean isTurretDirectionMoveLeftButton() {
-    boolean temp = false;
-    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_LEFT)) {
-      temp = true;
-    }
-    return temp;
+    return copilotJoystick1.getRawButton(Parameters.COPILOT1_JOYSTICK_TURRET_LEFT);
   }
 
   public boolean isTurretDirectionFineMoveButton() {
-    boolean temp = false;
-    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_TURRET_FINE_ADJUST)) {
-      temp = true;
-    }
-    return temp;
+    return copilotJoystick1.getRawButton(Parameters.COPILOT1_TURRET_FINE_ADJUST);
   }
 
   public boolean isTurretHoodClose() {
@@ -162,27 +157,15 @@ public class OI {
   }
 
   public boolean isShooterButtonPressed() {
-    boolean temp = false;
-    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_SHOOT)){
-      temp = true;
-    }
-    return temp;
+    return copilotJoystick1.getRawButton(Parameters.COPILOT1_SHOOT);
   }
 
   public boolean isMagazineLoadUpButton() {
-    boolean temp = false;
-    if (copilotJoystick2.getRawButton(Parameters.COPILOT2_MAGAZINE_UP)) {
-      temp = true;
-    }
-    return temp;
+    return copilotJoystick2.getRawButton(Parameters.COPILOT2_MAGAZINE_UP);
   }
 
   public boolean isMagazineLoadDownButton() {
-    boolean temp = false;
-    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_MAGAZINE_DOWN)) {
-      temp = true;
-    }
-    return temp;
+    return copilotJoystick1.getRawButton(Parameters.COPILOT1_MAGAZINE_DOWN);
   }
 
   public boolean isShoot() {
@@ -203,13 +186,19 @@ public class OI {
   }
 
   public boolean isPickupButton() {
-    return copilotJoystick1.getRawButton(Parameters.COPILOT1_PICKUP_ROLLERS);
+    return copilotJoystick1.getRawButton(Parameters.COPILOT1_PICKUP);
   }
 
   public boolean isClimb() {
     return copilotJoystick2.getRawButton(Parameters.COPILOT2_CLIMB);
   }
 
+  /*
+  // FIXME: Remove after testing is done
+  public Pickup getPickup() {
+    return pickup;
+  }
+  */
   
 
   // public XboxController getXboxController() {

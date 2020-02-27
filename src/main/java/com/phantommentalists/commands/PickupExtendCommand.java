@@ -7,22 +7,23 @@
 
 package com.phantommentalists.commands;
 
+import edu.wpi.first.wpilibj.Timer;
+
 import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Pickup;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/**
- * Turns off rollers and retracts arm
- */
-public class PickUpRetractCommand extends CommandBase {
+public class PickupExtendCommand extends CommandBase {
   private Pickup pickup;
   private Timer timer;
 
-  public PickUpRetractCommand() {
+  /**
+   * Creates a new PickupExtendCommand.
+   */
+  public PickupExtendCommand(Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
-    pickup = new Pickup();
+    pickup = p;
     timer = new Timer();
     addRequirements(pickup);
   }
@@ -36,26 +37,24 @@ public class PickUpRetractCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Parameters.PICKUP_AVAILABLE) {
-      timer.start();
-      pickup.turnOffRollers();
-      pickup.retract();
-    }
+    timer.start();
+    pickup.extend();
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     timer.stop();
-    pickup.stopArm();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     if (Parameters.PICKUP_AVAILABLE) {
-      return pickup.isPickUpRetracted();
-    } else {
+      return pickup.isPickUpExtended();
+    } 
+    else {
       return false;
     }
   }

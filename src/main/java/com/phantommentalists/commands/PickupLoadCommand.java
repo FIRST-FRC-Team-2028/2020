@@ -15,8 +15,11 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Pickup;
 
 /**
- * Extends PickUp and turns on rollers to get the power cell off the floor
- * FIXME hold button till you think its done for manual mode, timer for auto. use selector/swtich for that
+ * Extends PickUp and turns on rollers to get the power cell off the floor FIXME
+ * hold button till you think its done for manual mode, timer for auto. use
+ * selector/swtich for that
+ * 
+ * FIXME: PickupSpinArmCommand is doing the same thing as this...
  */
 public class PickupLoadCommand extends CommandBase {
   Pickup pickup;
@@ -34,34 +37,53 @@ public class PickupLoadCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
+    // timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (Parameters.PICKUP_AVAILABLE) {
-      timer.start();
-      pickup.extend();
+      // FIXME: What is the point of timer?
+      //timer.start();
+      //pickup.extend();
+      //pickup.turnOnRollers();
+
+      //THIS WORKS
       pickup.turnOnRollers();
+
+      // This code is set up like this is a default command
+      // if (oi.isPickupButton()) {
+      //   pickup.turnOnRollers();
+      // } 
+      // else {
+      //   pickup.turnOffRollers();
+      // }
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    timer.stop();
-    pickup.turnOffRollers();
-    pickup.stopArm();
+    //timer.stop();
+    //pickup.turnOffRollers();
+    //pickup.stopArm(); //FIXME uncomment
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Parameters.PICKUP_AVAILABLE) {
-     return pickup.isPickUpExtended();
-    } else {
-      return false;
-    }
+    // if (Parameters.PICKUP_AVAILABLE) {
+    //   return pickup.isPickUpExtended();
+    // } else {
+    //   return false;
+    // }
+    return false;
+    // if (!oi.isPickupButton()){
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
+  
 }

@@ -34,14 +34,17 @@ public class MagazineDefaultCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (oi.isMagazineLoadUpButton()) {
-      magazine.setLoaderPower(Parameters.MAGAZINE_LOAD_SPEED);
-    } else if (oi.isMagazineLoadDownButton()) {
-      magazine.setLoaderPower(-Parameters.MAGAZINE_LOAD_SPEED);
-    } else {
-      magazine.setLoaderPower(0.0);
+    if (Parameters.MAGAZINE_AVAILABLE) {
+     if (oi.isMagazineLoadUpButton()) {
+        magazine.setLoaderPower(-Parameters.MAGAZINE_LOAD_SPEED);
+      } 
+      else if (oi.isMagazineLoadDownButton()) {
+        magazine.setLoaderPower(Parameters.MAGAZINE_LOAD_SPEED);
+      } 
+      else {
+        magazine.setLoaderPower(0.0);
+      }
     }
-    
   }
 
   // Called once the command ends or is interrupted.
