@@ -61,53 +61,37 @@ public final class Parameters {
      * Enum to hold all information about devices on the CAN bus
      */
     public enum CANIDs {
-<<<<<<< HEAD
-        //FIXME: swap left and right motor controller IDs
-        DRIVE_LEFT_LEADER    (20, false, true, 14), 
-        DRIVE_LEFT_FOLLOWER  (21, false, false, 15),
-        DRIVE_RIGHT_LEADER   (10, true, true, 1), 
-        DRIVE_RIGHT_FOLLOWER (11, true, false, 0), 
-=======
         DRIVE_LEFT_LEADER    (20, true, true), 
         DRIVE_LEFT_FOLLOWER  (21, true, false),
         DRIVE_RIGHT_LEADER   (10, false, true), 
         DRIVE_RIGHT_FOLLOWER (11, false, false), 
->>>>>>> 8ae85296639404a573c51d8209a1b5057f3c8f31
 
         //FIXME add pdpPort
-        TURRET_DIRECTION     (30, false, false, 99), 
-        TURRET_HOOD          (31, false, false, 99),
-        TURRET_SHOOTER       (32, false, false, 99),
+        TURRET_DIRECTION     (30, false, false), 
+        TURRET_HOOD          (31, false, false),
+        TURRET_SHOOTER       (32, false, false),
 
-<<<<<<< HEAD
-        ROLLER               (40, true, false, 99), 
-        MAGAZINE             (41, false, false, 99),
-        ACCELERATOR          (42, false, false, 99), 
-=======
         PICKUP               (40, true, false),
         KICKER               (43, false, false),
         MAGAZINE             (41, false, false),
         ACCELERATOR          (42, false, false), 
->>>>>>> 8ae85296639404a573c51d8209a1b5057f3c8f31
 
-        CLIMB_RIGHT          (50, true, false, 99),
-        CLIMB_LEFT           (51, false, false, 99),
+        CLIMB_RIGHT          (50, true, false),
+        CLIMB_LEFT           (51, false, false),
 
-        CONTROL_PANEL        (60, false, false, 99), 
+        CONTROL_PANEL        (60, false, false), 
 
-        SPARE                (28, false, false, 99);
+        SPARE                (28, false, false);
 
       
         private final int canid;
         private final boolean inverted;
         private final boolean leader;
-        private final int pdpPort;
 
-        CANIDs(final int id, final boolean inverted, final boolean leader, final int pdpPort) {
+        CANIDs(final int id, final boolean inverted, final boolean leader) {
             this.canid = id;
             this.inverted = inverted;
             this.leader = leader;
-            this.pdpPort = pdpPort;
         }
 
         public int getid() {
@@ -120,10 +104,6 @@ public final class Parameters {
 
         public boolean isInverted() {
             return inverted;
-        }
-
-        public int getPdpPort() {
-            return pdpPort;
         }
     }
 
@@ -263,7 +243,7 @@ public final class Parameters {
     public static final double MAGAZINE_SHOOT_SPEED = 0.3;
 
      //used for climber currently not being used
-     public static final int SOLENOID_EXTEND = 1;
+     public static final int SOLENOID_EXTEND = 3;
      public static final int SOLENOID_RETRACT = 2;
      public static final double CLIMBER_REEL_SPEED = 1.0;
 

@@ -57,7 +57,7 @@ public class OI {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine = new Magazine(this);
       //magazine = robot.getMagazine();
-      magazine.initDefaultCommand();    // FIXME    ***** uncomment the magazine available stuff when it works
+      magazine.initDefaultCommand(this);    // FIXME    ***** uncomment the magazine available stuff when it works
     }
 
     pickup = new Pickup(); //FIXME: Why does this work but robot.getPickup() doesn't?

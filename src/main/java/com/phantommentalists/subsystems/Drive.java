@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.Gear;
+import com.phantommentalists.Parameters.PneumaticChannel;
 //import com.phantommentalists.Parameters.PneumaticChannel;
 import com.phantommentalists.commands.DriveDefaultCommand;
 import com.phantommentalists.DrivePixy;

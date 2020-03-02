@@ -54,9 +54,9 @@ public class Telepath extends TimedRobot {
     return pickup;
   }
 
-  public Magazine getMagazine() {
-    return magazine;
-  }
+  // public Magazine getMagazine() {
+  //   return magazine;
+  // }
 
   /**
    * This function is run when the robot is first started up and should be used
