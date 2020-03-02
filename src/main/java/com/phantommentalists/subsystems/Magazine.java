@@ -79,9 +79,9 @@ public class Magazine extends SubsystemBase {
   /**
    * sets the power of the magazine conveyor belts
    */
-  public void setLoaderPower(double voltage) {
+  public void setLoader(double voltage) {
     if (Parameters.MAGAZINE_AVAILABLE) {
-      magazine.setVoltage(voltage);
+      magazine.set(voltage);
     }
   }
 

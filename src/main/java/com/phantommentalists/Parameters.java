@@ -27,13 +27,13 @@ public final class Parameters {
     public static final boolean DRIVE_AVAILABLE         = true;
     public static final boolean CAMERA_AVAILABLE        = false;
     public static final boolean AIM_AVAILABLE           = false;
-    public static final boolean TURRET_AVAILABLE        = false;
+    public static final boolean TURRET_AVAILABLE        = true;
     public static final boolean MAGAZINE_AVAILABLE      = true;
     public static final boolean PICKUP_AVAILABLE        = true;
     public static final boolean KICKER_AVAILABLE        = false;
     public static final boolean CLIMBER_AVAILABLE       = false;
     public static final boolean CONTROLPANEL_AVAILABLE  = false;
-    public static final boolean COMPRESSOR_AVAILABLE    = false;
+    public static final boolean COMPRESSOR_AVAILABLE    = true;
     public static final boolean GYRO_AVAILABLE          = false;
     public static final boolean BUTTONBOX_AVAILABLE     = false;
 
@@ -41,8 +41,8 @@ public final class Parameters {
     public enum PneumaticChannel {
         DRIVE_LOW_GEAR(0),
         DRIVE_HIGH_GEAR(1),
-        PICKUP_EXTEND(2),
-        PICKUP_RETRACT(3),
+        PICKUP_EXTEND(3),
+        PICKUP_RETRACT(2),
         OPEN_ACCELERATOR_FLAPS(4),
         CLOSE_ACCELERATOR_FLAPS(5);
 
@@ -66,11 +66,11 @@ public final class Parameters {
         DRIVE_RIGHT_LEADER   (10, false, true), 
         DRIVE_RIGHT_FOLLOWER (11, false, false), 
 
-        TURRET_DIRECTION     (30, false, false), 
+        TURRET_DIRECTION     (30, false, false), //30
         TURRET_HOOD          (31, false, false),
         TURRET_SHOOTER       (32, false, false),
 
-        PICKUP               (40, true, false),
+        PICKUP               (40, true, false), //40
         KICKER               (43, false, false),
         MAGAZINE             (41, false, false),
         ACCELERATOR          (42, false, false), 
@@ -236,7 +236,7 @@ public final class Parameters {
     public static final double DRIVE_DEAD_BAND = 0.1;
 
     //Speed/Voltage for subsystems
-    public static final double PICKUP_ROLLER_SPEED = 0.3;
+    public static final double PICKUP_ROLLER_SPEED = 0.4;
     public static final double KICKER_SPEED = 0.5;
     public static final double MAGAZINE_LOAD_SPEED = 0.3;
     public static final double MAGAZINE_SHOOT_SPEED = 0.3;

@@ -9,6 +9,7 @@ package com.phantommentalists.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 
+import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Pickup;
 
@@ -17,13 +18,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class PickupExtendCommand extends CommandBase {
   private Pickup pickup;
   private Timer timer;
+  private OI oi;
 
   /**
    * Creates a new PickupExtendCommand.
    */
-  public PickupExtendCommand(Pickup p) {
+  public PickupExtendCommand(OI o, Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
     pickup = p;
+    oi = o;
     timer = new Timer();
     addRequirements(pickup);
   }
@@ -46,15 +49,20 @@ public class PickupExtendCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     timer.stop();
+    pickup.retract();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Parameters.PICKUP_AVAILABLE) {
-      return pickup.isPickUpExtended();
-    } 
-    else {
+    // if (Parameters.PICKUP_AVAILABLE) {
+    //   return pickup.isPickUpExtended();
+    // } else {
+    //   return false;
+    // }
+    if (!oi.isPickupButton()) {
+      return true;
+    } else {
       return false;
     }
   }

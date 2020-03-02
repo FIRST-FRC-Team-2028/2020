@@ -36,13 +36,18 @@ public class MagazineDefaultCommand extends CommandBase {
   public void execute() {
     if (Parameters.MAGAZINE_AVAILABLE) {
      if (oi.isMagazineLoadUpButton()) {
-        magazine.setLoaderPower(-Parameters.MAGAZINE_LOAD_SPEED);
+        magazine.setLoader(-Parameters.MAGAZINE_LOAD_SPEED);
+        System.out.println("here in load");
       } 
       else if (oi.isMagazineLoadDownButton()) {
-        magazine.setLoaderPower(Parameters.MAGAZINE_LOAD_SPEED);
+        magazine.setLoader(Parameters.MAGAZINE_LOAD_SPEED);
       } 
       else {
-        magazine.setLoaderPower(0.0);
+        magazine.setLoader(0.0);
+      } 
+
+      if (oi.isShooterButtonPressed()) {
+        magazine.setFeedPower(Parameters.TURRET_SHOOTER_SPEED);
       }
     }
   }

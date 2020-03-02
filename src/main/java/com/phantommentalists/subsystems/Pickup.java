@@ -32,12 +32,8 @@ public class Pickup extends SubsystemBase {
   public Pickup() {
     pickup = new CANSparkMax(Parameters.CANIDs.PICKUP.getid(), MotorType.kBrushless);
     pickup.setInverted(Parameters.CANIDs.PICKUP.isInverted());
-    // if (Parameters.CANIDs.PICKUP.isFollower())
-    // {
-    //   roller.follow(leader CAN ID);
-    // }
-    //arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
-    //timer = new Timer();
+    arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
+    timer = new Timer();
   }
 
   /**
@@ -55,7 +51,6 @@ public class Pickup extends SubsystemBase {
   public void turnOffRollers() {
     if (Parameters.PICKUP_AVAILABLE) {
       pickup.set(0.0);
-      // roller.set(ControlMode.PercentOutput, 0.0);
     }
   }
 
@@ -64,7 +59,7 @@ public class Pickup extends SubsystemBase {
    */
   public void extend() {
     if (Parameters.PICKUP_AVAILABLE) {
-      // arm.set(Value.kForward);
+      arm.set(Value.kForward);
     }
   }
 
@@ -89,7 +84,7 @@ public class Pickup extends SubsystemBase {
   
   public boolean isPickUpExtended() {
     if (Parameters.PICKUP_AVAILABLE) {
-      if (timer.get() >= Parameters.EXTEND_TIME) { //&& arm.get() == Value.kForward) {
+      if (timer.get() >= Parameters.EXTEND_TIME && arm.get() == Value.kForward) {
         return true;
       }
     }

@@ -49,15 +49,7 @@ public class Telepath extends TimedRobot {
   private Compressor compressor;
   // private DoubleSolenoid shifter
   private PowerDistributionPanel pdp;
-
-  public Pickup getPickup() {
-    return pickup;
-  }
-
-  public Magazine getMagazine() {
-    return magazine;
-  }
-
+  
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -70,14 +62,15 @@ public class Telepath extends TimedRobot {
     // autonomous chooser on the dashboard.
     if (Parameters.TURRET_AVAILABLE) {
       turret = new Turret();
+      turret.initDefaultCommand(m_oi);
     }
     if (Parameters.MAGAZINE_AVAILABLE) {
-      magazine = new Magazine(m_oi);
+      magazine = m_oi.getMagazine();
     }
-    if (Parameters.PICKUP_AVAILABLE) {
-      pickup = new Pickup();
-      // pickup = m_oi.getPickup();
-    }
+    // if (Parameters.PICKUP_AVAILABLE) {
+    //   pickup = new Pickup();
+    //   // pickup = m_oi.getPickup();
+    // }
     // controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
 
     drive = m_oi.getDrive();
@@ -119,9 +112,9 @@ public class Telepath extends TimedRobot {
     if (Parameters.DRIVE_AVAILABLE) {
       drive.periodic();
     }
-    if (Parameters.MAGAZINE_AVAILABLE) {
-      magazine.periodic();
-    }
+    // if (Parameters.MAGAZINE_AVAILABLE) {
+    //   magazine.periodic();
+    // }
     SmartDashboard.putNumber("PDP #0", pdp.getCurrent(0));
   }
 
@@ -130,9 +123,9 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    if (Parameters.MAGAZINE_AVAILABLE) {
-      magazine.setBallHeldCount(0);
-    }
+    // if (Parameters.MAGAZINE_AVAILABLE) {
+    //   magazine.setBallHeldCount(0);
+    // }
   }
 
   @Override
@@ -190,15 +183,16 @@ public class Telepath extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    if (Parameters.PICKUP_AVAILABLE) {
-      Joystick stick = m_oi.getPilotStick();
-      if (stick.getRawButton(5)) {
-        pickup.turnOnRollers();
-      }
-      else {
-        pickup.turnOffRollers();
-      }
-    }
+    // FIXME why is this here???
+    // if (Parameters.PICKUP_AVAILABLE) {
+    //   Joystick stick = m_oi.getPilotStick();
+    //   if (stick.getRawButton(5)) {
+    //     pickup.turnOnRollers();
+    //   }
+    //   else {
+    //     pickup.turnOffRollers();
+    //   }
+    // }
     String gameData;
     gameData = DriverStation.getInstance().getGameSpecificMessage();
     if (gameData.length() > 0) {
