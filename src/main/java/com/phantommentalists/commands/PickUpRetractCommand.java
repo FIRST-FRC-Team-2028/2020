@@ -7,6 +7,7 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Pickup;
 
@@ -18,27 +19,29 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class PickupRetractCommand extends CommandBase {
   private Pickup pickup;
-  private Timer timer;
+  private OI oi;
+ // private Timer timer;
 
-  public PickupRetractCommand() {
+  public PickupRetractCommand(OI o, Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
-    pickup = new Pickup();
-    timer = new Timer();
+    pickup = p;
+    oi = o;
+    //timer = new Timer();
     addRequirements(pickup);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
+   // timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (Parameters.PICKUP_AVAILABLE) {
-      timer.start();
-      pickup.turnOffRollers();
+    //  timer.start();
+    //  pickup.turnOffRollers();
       pickup.retract();
     }
   }
@@ -46,15 +49,21 @@ public class PickupRetractCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    timer.stop();
-    pickup.stopArm();
+  //  timer.stop();
+  //  pickup.stopArm();
+   // pickup.position = Parameters.PickupPos.RETRACT;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Parameters.PICKUP_AVAILABLE) {
-      return pickup.isPickUpRetracted();
+    // if (Parameters.PICKUP_AVAILABLE) {
+    //   return pickup.isPickUpRetracted();
+    // } else {
+    //   return false;
+    // }
+    if (!oi.isPickupButton()) {
+      return true;
     } else {
       return false;
     }

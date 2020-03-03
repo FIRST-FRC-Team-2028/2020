@@ -14,17 +14,18 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Pickup;
 
 /**
-   * Starts and stops the intake arm
+   * Spins the pickup wheels forward when the magazine up button is pressed
+   * and pickup is extended
    */
-public class PickupSpinRollersCommand extends CommandBase {  
+public class PickupSpinRollersFwdCommand extends CommandBase {  
   private OI oi;
   private Pickup pickup;
 
-  public PickupSpinRollersCommand(OI o, Pickup p) {
+  public PickupSpinRollersFwdCommand(OI o, Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
     oi = o;
     pickup = p;
-    addRequirements(pickup);
+    //addRequirements(pickup);
   }
 
   // Called when the command is initially scheduled.
@@ -36,7 +37,7 @@ public class PickupSpinRollersCommand extends CommandBase {
   @Override
   public void execute() {
     if (Parameters.PICKUP_AVAILABLE) {
-      pickup.turnOnRollers();
+      pickup.turnOnRollersFwd();
     }
   }
 
@@ -51,6 +52,6 @@ public class PickupSpinRollersCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !oi.isRollerButton();
+    return !oi.isRollerButtonFwd();
   }
 }

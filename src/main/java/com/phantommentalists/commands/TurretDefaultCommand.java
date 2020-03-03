@@ -88,21 +88,22 @@ public class TurretDefaultCommand extends CommandBase {
     
 
     // Turret Shooter controls   *****************************************/
-    if (turret.mode == Parameters.AutoMode.MANUAL) {
-      if (oi.isTurretHoodClose()) {
-        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
-      } else if (oi.isTurretHoodMedium()) {
-        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
-      } else if (oi.isTurretHoodFar()) {
-        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_FAR;
-      }
-    }
+    // if (turret.mode == Parameters.AutoMode.MANUAL) {
+    //   if (oi.isTurretHoodClose()) {
+    //     shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
+    //   } else if (oi.isTurretHoodMedium()) {
+    //     shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
+    //   } else if (oi.isTurretHoodFar()) {
+    //     shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_FAR;
+    //   }
+    // }
 
-    
-    if (oi.isShooterButtonPressed()) {
-      turret.setShooterSpeed(shooterSpeed);
-    } else {
-      turret.setShooterPower(0.0);
+    if (turret.mode == Parameters.AutoMode.MANUAL) { 
+      if (oi.isShooterButtonPressed()) {
+        turret.setShooterSpeed(shooterSpeed);
+      } else {
+        turret.setShooterPower(0.0);
+      }
     }
     
 

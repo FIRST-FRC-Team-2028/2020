@@ -37,7 +37,6 @@ public class MagazineDefaultCommand extends CommandBase {
     if (Parameters.MAGAZINE_AVAILABLE) {
      if (oi.isMagazineLoadUpButton()) {
         magazine.setLoader(-Parameters.MAGAZINE_LOAD_SPEED);
-        System.out.println("here in load");
       } 
       else if (oi.isMagazineLoadDownButton()) {
         magazine.setLoader(Parameters.MAGAZINE_LOAD_SPEED);
@@ -47,7 +46,9 @@ public class MagazineDefaultCommand extends CommandBase {
       } 
 
       if (oi.isShooterButtonPressed()) {
-        magazine.setFeedPower(Parameters.TURRET_SHOOTER_SPEED);
+        magazine.shootBall();
+      } else {
+        magazine.stopShoot();
       }
     }
   }

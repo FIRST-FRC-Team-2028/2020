@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import com.phantommentalists.commands.DrivePixyFollowPowerCellCommand;
 import com.phantommentalists.commands.MagazineShootCommand;
 import com.phantommentalists.commands.PickupExtendCommand;
-import com.phantommentalists.commands.PickupLoadCommand;
-import com.phantommentalists.commands.PickupSpinRollersCommand;
+import com.phantommentalists.commands.PickupLoadCommandGroup;
+import com.phantommentalists.commands.PickupRetractCommand;
+import com.phantommentalists.commands.PickupSpinRollersRevCommand;
+import com.phantommentalists.commands.PickupSpinRollersFwdCommand;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Magazine;
 import com.phantommentalists.subsystems.Pickup;
@@ -91,15 +93,18 @@ public class OI {
     copilotStickPowerCellFollowButton.whenPressed(new DrivePixyFollowPowerCellCommand(drive, drive.getDrivePixy(), this));
     
     //Shoot
-    //now done in default command
-    //JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
+    //will be done in magazine default command
+    JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
     //copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
 
     //Pickup
     JoystickButton copilotStickPickupExtend = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_PICKUP);
     copilotStickPickupExtend.whenPressed(new PickupExtendCommand(this, pickup));
-    JoystickButton spinRollersButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_MAGAZINE_DOWN);
-    spinRollersButton.whenPressed(new PickupSpinRollersCommand(this, pickup));
+    // copilotStickPickupExtend.whileHeld(new PickupLoadCommandGroup(this, pickup));
+    JoystickButton spinRollersFwdButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_MAGAZINE_DOWN);
+    spinRollersFwdButton.whenPressed(new PickupSpinRollersFwdCommand(this, pickup));
+    JoystickButton spinRollersRevButton = new JoystickButton(copilotJoystick2, Parameters.COPILOT2_MAGAZINE_UP);
+    spinRollersRevButton.whenPressed(new PickupSpinRollersRevCommand(this, pickup));
   }
 
   /**
@@ -188,7 +193,9 @@ public class OI {
     return magazine;
   }
 
-
+  public Pickup getPickup() {
+    return pickup;
+  }
 
   public boolean isPickupButton() {
     return copilotJoystick1.getRawButton(Parameters.COPILOT1_PICKUP);
@@ -199,9 +206,17 @@ public class OI {
   }
 
   // remove after testing
-  public boolean isRollerButton() {
+  public boolean isRollerButtonFwd() {
     boolean temp = false;
     if (copilotJoystick1.getRawButton(Parameters.COPILOT1_MAGAZINE_DOWN)) {
+      temp = true;
+    }
+    return temp;
+  }
+
+  public boolean isRollerButtonRev() {
+    boolean temp = false;
+    if (copilotJoystick2.getRawButton(Parameters.COPILOT2_MAGAZINE_UP)) {
       temp = true;
     }
     return temp;

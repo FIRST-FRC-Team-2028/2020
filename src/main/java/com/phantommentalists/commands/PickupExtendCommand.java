@@ -27,20 +27,20 @@ public class PickupExtendCommand extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     pickup = p;
     oi = o;
-    timer = new Timer();
+    //timer = new Timer();
     addRequirements(pickup);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
+    //timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    timer.start();
+    //timer.start();
     pickup.extend();
 
   }
@@ -48,7 +48,8 @@ public class PickupExtendCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    timer.stop();
+    //timer.stop();
+    // pickup.position = Parameters.PickupPos.EXTEND;
     pickup.retract();
   }
 
