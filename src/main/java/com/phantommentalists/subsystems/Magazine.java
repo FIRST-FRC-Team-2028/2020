@@ -70,7 +70,14 @@ public class Magazine extends SubsystemBase {
    */
   public void shootBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {
-      accelerator.set(Parameters.MAGAZINE_SHOOT_SPEED);
+      accelerator.set(-Parameters.MAGAZINE_ACCEL_SPEED);
+      
+    }
+  }
+
+  public void stopShoot() {
+    if (Parameters.MAGAZINE_AVAILABLE) {
+      accelerator.set(0.0);
     }
   }
 

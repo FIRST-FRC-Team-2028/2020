@@ -110,6 +110,7 @@ public class Turret extends SubsystemBase {
       direction.setSoftLimit(SoftLimitDirection.kReverse, Parameters.TURRET_DIRECTION_REV_LIMIT);
       direction.enableSoftLimit(SoftLimitDirection.kForward, true);
       direction.enableSoftLimit(SoftLimitDirection.kReverse, true);
+      direction.setClosedLoopRampRate(Parameters.TURRET_DIRECTION_RAMP_RATE);
 
       hood = new CANSparkMax(Parameters.CANIDs.TURRET_HOOD.getid(), MotorType.kBrushless);
       hood.setSoftLimit(SoftLimitDirection.kForward, Parameters.TURRET_HOOD_FWD_LIMIT);
@@ -360,6 +361,7 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("Feed Forward", directionController.getFF());
     SmartDashboard.putNumber("Max Output", directionController.getOutputMax());
     SmartDashboard.putNumber("Min Output", directionController.getOutputMin());
+    SmartDashboard.putNumber("Set Point", setPoint);
 
     
       turretTarget = getTurretTarget();
@@ -373,28 +375,30 @@ public class Turret extends SubsystemBase {
       //double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput) * 10.5 + directionCurrentPos; //FIXME uncomment
 
       // PID Tuning: read PID coefficients from SmartDashboard
-      // double p = SmartDashboard.getNumber("P Gain", 0);
-      // double i = SmartDashboard.getNumber("I Gain", 0);
-      // double d = SmartDashboard.getNumber("D Gain", 0);
-      // double iz = SmartDashboard.getNumber("I Zone", 0);
-      // double ff = SmartDashboard.getNumber("Feed Forward", 0);
-      // double max = SmartDashboard.getNumber("Max Output", 0);
-      // double min = SmartDashboard.getNumber("Min Output", 0);
-      // sc double setPoint = SmartDashboard.getNumber("Set Point", 0);
+      double p = SmartDashboard.getNumber("P Gain", 0);
+      double i = SmartDashboard.getNumber("I Gain", 0);
+      double d = SmartDashboard.getNumber("D Gain", 0);
+      double iz = SmartDashboard.getNumber("I Zone", 0);
+      double ff = SmartDashboard.getNumber("Feed Forward", 0);
+      double max = SmartDashboard.getNumber("Max Output", 0);
+      double min = SmartDashboard.getNumber("Min Output", 0);
+      setPoint = SmartDashboard.getNumber("Set Point", 0);
       // if PID coefficients on SmartDashboard have changed, write new values to
       // controller
-      // if((p != directionController.getP())) { directionController.setP(p); }
-      // if((i != directionController.getI())) { directionController.setI(i); }
-      // if((d != directionController.getD())) { directionController.setD(d); }
-      // if((iz != directionController.getIZone())) {
-      // directionController.setIZone(iz); }
-      // if((ff != directionController.getFF())) { directionController.setFF(ff); }
-      // if((max != directionController.getOutputMax()) || (min !=
-      // directionController.getOutputMin())) {
-      // directionController.setOutputRange(min, max);
-      // }
+      if((p != directionController.getP())) { directionController.setP(p); }
+      if((i != directionController.getI())) { directionController.setI(i); }
+      if((d != directionController.getD())) { directionController.setD(d); }
+      if((iz != directionController.getIZone())) {
+      directionController.setIZone(iz); }
+      if((ff != directionController.getFF())) { directionController.setFF(ff); }
+      if((max != directionController.getOutputMax()) || (min !=
+      directionController.getOutputMin())) {
+      directionController.setOutputRange(min, max);
+      }
 
-      directionController.setReference(setPoint, ControlType.kPosition);
+      if (mode == Parameters.AutoMode.AUTO){
+        directionController.setReference(setPoint, ControlType.kPosition);
+      }
       // will SmartMotion work with a changing setpoint?
       // double directionPower = directionController.calculate(directionInput,
       // Parameters.TURRET_POSITION_SETPOINT);

@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.Timer;
 
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
-import com.phantommentalists.commands.PickupLoadCommand;
+import com.phantommentalists.Parameters.PickupPos;
+import com.phantommentalists.commands.PickupDefaultCommand;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -28,20 +29,30 @@ public class Pickup extends SubsystemBase {
   private CANSparkMax pickup;
   private DoubleSolenoid arm;
   private Timer timer;
+  public PickupPos position;
+  private OI oi;
 
   public Pickup() {
     pickup = new CANSparkMax(Parameters.CANIDs.PICKUP.getid(), MotorType.kBrushless);
     pickup.setInverted(Parameters.CANIDs.PICKUP.isInverted());
     arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
     timer = new Timer();
+    position = Parameters.PickupPos.RETRACT;
+    
   }
 
   /**
    * Turn on rollers
    */
-  public void turnOnRollers() {
+  public void turnOnRollersFwd() {
     if (Parameters.PICKUP_AVAILABLE) {
       pickup.set(-Parameters.PICKUP_ROLLER_SPEED);
+    }
+  }
+
+  public void turnOnRollersRev() {
+    if (Parameters.PICKUP_AVAILABLE) {
+      pickup.set(Parameters.PICKUP_ROLLER_SPEED);
     }
   }
 
@@ -98,8 +109,17 @@ public class Pickup extends SubsystemBase {
       }
     }
     return false;
-  } 
-  
+  }
+
+  public void setPosition(PickupPos switchPosition) {
+    if (Parameters.TURRET_AVAILABLE) {
+      position = switchPosition;
+    }
+  }
+
+  public void initDefaultCommand() {
+    setDefaultCommand(new PickupDefaultCommand(oi, this));
+  }
 
   @Override
   public void periodic() {

@@ -36,13 +36,27 @@ public class MagazineDefaultCommand extends CommandBase {
   public void execute() {
     if (Parameters.MAGAZINE_AVAILABLE) {
      if (oi.isMagazineLoadUpButton()) {
+<<<<<<< HEAD
         magazine.setLoaderPower(-Parameters.MAGAZINE_LOAD_SPEED);
+=======
+        magazine.setLoader(-Parameters.MAGAZINE_LOAD_SPEED);
+>>>>>>> 8aa860fc3a674ceb10c080d23f4537102fc37f3d
       } 
       else if (oi.isMagazineLoadDownButton()) {
         magazine.setLoaderPower(Parameters.MAGAZINE_LOAD_SPEED);
       } 
       else {
+<<<<<<< HEAD
         magazine.setLoaderPower(0.0);
+=======
+        magazine.setLoader(0.0);
+      } 
+
+      if (oi.isShooterButtonPressed()) {
+        magazine.shootBall();
+      } else {
+        magazine.stopShoot();
+>>>>>>> 8aa860fc3a674ceb10c080d23f4537102fc37f3d
       }
     }
   }

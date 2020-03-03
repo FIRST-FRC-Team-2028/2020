@@ -115,6 +115,14 @@ public final class Parameters {
     }
 
     /**
+     * Used to set the position of the pickup
+     */
+    public enum PickupPos {
+        EXTEND, 
+        RETRACT;
+    }
+
+    /**
      * Switches the gears of the drive
      */
     public enum Gear {
@@ -236,14 +244,21 @@ public final class Parameters {
     public static final double DRIVE_DEAD_BAND = 0.1;
 
     //Speed/Voltage for subsystems
-    public static final double PICKUP_ROLLER_SPEED = 0.4;
-    public static final double KICKER_SPEED = 0.5;
-    public static final double MAGAZINE_LOAD_SPEED = 0.3;
-    public static final double MAGAZINE_SHOOT_SPEED = 0.3;
+    //Pickup gearbox ratio - 25:1; Magazine gearbox ratio - 30:1
+    //(6/5) * magazineLoadSpeed = pickupIntakeSpeed
+     public static final double PICKUP_ROLLER_SPEED = 0.36;
+     public static final double KICKER_SPEED = 0.5;
+     public static final double MAGAZINE_LOAD_SPEED = 0.3;
+     public static final double MAGAZINE_ACCEL_SPEED = 0.8;
 
      //used for climber currently not being used
+<<<<<<< HEAD
      public static final int SOLENOID_EXTEND = 3;
      public static final int SOLENOID_RETRACT = 2;
+=======
+      public static final int SOLENOID_EXTEND = 1;
+      public static final int SOLENOID_RETRACT = 2;
+>>>>>>> 8aa860fc3a674ceb10c080d23f4537102fc37f3d
      public static final double CLIMBER_REEL_SPEED = 1.0;
 
      // public static final double PICKUP_TIME = 0.5;
@@ -257,16 +272,17 @@ public final class Parameters {
 
      public static final double TURRET_DIRECTION_SETPOINT = 160.0;
 
-     // direction encoder = 42 counts per rev, 64:1 gearbox ratio, 92 teeth on turret, 18 teeth on motor
-     // 92 / 18 * 64 * 42 = 13739 counts per turret rev, / 360 deg = 38.2 counts / deg
+     // direction encoder = 1 counts per rev, 100:1 gearbox ratio, 92 teeth on turret, 18 teeth on motor
+     // 92 / 18 * 100 * 1 = 511 motor revs per turret rev, / 360 deg = 1.42 motor revs / deg
      // camera in X = 320 pixels, 75 deg
      // 320 / 75 = 4.27 pixels / deg
-     // 38.2 (counts / deg) / 4.27 (pixels / deg) = 8.9 counts / pixel (direction)
-     public static final double TURRET_DIRECTION_COUNTS_PER_PIXEL = 8.9;
+     // 1.42 (motor revs / deg) / 4.27 (pixels / deg) = 0.33 motor revs / pixel (direction)
+     public static final double TURRET_DIRECTION_COUNTS_PER_PIXEL = 0.33;
 
      public static final float TURRET_DIRECTION_FWD_LIMIT = 125.0f;
      public static final float TURRET_DIRECTION_REV_LIMIT = -125.0f;
      public static final double TURRET_DIRECTION_POS_CONVERSION_FACTOR = 1.0;
+     public static final double TURRET_DIRECTION_RAMP_RATE = 1.0;
 
      //Hood positions
      public static final double TURRET_HOOD_CLOSE = 200.0;
@@ -276,18 +292,18 @@ public final class Parameters {
 
      public static final double TURRET_HOOD_MIDPOINT = 100.0;
 
-     // hood encoder = 42 counts per rev, 64:1 (subject to change) gearbox ratio, teeth ratio is 1-to-1
-     // (42 / 42 = 1) * 64 * 42 = 2688 counts per timing belt rev (hood) / 360 deg = 7.47 counts / deg
+     // hood encoder = 42 counts per rev, 10:1 (subject to change) gearbox ratio, teeth ratio is 1-to-1
+     // (42 / 42 = 1) * 10 * 42 = 420 counts per timing belt rev (hood) / 360 deg = 1.17 counts / deg
      // camera in Y = 200 pixels, 47 deg
      // 200 / 47 = 4.26 pixels / deg
-     // 7.47 (counts / deg) / 4.26 (pixels / deg) = 1.8 counts / pixel
-     public static final double TURRET_HOOD_COUNTS_PER_PIXEL = 1.8;
+     // 1.17 (counts / deg) / 4.26 (pixels / deg) = 0.27 counts / pixel
+     public static final double TURRET_HOOD_COUNTS_PER_PIXEL = 0.27;
 
      public static final double TURRET_HOOD_INIT_POWER = 1.0;
      public static final double TURRET_HOOD_CURRENT_LIMIT = 1.0;
 
-     public static final float TURRET_HOOD_FWD_LIMIT = 1000.0f;
-     public static final float TURRET_HOOD_REV_LIMIT = -1000.0f;
+     public static final float TURRET_HOOD_FWD_LIMIT = 10.0f;
+     public static final float TURRET_HOOD_REV_LIMIT = 10.0f;
 
      //Speed for Shooter
      public static final double TURRET_SHOOTER_SPEED = 2000.0;

@@ -7,56 +7,51 @@
 
 package com.phantommentalists.commands;
 
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Pickup;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
-public class PickupExtendCommand extends CommandBase {
-  private Pickup pickup;
-  private Timer timer;
-
-  /**
-   * Creates a new PickupExtendCommand.
+/**
+   * Spins the pickup wheels forward when the magazine up button is pressed
+   * and pickup is extended
    */
-  public PickupExtendCommand(Pickup p) {
+public class PickupSpinRollersFwdCommand extends CommandBase {  
+  private OI oi;
+  private Pickup pickup;
+
+  public PickupSpinRollersFwdCommand(OI o, Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
+    oi = o;
     pickup = p;
-    timer = new Timer();
-    addRequirements(pickup);
+    //addRequirements(pickup);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    timer.start();
-    if (timer.get() > Parameters.EXTEND_TIME) {
-      pickup.extend();
+    if (Parameters.PICKUP_AVAILABLE) {
+      pickup.turnOnRollersFwd();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    timer.stop();
+    if (Parameters.PICKUP_AVAILABLE) {
+      pickup.turnOffRollers();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Parameters.PICKUP_AVAILABLE) {
-      return pickup.isPickUpExtended();
-    } 
-    else {
-      return false;
-    }
+    return !oi.isRollerButtonFwd();
   }
 }

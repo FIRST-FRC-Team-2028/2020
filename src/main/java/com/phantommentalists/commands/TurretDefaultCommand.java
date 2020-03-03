@@ -24,6 +24,7 @@ public class TurretDefaultCommand extends CommandBase {
   private OI oi;
   private Turret turret;
   private double speed;
+  private double shooterSpeed;
 
   public TurretDefaultCommand(OI o, Turret t) {
     oi = o;
@@ -34,13 +35,16 @@ public class TurretDefaultCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+<<<<<<< HEAD
     turret.setHoodHome();
+=======
+    shooterSpeed = Parameters.TURRET_SHOOTER_SPEED;
+>>>>>>> 8aa860fc3a674ceb10c080d23f4537102fc37f3d
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double shooterSpeed = Parameters.TURRET_SHOOTER_SPEED;
     
     if (oi.isTurretAutoButton()) {
       if (turret.mode == Parameters.AutoMode.MANUAL) {
@@ -89,21 +93,22 @@ public class TurretDefaultCommand extends CommandBase {
     
 
     // Turret Shooter controls   *****************************************/
-    if (turret.mode == Parameters.AutoMode.MANUAL) {
-      if (oi.isTurretHoodClose()) {
-        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
-      } else if (oi.isTurretHoodMedium()) {
-        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
-      } else if (oi.isTurretHoodFar()) {
-        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_FAR;
-      }
-    }
+    // if (turret.mode == Parameters.AutoMode.MANUAL) {
+    //   if (oi.isTurretHoodClose()) {
+    //     shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
+    //   } else if (oi.isTurretHoodMedium()) {
+    //     shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
+    //   } else if (oi.isTurretHoodFar()) {
+    //     shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_FAR;
+    //   }
+    // }
 
-    
-    if (oi.isShooterButtonPressed()) {
-      turret.setShooterSpeed(shooterSpeed);
-    } else {
-      turret.setShooterPower(0.0);
+    if (turret.mode == Parameters.AutoMode.MANUAL) { 
+      if (oi.isShooterButtonPressed()) {
+        turret.setShooterSpeed(shooterSpeed);
+      } else {
+        turret.setShooterPower(0.0);
+      }
     }
     
 
