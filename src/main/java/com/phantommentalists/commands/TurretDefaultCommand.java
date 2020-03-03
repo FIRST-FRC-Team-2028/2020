@@ -69,15 +69,15 @@ public class TurretDefaultCommand extends CommandBase {
     // Turret Hood controls   *****************************************/
     if (turret.mode == Parameters.AutoMode.MANUAL) {
       if (oi.isTurretHoodMedium()) {
-        turret.setHoodPower(-Parameters.TURRET_HOOD_VOLTAGE);
+        turret.setHood(-Parameters.TURRET_HOOD_VOLTAGE);
       } else if (oi.isTurretHoodClose()) {
-        turret.setHoodPower(Parameters.TURRET_HOOD_VOLTAGE);
+        turret.setHood(Parameters.TURRET_HOOD_VOLTAGE);
       } else {
-        turret.setHoodPower(0.0);
+        turret.setHood(0.0);
       }
     }
 
-    if (turret.mode == Parameters.AutoMode.MANUAL) {
+    if (turret.mode == Parameters.AutoMode.AUTO) {
       if (oi.isTurretHoodClose()) {
         turret.setHoodPosition(Parameters.TURRET_HOOD_CLOSE);
       } else if (oi.isTurretHoodMedium()) {
@@ -89,15 +89,15 @@ public class TurretDefaultCommand extends CommandBase {
     
 
     // Turret Shooter controls   *****************************************/
-    // if (turret.mode == Parameters.AutoMode.MANUAL) {
-    //   if (oi.isTurretHoodClose()) {
-    //     shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
-    //   } else if (oi.isTurretHoodMedium()) {
-    //     shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
-    //   } else if (oi.isTurretHoodFar()) {
-    //     shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_FAR;
-    //   }
-    // }
+    if (turret.mode == Parameters.AutoMode.AUTO) {
+      if (oi.isTurretHoodClose()) {
+        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
+      } else if (oi.isTurretHoodMedium()) {
+        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
+      } else if (oi.isTurretHoodFar()) {
+        shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_FAR;
+      }
+    }
 
     if (turret.mode == Parameters.AutoMode.MANUAL) { 
       if (oi.isShooterButtonPressed()) {

@@ -73,7 +73,7 @@ public class Turret extends SubsystemBase {
   private String print;
   private TurretTrajectory traject;
 
-  private boolean hoodInitialized = false;
+  public boolean hoodInitialized = false;
   private int hoodTimeout = 0;
 
   public Turret() {
@@ -225,11 +225,11 @@ public class Turret extends SubsystemBase {
    */
   public void initHood() {
     if (!hoodInitialized) {
-      setHoodPower(Parameters.TURRET_HOOD_INIT_POWER);
+      setHood(Parameters.TURRET_HOOD_INIT_POWER);
       //if (hoodTimeout >= 10) {
         //if (getHoodCurrent() > Parameters.TURRET_HOOD_CURRENT_LIMIT)
         if (hoodForwardLimit.get()) {
-          setHoodPower(0.0);
+          setHood(0.0);
           setHoodHome();
           hoodInitialized = true;
         }
@@ -243,9 +243,9 @@ public class Turret extends SubsystemBase {
    * 
    * @param voltage
    */
-  public void setHoodPower(double voltage) {
+  public void setHood(double voltage) {
     if (Parameters.TURRET_AVAILABLE) {
-      hood.setVoltage(voltage);
+      hood.set(voltage);
     }
   }
 
@@ -331,13 +331,13 @@ public class Turret extends SubsystemBase {
 
   public TurretTrajectory getTrajectory(double y) {
     TurretTrajectory trajectory = new TurretTrajectory();
-    if (y > 0 && y < 10) {
+    if (y > Parameters.TURRET_HOOD_CLOSE_Y_START && y < Parameters.TURRET_HOOD_CLOSE_Y_END) {
       trajectory.hoodTarget = Parameters.TURRET_HOOD_CLOSE;
       trajectory.shooterTarget = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
-    } else if (y > 10 && y < 20) {
+    } else if (y > Parameters.TURRET_HOOD_MEDIUM_Y_START && y < Parameters.TURRET_HOOD_MEDIUM_Y_END) {
       trajectory.hoodTarget = Parameters.TURRET_HOOD_MEDIUM;
       trajectory.shooterTarget = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
-    } else if (y > 25 && y < 36) {
+    } else if (y > Parameters.TURRET_HOOD_FAR_Y_START && y < Parameters.TURRET_HOOD_FAR_Y_END) {
       trajectory.hoodTarget = Parameters.TURRET_HOOD_FAR;
       trajectory.shooterTarget = Parameters.TURRET_SHOOTER_SPEED_FAR;
     }
@@ -349,11 +349,6 @@ public class Turret extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    // if (oi.isTurretAutoButton()) {
-    // setAimMode(Parameters.AutoMode.AUTO);
-    // }
-    // ^ is in TurretDefaultCommand
-
     SmartDashboard.putNumber("P Gain", directionController.getP());
     SmartDashboard.putNumber("I Gain", directionController.getI());
     SmartDashboard.putNumber("D Gain", directionController.getD());
@@ -363,17 +358,18 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("Min Output", directionController.getOutputMin());
     SmartDashboard.putNumber("Set Point", setPoint);
 
+      double directionCurrentPos = this.getDirection();
     
+    if (Parameters.TURRET_CAMERA_AVAILABLE) {
       turretTarget = getTurretTarget();
 
-      double directionCurrentPos = this.getDirection();
-      //directionInput = turretTarget.X; //FIXME uncomment
+      directionInput = turretTarget.X; //FIXME uncomment
 
       // Get camera input, determines how far from center the target is, and
       // calculates encoder counts to move
 
-      //double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput) * 10.5 + directionCurrentPos; //FIXME uncomment
-
+      double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput) * 10.5 + directionCurrentPos; //FIXME uncomment
+    }
       // PID Tuning: read PID coefficients from SmartDashboard
       double p = SmartDashboard.getNumber("P Gain", 0);
       double i = SmartDashboard.getNumber("I Gain", 0);
@@ -405,9 +401,9 @@ public class Turret extends SubsystemBase {
       // direction.set(directionPower);
 
       // FIXME uncomment when ready
-      // if (!hoodInitialized) {
-      // initHood();
-      // }
+      if (!hoodInitialized) {
+        initHood();
+      }
 
       // traject = getTrajectory(turretTarget.Y);
       // hoodInput = traject.hoodTarget;

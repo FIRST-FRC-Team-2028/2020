@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -21,14 +22,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Climber extends SubsystemBase {
 
   //FIXME: is a double solenoid correct?
-  private DoubleSolenoid armRelease;
+  private Solenoid armRelease;
   private CANSparkMax leftClimberMotor; 
   private CANSparkMax rightClimberMotor;
 
   public Climber() {
     leftClimberMotor = new CANSparkMax(Parameters.CANIDs.CLIMB_LEFT.getid(), MotorType.kBrushless);
     rightClimberMotor = new CANSparkMax(Parameters.CANIDs.CLIMB_RIGHT.getid(), MotorType.kBrushless);
-    armRelease = new DoubleSolenoid(Parameters.SOLENOID_EXTEND, Parameters.SOLENOID_RETRACT);
+    armRelease = new Solenoid(Parameters.SOLENOID_EXTEND);
   }
 
   /**
@@ -37,7 +38,7 @@ public class Climber extends SubsystemBase {
   public void releaseArm() {
     if (Parameters.CLIMBER_AVAILABLE) {
       //utilizes pneumatics (pancake cylinder)
-      armRelease.set(Value.kForward); //FIXME: is this right?
+      armRelease.set(true); //FIXME: is this right?
     }
   }
 
