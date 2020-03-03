@@ -252,13 +252,8 @@ public final class Parameters {
      public static final double MAGAZINE_ACCEL_SPEED = 0.8;
 
      //used for climber currently not being used
-<<<<<<< HEAD
-     public static final int SOLENOID_EXTEND = 3;
-     public static final int SOLENOID_RETRACT = 2;
-=======
       public static final int SOLENOID_EXTEND = 1;
       public static final int SOLENOID_RETRACT = 2;
->>>>>>> 8aa860fc3a674ceb10c080d23f4537102fc37f3d
      public static final double CLIMBER_REEL_SPEED = 1.0;
 
      // public static final double PICKUP_TIME = 0.5;

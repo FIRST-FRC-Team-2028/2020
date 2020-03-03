@@ -7,24 +7,19 @@
 
 package com.phantommentalists;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-
 // import edu.wpi.first.wpilibj.XboxController;
 // import com.phantommentalists.commands.DriveDefaultCommand;
 // import com.phantommentalists.commands.DriveSpinCommand;
 import com.phantommentalists.commands.DrivePixyFollowPowerCellCommand;
-import com.phantommentalists.commands.MagazineShootCommand;
-// import com.phantommentalists.commands.PickupExtendCommand;
-import com.phantommentalists.commands.PickupLoadCommandGroup;
-import com.phantommentalists.commands.PickupRetractCommand;
-import com.phantommentalists.commands.PickupSpinRollersRevCommand;
 import com.phantommentalists.commands.PickupSpinRollersFwdCommand;
+import com.phantommentalists.commands.PickupSpinRollersRevCommand;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Magazine;
 import com.phantommentalists.subsystems.Pickup;
-import com.phantommentalists.subsystems.Turret;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 

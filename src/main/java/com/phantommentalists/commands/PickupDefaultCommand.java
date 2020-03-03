@@ -9,6 +9,7 @@ package com.phantommentalists.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 
+import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.PickupPos;
 import com.phantommentalists.subsystems.Pickup;
@@ -18,22 +19,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class PickupDefaultCommand extends CommandBase {
   private Pickup pickup;
   private Timer timer;
+  private OI oi;
 
   /**
    * Creates a new PickupDefaultCommand.
    */
-<<<<<<< HEAD:src/main/java/com/phantommentalists/commands/PickupExtendCommand.java
-  public PickupExtendCommand(Pickup p) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    pickup = p;
-    timer = new Timer();
-=======
   public PickupDefaultCommand(OI o, Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
     pickup = p;
     oi = o;
     //timer = new Timer();
->>>>>>> 8aa860fc3a674ceb10c080d23f4537102fc37f3d:src/main/java/com/phantommentalists/commands/PickupDefaultCommand.java
     addRequirements(pickup);
   }
 
@@ -46,11 +41,6 @@ public class PickupDefaultCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-<<<<<<< HEAD:src/main/java/com/phantommentalists/commands/PickupExtendCommand.java
-    timer.start();
-    if (timer.get() > Parameters.EXTEND_TIME) {
-      pickup.extend();
-=======
     // timer.start();
     if (oi.isPickupButton()) {
       if (pickup.position == Parameters.PickupPos.RETRACT) {
@@ -60,31 +50,20 @@ public class PickupDefaultCommand extends CommandBase {
         pickup.retract();
         pickup.position = Parameters.PickupPos.RETRACT;
       }
->>>>>>> 8aa860fc3a674ceb10c080d23f4537102fc37f3d:src/main/java/com/phantommentalists/commands/PickupDefaultCommand.java
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-<<<<<<< HEAD:src/main/java/com/phantommentalists/commands/PickupExtendCommand.java
-    timer.stop();
-=======
     //timer.stop();
     // pickup.position = Parameters.PickupPos.EXTEND;
     //pickup.retract();
->>>>>>> 8aa860fc3a674ceb10c080d23f4537102fc37f3d:src/main/java/com/phantommentalists/commands/PickupDefaultCommand.java
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-<<<<<<< HEAD:src/main/java/com/phantommentalists/commands/PickupExtendCommand.java
-    if (Parameters.PICKUP_AVAILABLE) {
-      return pickup.isPickUpExtended();
-    } 
-    else {
-=======
     // if (Parameters.PICKUP_AVAILABLE) {
     //   return pickup.isPickUpExtended();
     // } else {
@@ -93,7 +72,6 @@ public class PickupDefaultCommand extends CommandBase {
     // if (!oi.isPickupButton()) {
     //   return true;
     // } else {
->>>>>>> 8aa860fc3a674ceb10c080d23f4537102fc37f3d:src/main/java/com/phantommentalists/commands/PickupDefaultCommand.java
       return false;
     // }
   }

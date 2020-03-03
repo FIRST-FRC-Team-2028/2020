@@ -23,6 +23,6 @@ public class AutonomousFindPowerCellCommandGroup extends ParallelCommandGroup {
    */
   public AutonomousFindPowerCellCommandGroup(Drive drive, DrivePixy pixyCam, OI o, Pickup p) {
     // Add your commands in the super() call, e.g.
-    super(new DrivePixyFollowPowerCellCommand(drive, pixyCam, o), new LoadPowercellCommandGroup(p, o));
+    super(new DrivePixyFollowPowerCellCommand(drive, pixyCam, o), new PickupLoadCommandGroup(o, p));
   }
 }

@@ -35,11 +35,7 @@ public class TurretDefaultCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-<<<<<<< HEAD
-    turret.setHoodHome();
-=======
     shooterSpeed = Parameters.TURRET_SHOOTER_SPEED;
->>>>>>> 8aa860fc3a674ceb10c080d23f4537102fc37f3d
   }
 
   // Called every time the scheduler runs while the command is scheduled.
