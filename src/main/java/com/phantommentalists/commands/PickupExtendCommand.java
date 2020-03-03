@@ -38,8 +38,9 @@ public class PickupExtendCommand extends CommandBase {
   @Override
   public void execute() {
     timer.start();
-    pickup.extend();
-
+    if (timer.get() > Parameters.EXTEND_TIME) {
+      pickup.extend();
+    }
   }
 
   // Called once the command ends or is interrupted.

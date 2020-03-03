@@ -23,14 +23,14 @@ import com.phantommentalists.subsystems.Pickup;
  */
 public class PickupLoadCommand extends CommandBase {
   Pickup pickup;
-  Timer timer;
+  //Timer timer;
   OI oi;
 
   public PickupLoadCommand(OI o, Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
     oi = o;
-    pickup = new Pickup();
-    timer = new Timer();
+    pickup = p;
+    //timer = new Timer();
     addRequirements(pickup);
   }
 
@@ -79,11 +79,12 @@ public class PickupLoadCommand extends CommandBase {
     //   return false;
     // }
     return false;
+
+    //THIS WORKS
     // if (!oi.isPickupButton()){
     //   return true;
     // } else {
     //   return false;
     // }
   }
-  
 }

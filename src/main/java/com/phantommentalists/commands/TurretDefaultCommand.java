@@ -34,6 +34,7 @@ public class TurretDefaultCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    turret.setHoodHome();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -75,15 +76,16 @@ public class TurretDefaultCommand extends CommandBase {
         turret.setHoodPower(0.0);
       }
     }
-    // if (turret.mode == Parameters.AutoMode.MANUAL) {
-    //   if (oi.isTurretHoodClose()) {
-    //     turret.setHoodPosition(Parameters.TURRET_HOOD_CLOSE);
-    //   } else if (oi.isTurretHoodMedium()) {
-    //     turret.setHoodPosition(Parameters.TURRET_HOOD_MEDIUM);
-    //   } else if (oi.isTurretHoodFar()) {
-    //     turret.setHoodPosition(Parameters.TURRET_HOOD_FAR);
-    //   }
-    // }
+
+    if (turret.mode == Parameters.AutoMode.MANUAL) {
+      if (oi.isTurretHoodClose()) {
+        turret.setHoodPosition(Parameters.TURRET_HOOD_CLOSE);
+      } else if (oi.isTurretHoodMedium()) {
+        turret.setHoodPosition(Parameters.TURRET_HOOD_MEDIUM);
+      } else if (oi.isTurretHoodFar()) {
+        turret.setHoodPosition(Parameters.TURRET_HOOD_FAR);
+      }
+    }
     
 
     // Turret Shooter controls   *****************************************/

@@ -17,7 +17,7 @@ public class AutonomousCommand extends CommandBase {
   private double driveTimeSec;
   private Timer timer;
   /**
-   * Drives forward for 5 seconds
+   * Drives forward for 5 seconds. Mainly for testing
    */
   public AutonomousCommand(Drive d) {
     drive = d;

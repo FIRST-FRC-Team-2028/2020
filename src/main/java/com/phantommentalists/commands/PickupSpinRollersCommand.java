@@ -16,12 +16,11 @@ import com.phantommentalists.subsystems.Pickup;
 /**
    * Starts and stops the intake arm
    */
-public class PickupSpinArmCommand extends CommandBase {
-  
+public class PickupSpinRollersCommand extends CommandBase {  
   private OI oi;
   private Pickup pickup;
 
-  public PickupSpinArmCommand(OI o, Pickup p) {
+  public PickupSpinRollersCommand(OI o, Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
     oi = o;
     pickup = p;
@@ -52,6 +51,6 @@ public class PickupSpinArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !oi.isPickupButton();
+    return !oi.isRollerButton();
   }
 }

@@ -30,7 +30,9 @@ import com.revrobotics.CANDigitalInput.LimitSwitch;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -67,6 +69,8 @@ public class Turret extends SubsystemBase {
   private TurretPixyPacket[] packet1 = new TurretPixyPacket[7];
   private TurretPixy turretPixy;
   private TurretPixyPacket turretTarget;
+  private Port port = Port.kOnboard;
+  private String print;
   private TurretTrajectory traject;
 
   private boolean hoodInitialized = false;
@@ -144,6 +148,9 @@ public class Turret extends SubsystemBase {
 
       shooterEncoder = shooter.getEncoder();
 
+      turretPixy = new TurretPixy("Power Cell", new I2C(port, 0x54), packet1, new TurretPixyException(print),
+                        new TurretPixyPacket());
+
       mode = AutoMode.MANUAL;
     }
   }
@@ -203,7 +210,9 @@ public class Turret extends SubsystemBase {
    * Sets the hood to zero
    */
   public void setHoodHome() {
-    hoodEncoder.setPosition(0.0);
+    if (hoodForwardLimit.get() == true) {
+      hoodEncoder.setPosition(0.0);
+    }
   }
 
   public double getHoodCurrent() {
@@ -241,7 +250,7 @@ public class Turret extends SubsystemBase {
 
   public void setHoodPosition(double position) {
     if (Parameters.TURRET_AVAILABLE) {
-      // hoodController.setReference(position, ControlType.kPosition);
+      hoodController.setReference(position, ControlType.kPosition);
       // mode = AutoMode.MANUAL;
     }
   }
@@ -352,17 +361,16 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("Max Output", directionController.getOutputMax());
     SmartDashboard.putNumber("Min Output", directionController.getOutputMin());
 
-    if (mode == Parameters.AutoMode.AUTO) {
-      // gc turretTarget = getTurretTarget(); // FIXME get camera data
+    
+      turretTarget = getTurretTarget();
 
       double directionCurrentPos = this.getDirection();
-      // gc directionInput = turretTarget.X;
+      //directionInput = turretTarget.X; //FIXME uncomment
 
       // Get camera input, determines how far from center the target is, and
       // calculates encoder counts to move
 
-      // gc double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput)
-      // * 10.5 + directionCurrentPos;
+      //double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput) * 10.5 + directionCurrentPos; //FIXME uncomment
 
       // PID Tuning: read PID coefficients from SmartDashboard
       // double p = SmartDashboard.getNumber("P Gain", 0);
@@ -372,7 +380,7 @@ public class Turret extends SubsystemBase {
       // double ff = SmartDashboard.getNumber("Feed Forward", 0);
       // double max = SmartDashboard.getNumber("Max Output", 0);
       // double min = SmartDashboard.getNumber("Min Output", 0);
-      double setPoint = SmartDashboard.getNumber("Set Point", 0);
+      // sc double setPoint = SmartDashboard.getNumber("Set Point", 0);
       // if PID coefficients on SmartDashboard have changed, write new values to
       // controller
       // if((p != directionController.getP())) { directionController.setP(p); }
@@ -401,7 +409,7 @@ public class Turret extends SubsystemBase {
       // hoodInput = traject.hoodTarget;
       // shooterInput = traject.shooterTarget; FIXME no camera
 
-    }
+    
     SmartDashboard.putNumber("Shooter RPM", getShooterSpeed());
     SmartDashboard.putNumber("Direction Pos:", getDirection());
     if (mode == Parameters.AutoMode.MANUAL) {
@@ -434,7 +442,7 @@ public class Turret extends SubsystemBase {
     for (int i = 0; i < packet1.length; i++) {
       packet1[i] = null;
     }
-
+    
     for (int i = 1; i < 8; i++) {
       try {
         // read packet for signature i (counting from 1, see pixy docs)
@@ -453,7 +461,7 @@ public class Turret extends SubsystemBase {
       // SmartDashboard.putNumber("Power Cell Pixy Height Value: ", packet1[i -
       // 1].Height);
       // SmartDashboard.putString("Power Cell Pixy Error: " + i, "False");
-
+      
       WWW = packet1[i - 1].X;
       // if (Math.abs(WWW-Last_Value)<3)
       if ((Math.abs(WWW - 160) < 75) && (targetYAvg > 50))
@@ -464,10 +472,10 @@ public class Turret extends SubsystemBase {
 
       lastValue = packet1[i - 1].X;
 
-      // SmartDashboard.putNumber("Power Cell Pixy X Value: ", targetXAvg);
-
-      // SmartDashboard.putNumber("Distance to Target: ", );
-      // PixyCamera.getDistancetoTarget(targetYAvg));
+      SmartDashboard.putNumber("Power Cell Pixy X Value: ", targetXAvg);
+      
+      //SmartDashboard.putNumber("Distance to Target: ",
+      //TurretPixy.getDistancetoTarget(targetYAvg));
 
       target.X = targetXAvg;
       target.Y = targetYAvg;

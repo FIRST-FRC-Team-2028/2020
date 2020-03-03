@@ -7,20 +7,22 @@
 
 package com.phantommentalists.commands;
 
-//import edu.wpi.first.wpilibj.XboxController;
+import com.phantommentalists.OI;
+import com.phantommentalists.subsystems.Turret;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import com.phantommentalists.subsystems.Drive;
 
-/**
- * Gets input from xbox controller to drive the robot.
- */
-public class DriveDefaultCommand extends CommandBase {
-  private Drive drive;
-
-  public DriveDefaultCommand(Drive d) {
+public class AutonomousTurretAimCommand extends CommandBase {
+  private Turret turret;
+  private OI oi;
+  /**
+   * Creates a new AutonomousTurretAimCommand.
+   */
+  public AutonomousTurretAimCommand(OI o, Turret t) {
     // Use addRequirements() here to declare subsystem dependencies.
-    drive = d;
-    addRequirements(drive);
+    oi = o;
+    turret = t;
+    addRequirements(turret);
   }
 
   // Called when the command is initially scheduled.
@@ -31,13 +33,12 @@ public class DriveDefaultCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.executeDrive(0.0);
+    turret.getTurretTarget();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("I'm stopped");
   }
 
   // Returns true when the command should end.

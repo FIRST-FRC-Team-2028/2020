@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.Gear;
-import com.phantommentalists.Parameters.PneumaticChannel;
 //import com.phantommentalists.Parameters.PneumaticChannel;
 import com.phantommentalists.commands.DriveDefaultCommand;
 import com.phantommentalists.DrivePixy;
@@ -66,8 +65,7 @@ public class Drive extends SubsystemBase {
     rightLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_LEADER.getid(), MotorType.kBrushless);
     leftFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.getid(), MotorType.kBrushless);
     rightFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_FOLLOWER.getid(), MotorType.kBrushless);
-    shifter = new DoubleSolenoid(PneumaticChannel.DRIVE_LOW_GEAR.getChannel(),
-    PneumaticChannel.DRIVE_HIGH_GEAR.getChannel());
+    shifter = new DoubleSolenoid(Parameters.PneumaticChannel.DRIVE_LOW_GEAR.getChannel(), Parameters.PneumaticChannel.DRIVE_HIGH_GEAR.getChannel());
 
     // leftLeader.restoreFactoryDefaults();
     // leftFollower.restoreFactoryDefaults();

@@ -15,10 +15,13 @@ import edu.wpi.first.wpilibj.Joystick;
 // import com.phantommentalists.commands.DriveSpinCommand;
 import com.phantommentalists.commands.DrivePixyFollowPowerCellCommand;
 import com.phantommentalists.commands.MagazineShootCommand;
+import com.phantommentalists.commands.PickupExtendCommand;
 import com.phantommentalists.commands.PickupLoadCommand;
+import com.phantommentalists.commands.PickupSpinRollersCommand;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Magazine;
 import com.phantommentalists.subsystems.Pickup;
+import com.phantommentalists.subsystems.Turret;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -49,19 +52,19 @@ public class OI {
   public OI(Telepath r) {
     // Configure the button bindings
     robot = r;
-    if (Parameters.DRIVE_AVAILABLE) {
+    
+    //if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive(this);
       drive.initDefaultCommand();
-    }
-
-    if (Parameters.MAGAZINE_AVAILABLE) {
+    //}
+    
+    //if (Parameters.MAGAZINE_AVAILABLE) {
       magazine = new Magazine(this);
       //magazine = robot.getMagazine();
       magazine.initDefaultCommand(this);    // FIXME    ***** uncomment the magazine available stuff when it works
-    }
+    
 
-    pickup = new Pickup(); //FIXME: Why does this work but robot.getPickup() doesn't?
-    //pickup = robot.getPickup(); 
+    pickup = new Pickup();
 
     pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
     copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
@@ -89,13 +92,15 @@ public class OI {
     copilotStickPowerCellFollowButton.whenPressed(new DrivePixyFollowPowerCellCommand(drive, drive.getDrivePixy(), this));
     
     //Shoot
-    JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
-    copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
+    //now done in default command
+    //JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
+    //copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
 
     //Pickup
     JoystickButton copilotStickPickupExtend = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_PICKUP);
-    copilotStickPickupExtend.whileHeld(new PickupLoadCommand(this, pickup));
-
+    copilotStickPickupExtend.whenPressed(new PickupExtendCommand(pickup));
+    JoystickButton spinRollersButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_MAGAZINE_DOWN);
+    spinRollersButton.whenPressed(new PickupSpinRollersCommand(this, pickup));
   }
 
   /**
@@ -168,11 +173,6 @@ public class OI {
     return copilotJoystick1.getRawButton(Parameters.COPILOT1_MAGAZINE_DOWN);
   }
 
-  public boolean isShoot() {
-    return copilotJoystick1.getRawButton(Parameters.COPILOT1_SHOOT); 
-  }
-
-
   public boolean isHighGearButton() {
     return pilotJoystick.getRawButton(Parameters.PILOT_BUTTON_1);
   }
@@ -185,12 +185,27 @@ public class OI {
     return drive;
   }
 
+  public Magazine getMagazine() {
+    return magazine;
+  }
+
+
+
   public boolean isPickupButton() {
     return copilotJoystick1.getRawButton(Parameters.COPILOT1_PICKUP);
   }
 
   public boolean isClimb() {
     return copilotJoystick2.getRawButton(Parameters.COPILOT2_CLIMB);
+  }
+
+  // remove after testing
+  public boolean isRollerButton() {
+    boolean temp = false;
+    if (copilotJoystick1.getRawButton(Parameters.COPILOT1_MAGAZINE_DOWN)) {
+      temp = true;
+    }
+    return temp;
   }
 
   /*

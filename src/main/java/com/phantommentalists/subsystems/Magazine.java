@@ -24,14 +24,12 @@ public class Magazine extends SubsystemBase {
   private CANSparkMax accelerator;
   private CANSparkMax magazine;
   private int ballCount;
-  private OI oi;
 
   public Magazine(OI o) {
     if (Parameters.MAGAZINE_AVAILABLE) {
       accelerator = new CANSparkMax(Parameters.CANIDs.ACCELERATOR.getid(), MotorType.kBrushless);
       magazine = new CANSparkMax(Parameters.CANIDs.MAGAZINE.getid(), MotorType.kBrushless);
 
-      oi = o;
     }
     ballCount = 0;
   }
@@ -104,8 +102,7 @@ public class Magazine extends SubsystemBase {
     }
   }
 
-  // FIXME: Took OI out of this as a parameter to see if it fixes the nullpointer exception
-  public void initDefaultCommand() {
+  public void initDefaultCommand(OI oi) {
     if (Parameters.MAGAZINE_AVAILABLE) {
       setDefaultCommand(new MagazineDefaultCommand(oi, this));
     }
