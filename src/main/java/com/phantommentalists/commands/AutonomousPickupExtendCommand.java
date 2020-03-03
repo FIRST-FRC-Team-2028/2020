@@ -7,53 +7,64 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.subsystems.Drive;
+import com.phantommentalists.OI;
+import com.phantommentalists.Parameters;
+import com.phantommentalists.subsystems.Pickup;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutonomousCommand extends CommandBase {
-  private Drive drive;
-  private double driveTimeSec;
-  private Timer timer;
-  /**
-   * Drives forward for 5 seconds. Mainly for testing
-   */
-  public AutonomousCommand(Drive d) {
-    drive = d;
-    driveTimeSec = 5.0;
-    timer = new Timer();
-    addRequirements(d);
+/**
+ * Turns off rollers and retracts arm
+ */
+public class AutonomousPickupExtendCommand extends CommandBase {
+  private Pickup pickup;
+  private OI oi;
+ // private Timer timer;
+
+  public void AutonomousPickupExtendCommand(Pickup p) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    pickup = p;
+    //timer = new Timer();
+    addRequirements(pickup);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
+   // timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    timer.start();
-    drive.tankDrive(2.5, -2.5);
+    if (Parameters.PICKUP_AVAILABLE) {
+    //  timer.start();
+    //  pickup.turnOffRollers();
+      pickup.extend();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive.tankDrive(0.0, 0.0);
-    timer.stop();
+   // timer.stop();
+   // pickup.stopArm();
+   // pickup.position = Parameters.PickupPos.RETRACT;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (timer.get() > driveTimeSec) {
-      return true;
-    }
-    else {
+    // if (Parameters.PICKUP_AVAILABLE) {
+    //   return pickup.isPickUpRetracted();
+    // } else {
+    //   return false;
+    // }
+    // if (!oi.isPickupButton()) {
+    //   return true;
+    // } else {
       return false;
-    }
+    // }
   }
 }

@@ -8,8 +8,7 @@ package com.phantommentalists;
 
 import java.lang.reflect.Parameter;
 
-import com.phantommentalists.commands.AutonomousCenterPickupPowerCells;
-import com.phantommentalists.commands.AutonomousCommand;
+import com.phantommentalists.commands.AutonomousCommandGroup;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Magazine;
 import com.phantommentalists.subsystems.Turret;
@@ -26,11 +25,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.Joystick;
-
-import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorMatchResult;
-import com.revrobotics.ColorSensorV3;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -142,7 +136,7 @@ public class Telepath extends TimedRobot {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine.setBallHeldCount(3);
     }
-    m_autonomousCommand = new AutonomousCommand(drive);
+    m_autonomousCommand = new AutonomousCommandGroup(turret, m_oi, magazine, drive);
     if (Parameters.DRIVE_AVAILABLE) {
       drive.resetGyro();
     }
@@ -150,6 +144,7 @@ public class Telepath extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    turret.mode = Parameters.AutoMode.AUTO;
   }
 
   /**
@@ -176,6 +171,8 @@ public class Telepath extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    turret.mode = Parameters.AutoMode.MANUAL;
   }
 
   /**
