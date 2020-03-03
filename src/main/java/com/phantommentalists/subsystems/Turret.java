@@ -485,8 +485,11 @@ public class Turret extends SubsystemBase {
       target.Y = targetYAvg;
       target.width = width;
       target.height = height;
-
     }
     return target;
+  }
+
+  public CANPIDController getDirectionController() {
+    return directionController;
   }
 }

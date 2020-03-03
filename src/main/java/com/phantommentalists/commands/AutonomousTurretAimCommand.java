@@ -7,21 +7,26 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.OI;
+import com.phantommentalists.Parameters;
+import com.phantommentalists.TurretPixyPacket;
 import com.phantommentalists.subsystems.Turret;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutonomousTurretAimCommand extends CommandBase {
   private Turret turret;
-  private OI oi;
+  private TurretPixyPacket target;
+  private double input;
+  private CANPIDController pidController;
   /**
    * Creates a new AutonomousTurretAimCommand.
    */
-  public AutonomousTurretAimCommand(OI o, Turret t) {
+  public AutonomousTurretAimCommand( Turret t) {
     // Use addRequirements() here to declare subsystem dependencies.
-    oi = o;
     turret = t;
+    pidController = turret.getDirectionController();
     addRequirements(turret);
   }
 
@@ -33,7 +38,13 @@ public class AutonomousTurretAimCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turret.getTurretTarget();
+    target = turret.getTurretTarget();
+    input = target.X;
+    double currentPos = turret.getDirection();
+    double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - input) * 10.5 + currentPos;
+    if (turret.mode == Parameters.AutoMode.AUTO){
+      pidController.setReference(setPoint, ControlType.kPosition);
+    }
   }
 
   // Called once the command ends or is interrupted.
