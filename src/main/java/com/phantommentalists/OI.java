@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
 // import com.phantommentalists.commands.DriveSpinCommand;
 import com.phantommentalists.commands.DrivePixyFollowPowerCellCommand;
 import com.phantommentalists.commands.MagazineShootCommand;
-import com.phantommentalists.commands.PickupExtendCommand;
+// import com.phantommentalists.commands.PickupExtendCommand;
 import com.phantommentalists.commands.PickupLoadCommandGroup;
 import com.phantommentalists.commands.PickupRetractCommand;
 import com.phantommentalists.commands.PickupSpinRollersRevCommand;
@@ -66,6 +66,7 @@ public class OI {
     //}
 
     pickup = new Pickup();
+    pickup.initDefaultCommand();
 
     pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
     copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
@@ -98,8 +99,8 @@ public class OI {
     //copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
 
     //Pickup
-    JoystickButton copilotStickPickupExtend = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_PICKUP);
-    copilotStickPickupExtend.whenPressed(new PickupExtendCommand(this, pickup));
+    // JoystickButton copilotStickPickupExtend = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_PICKUP);
+    // copilotStickPickupExtend.whenPressed(new PickupDefaultCommand(this, pickup));
     // copilotStickPickupExtend.whileHeld(new PickupLoadCommandGroup(this, pickup));
     JoystickButton spinRollersFwdButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_MAGAZINE_DOWN);
     spinRollersFwdButton.whenPressed(new PickupSpinRollersFwdCommand(this, pickup));

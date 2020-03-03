@@ -394,7 +394,9 @@ public class Turret extends SubsystemBase {
       directionController.setOutputRange(min, max);
       }
 
-      directionController.setReference(setPoint, ControlType.kPosition);
+      if (mode == Parameters.AutoMode.AUTO){
+        directionController.setReference(setPoint, ControlType.kPosition);
+      }
       // will SmartMotion work with a changing setpoint?
       // double directionPower = directionController.calculate(directionInput,
       // Parameters.TURRET_POSITION_SETPOINT);

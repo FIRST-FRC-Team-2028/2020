@@ -28,7 +28,7 @@ public class PickupSpinRollersRevCommand extends CommandBase {
     oi = o;
     pickup = p;
     //timer = new Timer();
-    addRequirements(pickup);
+    //addRequirements(pickup);
   }
 
   // Called when the command is initially scheduled.

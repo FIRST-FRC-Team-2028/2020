@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Timer;
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.PickupPos;
+import com.phantommentalists.commands.PickupDefaultCommand;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -114,6 +115,10 @@ public class Pickup extends SubsystemBase {
     if (Parameters.TURRET_AVAILABLE) {
       position = switchPosition;
     }
+  }
+
+  public void initDefaultCommand() {
+    setDefaultCommand(new PickupDefaultCommand(oi, this));
   }
 
   @Override

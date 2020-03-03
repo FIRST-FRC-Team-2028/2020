@@ -23,6 +23,6 @@ public class PickupLoadCommandGroup extends ParallelCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     addRequirements(o.getPickup());
-    addCommands(new PickupExtendCommand(o, p), new PickupSpinRollersFwdCommand(o, p));
+    addCommands(new PickupDefaultCommand(o, p), new PickupSpinRollersFwdCommand(o, p));
   }
 }

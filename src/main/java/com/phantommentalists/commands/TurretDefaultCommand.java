@@ -25,6 +25,7 @@ public class TurretDefaultCommand extends CommandBase {
   private OI oi;
   private Turret turret;
   private double speed;
+  private double shooterSpeed;
 
   public TurretDefaultCommand(OI o, Turret t) {
     oi = o;
@@ -35,12 +36,12 @@ public class TurretDefaultCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooterSpeed = Parameters.TURRET_SHOOTER_SPEED;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double shooterSpeed = Parameters.TURRET_SHOOTER_SPEED;
     
     if (oi.isTurretAutoButton()) {
       if (turret.mode == Parameters.AutoMode.MANUAL) {

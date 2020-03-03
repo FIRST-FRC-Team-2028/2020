@@ -11,19 +11,20 @@ import edu.wpi.first.wpilibj.Timer;
 
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Parameters.PickupPos;
 import com.phantommentalists.subsystems.Pickup;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class PickupExtendCommand extends CommandBase {
+public class PickupDefaultCommand extends CommandBase {
   private Pickup pickup;
   private Timer timer;
   private OI oi;
 
   /**
-   * Creates a new PickupExtendCommand.
+   * Creates a new PickupDefaultCommand.
    */
-  public PickupExtendCommand(OI o, Pickup p) {
+  public PickupDefaultCommand(OI o, Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
     pickup = p;
     oi = o;
@@ -40,9 +41,16 @@ public class PickupExtendCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //timer.start();
-    pickup.extend();
-
+    // timer.start();
+    if (oi.isPickupButton()) {
+      if (pickup.position == Parameters.PickupPos.RETRACT) {
+        pickup.extend();
+        pickup.position = Parameters.PickupPos.EXTEND;
+      } else if (pickup.position == Parameters.PickupPos.EXTEND) {
+        pickup.retract();
+        pickup.position = Parameters.PickupPos.RETRACT;
+      }
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -50,7 +58,7 @@ public class PickupExtendCommand extends CommandBase {
   public void end(boolean interrupted) {
     //timer.stop();
     // pickup.position = Parameters.PickupPos.EXTEND;
-    pickup.retract();
+    //pickup.retract();
   }
 
   // Returns true when the command should end.
@@ -61,10 +69,10 @@ public class PickupExtendCommand extends CommandBase {
     // } else {
     //   return false;
     // }
-    if (!oi.isPickupButton()) {
-      return true;
-    } else {
+    // if (!oi.isPickupButton()) {
+    //   return true;
+    // } else {
       return false;
-    }
+    // }
   }
 }
