@@ -7,59 +7,37 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.OI;
-import com.phantommentalists.Parameters;
-import com.phantommentalists.subsystems.Magazine;
+import com.phantommentalists.subsystems.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class MagazineDefaultCommand extends CommandBase {
-  private OI oi;
-  private Magazine magazine;
+public class ClimbCommand extends CommandBase {
+  private Climber climber;
   /**
-   * Moves the power cells through the magazine
+   * Creates a new ClimbCommand.
    */
-  public MagazineDefaultCommand(OI o, Magazine m) {
+  public ClimbCommand(Climber c) {
+    climber = c;
     // Use addRequirements() here to declare subsystem dependencies.
-    oi = o;
-    magazine = m;
-    addRequirements(magazine);
+    addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    climber.releaseArm();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Parameters.MAGAZINE_AVAILABLE) {
-     if (oi.isMagazineLoadUpButton()) {
-        magazine.setLoaderPower(-Parameters.MAGAZINE_LOAD_SPEED);
-      } 
-      else if (oi.isMagazineLoadDownButton()) {
-        magazine.setLoaderPower(Parameters.MAGAZINE_LOAD_SPEED);
-      } 
-      else {
-        magazine.setLoaderPower(0.0);
-      } 
-
-      if (oi.isShooterButtonPressed()) {
-        magazine.shootBall();
-      } 
-      else if (oi.isAccelRevButtonPressed()) {
-        magazine.revAccelerator();
-      }
-      else {
-        magazine.stopShoot();
-      }
-    }
+    climber.climbUp();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    climber.stopClimbing();
   }
 
   // Returns true when the command should end.

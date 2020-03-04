@@ -45,6 +45,7 @@ public class Telepath extends TimedRobot {
   // private DoubleSolenoid shifter
   private PowerDistributionPanel pdp;
   
+  
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -58,10 +59,13 @@ public class Telepath extends TimedRobot {
     if (Parameters.TURRET_AVAILABLE) {
       turret = new Turret();
       turret.initDefaultCommand(m_oi);
+      turret.hoodInitialized = false;
     }
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine = m_oi.getMagazine();
     }
+
+    
     // if (Parameters.PICKUP_AVAILABLE) {
     //   pickup = new Pickup();
     //   // pickup = m_oi.getPickup();
@@ -172,7 +176,7 @@ public class Telepath extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    turret.mode = Parameters.AutoMode.MANUAL;
+    turret.mode = Parameters.AutoMode.AUTO;
   }
 
   /**

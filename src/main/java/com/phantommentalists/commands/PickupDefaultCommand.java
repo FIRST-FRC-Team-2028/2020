@@ -42,13 +42,13 @@ public class PickupDefaultCommand extends CommandBase {
   @Override
   public void execute() {
     // timer.start();
-    if (oi.isPickupButton()) {
-      if (pickup.position == Parameters.PickupPos.RETRACT) {
+    if (oi.isPickupButtonPressed()) {
+      if (pickup.getPosition() == Parameters.PickupPos.RETRACT) {
         pickup.extend();
-        pickup.position = Parameters.PickupPos.EXTEND;
-      } else if (pickup.position == Parameters.PickupPos.EXTEND) {
+        pickup.setPosition(PickupPos.EXTEND);
+      } else if (pickup.getPosition() == Parameters.PickupPos.EXTEND) {
         pickup.retract();
-        pickup.position = Parameters.PickupPos.RETRACT;
+        pickup.setPosition(PickupPos.RETRACT);
       }
     }
   }

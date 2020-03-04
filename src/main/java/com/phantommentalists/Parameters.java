@@ -28,6 +28,7 @@ public final class Parameters {
     public static final boolean CAMERA_AVAILABLE        = false;
     public static final boolean AIM_AVAILABLE           = false;
     public static final boolean TURRET_AVAILABLE        = true;
+    public static final boolean TURRET_CAMERA_AVAILABLE = false;
     public static final boolean MAGAZINE_AVAILABLE      = true;
     public static final boolean PICKUP_AVAILABLE        = true;
     public static final boolean KICKER_AVAILABLE        = false;
@@ -141,7 +142,7 @@ public final class Parameters {
 
     public enum SmartPID {
         TURRET_DIRECTION(0.005, 0.9e-5, 0.0, 0.0, 0.0, -2.0, 2.0, 0.0, 0.0, 0.0, 0.0),
-        TURRET_HOOD(0.005, 1.1e-5, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
+        TURRET_HOOD(0.01, 1e-5, 0.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
 
         private double p, i, d, iz, ff, minOut, maxOut, maxVel, minVel, maxAcc, allowedErr;
 
@@ -246,7 +247,7 @@ public final class Parameters {
     //Speed/Voltage for subsystems
     //Pickup gearbox ratio - 25:1; Magazine gearbox ratio - 30:1
     //(6/5) * magazineLoadSpeed = pickupIntakeSpeed
-     public static final double PICKUP_ROLLER_SPEED = 0.36;
+     public static final double PICKUP_ROLLER_SPEED = 0.35;
      public static final double KICKER_SPEED = 0.5;
      public static final double MAGAZINE_LOAD_SPEED = 0.3;
      public static final double MAGAZINE_ACCEL_SPEED = 0.8;
@@ -274,31 +275,39 @@ public final class Parameters {
      // 1.42 (motor revs / deg) / 4.27 (pixels / deg) = 0.33 motor revs / pixel (direction)
      public static final double TURRET_DIRECTION_COUNTS_PER_PIXEL = 0.33;
 
-     public static final float TURRET_DIRECTION_FWD_LIMIT = 125.0f;
-     public static final float TURRET_DIRECTION_REV_LIMIT = -125.0f;
+     public static final float TURRET_DIRECTION_FWD_LIMIT = 135.0f;
+     public static final float TURRET_DIRECTION_REV_LIMIT = -135.0f;
      public static final double TURRET_DIRECTION_POS_CONVERSION_FACTOR = 1.0;
      public static final double TURRET_DIRECTION_RAMP_RATE = 1.0;
 
      //Hood positions
-     public static final double TURRET_HOOD_CLOSE = 200.0;
-     public static final double TURRET_HOOD_MEDIUM = 100.0;
-     public static final double TURRET_HOOD_FAR = 50.0;
+     // the closer the target, the closer to 0 for the hood position to aim higher
+     public static final double TURRET_HOOD_CLOSE = -10.0;
+     public static final double TURRET_HOOD_MEDIUM = -15.0;
+     public static final double TURRET_HOOD_FAR = -30.0;
      public static final double TURRET_HOOD_VOLTAGE = 0.4;
 
      public static final double TURRET_HOOD_MIDPOINT = 100.0;
 
-     // hood encoder = 42 counts per rev, 10:1 (subject to change) gearbox ratio, teeth ratio is 1-to-1
+     // hood encoder = 42 counts per rev, 10:1 gearbox ratio, teeth ratio is 1-to-1
      // (42 / 42 = 1) * 10 * 42 = 420 counts per timing belt rev (hood) / 360 deg = 1.17 counts / deg
      // camera in Y = 200 pixels, 47 deg
      // 200 / 47 = 4.26 pixels / deg
      // 1.17 (counts / deg) / 4.26 (pixels / deg) = 0.27 counts / pixel
      public static final double TURRET_HOOD_COUNTS_PER_PIXEL = 0.27;
 
-     public static final double TURRET_HOOD_INIT_POWER = 1.0;
+     public static final double TURRET_HOOD_INIT_POWER = 0.2;
      public static final double TURRET_HOOD_CURRENT_LIMIT = 1.0;
 
-     public static final float TURRET_HOOD_FWD_LIMIT = 10.0f;
-     public static final float TURRET_HOOD_REV_LIMIT = 10.0f;
+     public static final float TURRET_HOOD_FWD_LIMIT = 0.0f;
+     public static final float TURRET_HOOD_REV_LIMIT = -43.0f;
+
+     public static final double TURRET_HOOD_CLOSE_Y_START = 0.0;
+     public static final double TURRET_HOOD_CLOSE_Y_END = 10.0;
+     public static final double TURRET_HOOD_MEDIUM_Y_START = 10.0;
+     public static final double TURRET_HOOD_MEDIUM_Y_END = 20.0;
+     public static final double TURRET_HOOD_FAR_Y_START = 20.0;
+     public static final double TURRET_HOOD_FAR_Y_END = 30.0;
 
      //Speed for Shooter
      public static final double TURRET_SHOOTER_SPEED = 2000.0;
@@ -383,7 +392,7 @@ public final class Parameters {
     public static final int COPILOT2_BUTTON_5    =  5;
     public static final int COPILOT2_BUTTON_6    =  6;
     public static final int COPILOT2_BUTTON_7    =  7;
-    public static final int COPILOT2_BUTTON_8    =  8;
+    public static final int COPILOT2_ACCEL_REV   =  8;
     public static final int COPILOT2_BUTTON_9    =  9;
     public static final int COPILOT2_BUTTON_10   = 10;
 

@@ -62,7 +62,7 @@ public class OI {
     
 
     pickup = new Pickup();
-    pickup.initDefaultCommand();
+    pickup.initDefaultCommand(this);
 
     pilotJoystick = new Joystick(Parameters.USB_STICK_PILOT);
     copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
@@ -166,6 +166,10 @@ public class OI {
     return copilotJoystick1.getRawButton(Parameters.COPILOT1_SHOOT);
   }
 
+  public boolean isAccelRevButtonPressed() {
+    return copilotJoystick2.getRawButton(Parameters.COPILOT2_ACCEL_REV);
+  }  
+
   public boolean isMagazineLoadUpButton() {
     return copilotJoystick2.getRawButton(Parameters.COPILOT2_MAGAZINE_UP);
   }
@@ -194,8 +198,8 @@ public class OI {
     return pickup;
   }
 
-  public boolean isPickupButton() {
-    return copilotJoystick1.getRawButton(Parameters.COPILOT1_PICKUP);
+  public boolean isPickupButtonPressed() {
+    return copilotJoystick1.getRawButtonPressed(Parameters.COPILOT1_PICKUP);
   }
 
   public boolean isClimb() {

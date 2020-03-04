@@ -14,4 +14,5 @@ package com.phantommentalists;
 public class TurretTrajectory {
     public double hoodTarget;
     public double shooterTarget;
+    public boolean trajValid;
 }

@@ -75,6 +75,12 @@ public class Magazine extends SubsystemBase {
     }
   }
 
+  public void revAccelerator() {
+    if (Parameters.MAGAZINE_AVAILABLE) {
+      accelerator.set(Parameters.MAGAZINE_ACCEL_SPEED);
+    }
+  }
+
   public void stopShoot() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       accelerator.set(0.0);
