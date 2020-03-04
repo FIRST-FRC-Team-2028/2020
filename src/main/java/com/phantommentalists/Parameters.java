@@ -247,7 +247,7 @@ public final class Parameters {
     //Speed/Voltage for subsystems
     //Pickup gearbox ratio - 25:1; Magazine gearbox ratio - 30:1
     //(6/5) * magazineLoadSpeed = pickupIntakeSpeed
-     public static final double PICKUP_ROLLER_SPEED = 0.36;
+     public static final double PICKUP_ROLLER_SPEED = 0.35;
      public static final double KICKER_SPEED = 0.5;
      public static final double MAGAZINE_LOAD_SPEED = 0.3;
      public static final double MAGAZINE_ACCEL_SPEED = 0.8;
@@ -392,7 +392,7 @@ public final class Parameters {
     public static final int COPILOT2_BUTTON_5    =  5;
     public static final int COPILOT2_BUTTON_6    =  6;
     public static final int COPILOT2_BUTTON_7    =  7;
-    public static final int COPILOT2_BUTTON_8    =  8;
+    public static final int COPILOT2_ACCEL_REV   =  8;
     public static final int COPILOT2_BUTTON_9    =  9;
     public static final int COPILOT2_BUTTON_10   = 10;
 

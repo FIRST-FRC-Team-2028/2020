@@ -166,6 +166,10 @@ public class OI {
     return copilotJoystick1.getRawButton(Parameters.COPILOT1_SHOOT);
   }
 
+  public boolean isAccelRevButtonPressed() {
+    return copilotJoystick2.getRawButton(Parameters.COPILOT2_ACCEL_REV);
+  }  
+
   public boolean isMagazineLoadUpButton() {
     return copilotJoystick2.getRawButton(Parameters.COPILOT2_MAGAZINE_UP);
   }

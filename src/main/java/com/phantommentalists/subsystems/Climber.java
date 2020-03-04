@@ -8,6 +8,7 @@
 package com.phantommentalists.subsystems;
 
 import com.phantommentalists.Parameters;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -21,15 +22,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class Climber extends SubsystemBase {
 
-  //FIXME: is a double solenoid correct?
   private Solenoid armRelease;
   private CANSparkMax leftClimberMotor; 
   private CANSparkMax rightClimberMotor;
+  private CANEncoder leftEncoder;
+  private CANEncoder rightEncoder;
+
 
   public Climber() {
     leftClimberMotor = new CANSparkMax(Parameters.CANIDs.CLIMB_LEFT.getid(), MotorType.kBrushless);
     rightClimberMotor = new CANSparkMax(Parameters.CANIDs.CLIMB_RIGHT.getid(), MotorType.kBrushless);
     armRelease = new Solenoid(Parameters.SOLENOID_EXTEND);
+    leftEncoder = leftClimberMotor.getEncoder();
+    rightEncoder = rightClimberMotor.getEncoder();
   }
 
   /**
