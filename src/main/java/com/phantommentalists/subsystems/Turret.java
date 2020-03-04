@@ -334,13 +334,21 @@ public class Turret extends SubsystemBase {
     if (y > Parameters.TURRET_HOOD_CLOSE_Y_START && y < Parameters.TURRET_HOOD_CLOSE_Y_END) {
       trajectory.hoodTarget = Parameters.TURRET_HOOD_CLOSE;
       trajectory.shooterTarget = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
+      trajectory.trajValid = true;
     } else if (y > Parameters.TURRET_HOOD_MEDIUM_Y_START && y < Parameters.TURRET_HOOD_MEDIUM_Y_END) {
       trajectory.hoodTarget = Parameters.TURRET_HOOD_MEDIUM;
       trajectory.shooterTarget = Parameters.TURRET_SHOOTER_SPEED_MEDIUM;
+      trajectory.trajValid = true;
     } else if (y > Parameters.TURRET_HOOD_FAR_Y_START && y < Parameters.TURRET_HOOD_FAR_Y_END) {
       trajectory.hoodTarget = Parameters.TURRET_HOOD_FAR;
       trajectory.shooterTarget = Parameters.TURRET_SHOOTER_SPEED_FAR;
+      trajectory.trajValid = true;
+    } else {
+      trajectory.hoodTarget = this.getHood();
+      trajectory.shooterTarget = this.getShooterSpeed();
+      trajectory.trajValid = false;
     }
+
     return trajectory;
   }
 
@@ -349,14 +357,14 @@ public class Turret extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("P Gain", directionController.getP());
-    SmartDashboard.putNumber("I Gain", directionController.getI());
-    SmartDashboard.putNumber("D Gain", directionController.getD());
-    SmartDashboard.putNumber("I Zone", directionController.getIZone());
-    SmartDashboard.putNumber("Feed Forward", directionController.getFF());
-    SmartDashboard.putNumber("Max Output", directionController.getOutputMax());
-    SmartDashboard.putNumber("Min Output", directionController.getOutputMin());
-    SmartDashboard.putNumber("Set Point", setPoint);
+    // SmartDashboard.putNumber("P Gain", directionController.getP());
+    // SmartDashboard.putNumber("I Gain", directionController.getI());
+    // SmartDashboard.putNumber("D Gain", directionController.getD());
+    // SmartDashboard.putNumber("I Zone", directionController.getIZone());
+    // SmartDashboard.putNumber("Feed Forward", directionController.getFF());
+    // SmartDashboard.putNumber("Max Output", directionController.getOutputMax());
+    // SmartDashboard.putNumber("Min Output", directionController.getOutputMin());
+    // SmartDashboard.putNumber("Set Point", setPoint);
 
       double directionCurrentPos = this.getDirection();
     
@@ -371,26 +379,26 @@ public class Turret extends SubsystemBase {
       double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput) * 10.5 + directionCurrentPos; //FIXME uncomment
     }
       // PID Tuning: read PID coefficients from SmartDashboard
-      double p = SmartDashboard.getNumber("P Gain", 0);
-      double i = SmartDashboard.getNumber("I Gain", 0);
-      double d = SmartDashboard.getNumber("D Gain", 0);
-      double iz = SmartDashboard.getNumber("I Zone", 0);
-      double ff = SmartDashboard.getNumber("Feed Forward", 0);
-      double max = SmartDashboard.getNumber("Max Output", 0);
-      double min = SmartDashboard.getNumber("Min Output", 0);
-      setPoint = SmartDashboard.getNumber("Set Point", 0);
+      // double p = SmartDashboard.getNumber("P Gain", 0);
+      // double i = SmartDashboard.getNumber("I Gain", 0);
+      // double d = SmartDashboard.getNumber("D Gain", 0);
+      // double iz = SmartDashboard.getNumber("I Zone", 0);
+      // double ff = SmartDashboard.getNumber("Feed Forward", 0);
+      // double max = SmartDashboard.getNumber("Max Output", 0);
+      // double min = SmartDashboard.getNumber("Min Output", 0);
+      // setPoint = SmartDashboard.getNumber("Set Point", 0);
       // if PID coefficients on SmartDashboard have changed, write new values to
       // controller
-      if((p != directionController.getP())) { directionController.setP(p); }
-      if((i != directionController.getI())) { directionController.setI(i); }
-      if((d != directionController.getD())) { directionController.setD(d); }
-      if((iz != directionController.getIZone())) {
-      directionController.setIZone(iz); }
-      if((ff != directionController.getFF())) { directionController.setFF(ff); }
-      if((max != directionController.getOutputMax()) || (min !=
-      directionController.getOutputMin())) {
-      directionController.setOutputRange(min, max);
-      }
+      // if((p != directionController.getP())) { directionController.setP(p); }
+      // if((i != directionController.getI())) { directionController.setI(i); }
+      // if((d != directionController.getD())) { directionController.setD(d); }
+      // if((iz != directionController.getIZone())) {
+      // directionController.setIZone(iz); }
+      // if((ff != directionController.getFF())) { directionController.setFF(ff); }
+      // if((max != directionController.getOutputMax()) || (min !=
+      // directionController.getOutputMin())) {
+      // directionController.setOutputRange(min, max);
+      // }
 
       if (mode == Parameters.AutoMode.AUTO){
         directionController.setReference(setPoint, ControlType.kPosition);
@@ -405,9 +413,17 @@ public class Turret extends SubsystemBase {
         initHood();
       }
 
-      // traject = getTrajectory(turretTarget.Y);
-      // hoodInput = traject.hoodTarget;
-      // shooterInput = traject.shooterTarget; FIXME no camera
+    if (Parameters.TURRET_CAMERA_AVAILABLE) {
+      if (mode == Parameters.AutoMode.AUTO) {
+        traject = getTrajectory(turretTarget.Y);
+        if (traject.trajValid) {
+          hoodInput = traject.hoodTarget;
+          this.setHoodPosition(hoodInput);
+          shooterInput = traject.shooterTarget;
+          this.setShooterSpeed(shooterInput);
+        }
+      }
+    }
 
     
     SmartDashboard.putNumber("Shooter RPM", getShooterSpeed());

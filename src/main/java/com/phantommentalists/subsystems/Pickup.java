@@ -16,6 +16,7 @@ import com.phantommentalists.commands.PickupDefaultCommand;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
@@ -31,6 +32,7 @@ public class Pickup extends SubsystemBase {
   private Timer timer;
   public PickupPos position;
   private OI oi;
+  private String modeString;
 
   public Pickup() {
     pickup = new CANSparkMax(Parameters.CANIDs.PICKUP.getid(), MotorType.kBrushless);
@@ -116,13 +118,22 @@ public class Pickup extends SubsystemBase {
       position = switchPosition;
     }
   }
+  public PickupPos getPosition() {
+    return position;
+  }
 
-  public void initDefaultCommand() {
+  public void initDefaultCommand(OI oi) {
     setDefaultCommand(new PickupDefaultCommand(oi, this));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (position == Parameters.PickupPos.RETRACT) {
+      modeString = "Retract";
+    } else if (position == Parameters.PickupPos.EXTEND) {
+      modeString = "Extend";
+    }
+    SmartDashboard.putString("Pickup Position", modeString);
   }
 }

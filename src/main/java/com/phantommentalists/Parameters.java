@@ -275,8 +275,8 @@ public final class Parameters {
      // 1.42 (motor revs / deg) / 4.27 (pixels / deg) = 0.33 motor revs / pixel (direction)
      public static final double TURRET_DIRECTION_COUNTS_PER_PIXEL = 0.33;
 
-     public static final float TURRET_DIRECTION_FWD_LIMIT = 125.0f;
-     public static final float TURRET_DIRECTION_REV_LIMIT = -125.0f;
+     public static final float TURRET_DIRECTION_FWD_LIMIT = 135.0f;
+     public static final float TURRET_DIRECTION_REV_LIMIT = -135.0f;
      public static final double TURRET_DIRECTION_POS_CONVERSION_FACTOR = 1.0;
      public static final double TURRET_DIRECTION_RAMP_RATE = 1.0;
 

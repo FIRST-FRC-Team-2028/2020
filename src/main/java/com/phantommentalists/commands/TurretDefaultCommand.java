@@ -77,7 +77,7 @@ public class TurretDefaultCommand extends CommandBase {
       }
     }
 
-    if (turret.mode == Parameters.AutoMode.AUTO) {
+    if (turret.mode == Parameters.AutoMode.AUTO && !Parameters.TURRET_CAMERA_AVAILABLE) {
       if (oi.isTurretHoodClose()) {
         turret.setHoodPosition(Parameters.TURRET_HOOD_CLOSE);
       } else if (oi.isTurretHoodMedium()) {
@@ -99,13 +99,13 @@ public class TurretDefaultCommand extends CommandBase {
       }
     }
 
-    if (turret.mode == Parameters.AutoMode.MANUAL) { 
+    //if (turret.mode == Parameters.AutoMode.MANUAL) { 
       if (oi.isShooterButtonPressed()) {
         turret.setShooterSpeed(shooterSpeed);
       } else {
         turret.setShooterPower(0.0);
       }
-    }
+    //}
     
 
     if (oi.isTestButton()) {
