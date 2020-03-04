@@ -12,9 +12,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -43,7 +41,7 @@ public class Climber extends SubsystemBase {
   public void releaseArm() {
     if (Parameters.CLIMBER_AVAILABLE) {
       //utilizes pneumatics (pancake cylinder)
-      armRelease.set(true); //FIXME: is this right?
+      armRelease.set(true);
     }
   }
 

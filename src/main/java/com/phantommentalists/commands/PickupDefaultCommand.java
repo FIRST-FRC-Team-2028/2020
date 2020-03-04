@@ -7,7 +7,7 @@
 
 package com.phantommentalists.commands;
 
-import edu.wpi.first.wpilibj.Timer;
+// import edu.wpi.first.wpilibj.Timer;
 
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class PickupDefaultCommand extends CommandBase {
   private Pickup pickup;
-  private Timer timer;
+  // private Timer timer;
   private OI oi;
 
   /**

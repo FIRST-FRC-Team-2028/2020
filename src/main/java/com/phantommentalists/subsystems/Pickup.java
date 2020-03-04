@@ -31,7 +31,6 @@ public class Pickup extends SubsystemBase {
   private DoubleSolenoid arm;
   private Timer timer;
   public PickupPos position;
-  private OI oi;
   private String modeString;
 
   public Pickup() {

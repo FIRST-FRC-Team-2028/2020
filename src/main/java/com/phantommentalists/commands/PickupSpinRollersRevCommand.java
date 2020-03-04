@@ -7,7 +7,7 @@
 
 package com.phantommentalists.commands;
 
-import edu.wpi.first.wpilibj.Timer;
+// import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import com.phantommentalists.OI;
@@ -41,7 +41,6 @@ public class PickupSpinRollersRevCommand extends CommandBase {
   @Override
   public void execute() {
     if (Parameters.PICKUP_AVAILABLE) {
-      // FIXME: What is the point of timer?
       //timer.start();
       //pickup.extend();
       //pickup.turnOnRollers();

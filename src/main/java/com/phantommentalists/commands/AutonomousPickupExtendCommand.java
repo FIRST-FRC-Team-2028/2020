@@ -7,11 +7,10 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Pickup;
 
-import edu.wpi.first.wpilibj.Timer;
+// import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -19,10 +18,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class AutonomousPickupExtendCommand extends CommandBase {
   private Pickup pickup;
-  private OI oi;
  // private Timer timer;
 
-  public void AutonomousPickupExtendCommand(Pickup p) {
+  public AutonomousPickupExtendCommand(Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
     pickup = p;
     //timer = new Timer();

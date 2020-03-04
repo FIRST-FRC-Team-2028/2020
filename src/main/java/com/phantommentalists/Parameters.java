@@ -326,7 +326,6 @@ public final class Parameters {
     //public static final double DRIVE_LEFT_GEAR_RATIO = 1.0/8.333;    // 8.333 Low     3.667 High for 2 CIM Ball Shifter
     //public static final double DRIVE_RIGHT_GEAR_RATIO = 1.0/8.333;
     public static final double DRIVE_WHEEL_DIAMETER = 6.0;
-    // FIXME fill in/ fix all of the values
 
     //used in Turret sets port for gyro
     public static final SPI.Port CHASSIS_GYRO_PORT = SPI.Port.kOnboardCS0;

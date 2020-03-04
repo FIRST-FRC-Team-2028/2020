@@ -19,7 +19,6 @@ public class Aim extends SubsystemBase {
   private Mode mode;
 
   public Aim() {
-
   }
 
   /**
@@ -27,7 +26,6 @@ public class Aim extends SubsystemBase {
    */
   public void getAngleToPowerCell() {
     if (Parameters.AIM_AVAILABLE) {
-
     }
   }
 
@@ -36,7 +34,7 @@ public class Aim extends SubsystemBase {
    */
   public void getDistance() {
     if (Parameters.AIM_AVAILABLE) {
-
+      // Very nice
     }
   }
 
@@ -45,7 +43,6 @@ public class Aim extends SubsystemBase {
    */
   public void getAngleToPowerPort() {
     if (Parameters.AIM_AVAILABLE) {
-
     }
   }
 
@@ -54,7 +51,6 @@ public class Aim extends SubsystemBase {
    */
   public void isTargetSeen() {
     if (Parameters.AIM_AVAILABLE) {
-
     }
   }
 
@@ -63,7 +59,6 @@ public class Aim extends SubsystemBase {
    */
   public void enable() {
     if (Parameters.AIM_AVAILABLE) {
-
     }
   }
 
@@ -72,7 +67,6 @@ public class Aim extends SubsystemBase {
    */
   public void disable() {
     if (Parameters.AIM_AVAILABLE) {
-
     }
   }
 

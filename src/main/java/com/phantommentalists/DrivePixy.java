@@ -7,7 +7,6 @@
 package com.phantommentalists;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 
@@ -18,7 +17,6 @@ import edu.wpi.first.wpilibj.controller.PIDController;
  */
 public class DrivePixy {
   private AnalogInput pixyPowerCell;
-
   public PIDController follow_Ball_Controller;
 
   // follow_Ball_Controller = new PIDController(Parameters.kP_Drive_Pixy, Parameters.kI_Drive_Pixy, 
@@ -26,7 +24,7 @@ public class DrivePixy {
 
 
   public DrivePixy(int channel) {
-     pixyPowerCell = new AnalogInput(channel); //TODO use pixyPowerCell
+     pixyPowerCell = new AnalogInput(channel);
   }
 
   // map pixy output to -1 to +1 for angle range [-37, 37] degrees

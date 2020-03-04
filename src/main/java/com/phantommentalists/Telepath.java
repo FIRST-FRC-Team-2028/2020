@@ -6,8 +6,6 @@
 /*----------------------------------------------------------------------------*/
 package com.phantommentalists;
 
-import java.lang.reflect.Parameter;
-
 import com.phantommentalists.commands.AutonomousCommandGroup;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Magazine;
@@ -15,12 +13,9 @@ import com.phantommentalists.subsystems.Turret;
 import com.phantommentalists.subsystems.Pickup;
 import com.phantommentalists.OI;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -185,7 +180,6 @@ public class Telepath extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    // FIXME why is this here???
     // if (Parameters.PICKUP_AVAILABLE) {
     //   Joystick stick = m_oi.getPilotStick();
     //   if (stick.getRawButton(5)) {
@@ -195,29 +189,6 @@ public class Telepath extends TimedRobot {
     //     pickup.turnOffRollers();
     //   }
     // }
-    String gameData;
-    gameData = DriverStation.getInstance().getGameSpecificMessage();
-    if (gameData.length() > 0) {
-      switch (gameData.charAt(0)) {
-      case 'B':
-        // Blue case code
-        break;
-      case 'G':
-        // Green case code
-        break;
-      case 'R':
-        // Red case code
-        break;
-      case 'Y':
-        // Yellow case code
-        break;
-      default:
-        // This is corrupt data
-        break;
-      }
-    } else {
-      // Code for no data received yet
-    }
 
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled

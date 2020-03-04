@@ -31,7 +31,6 @@ import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -46,7 +45,6 @@ public class Turret extends SubsystemBase {
   private CANSparkMax shooter;
   public AutoMode mode;
   private String modeString;
-  private Timer timer;
 
   private CANEncoder directionEncoder;
   private double directionInput;
@@ -104,7 +102,6 @@ public class Turret extends SubsystemBase {
       // directionController.setSmartMotionAllowedClosedLoopError(Parameters.SmartPID.TURRET_DIRECTION.getAllowedErr(),
       // smartMotionSlot);
 
-      // FIXME: what does "setPositionConversionFactor"
       // directionEncoder.setPositionConversionFactor(Parameters.TURRET_DIRECTION_POS_CONVERSION_FACTOR);
       direction.setSoftLimit(SoftLimitDirection.kForward, Parameters.TURRET_DIRECTION_FWD_LIMIT);
       direction.setSoftLimit(SoftLimitDirection.kReverse, Parameters.TURRET_DIRECTION_REV_LIMIT);
@@ -371,12 +368,12 @@ public class Turret extends SubsystemBase {
     if (Parameters.TURRET_CAMERA_AVAILABLE) {
       turretTarget = getTurretTarget();
 
-      directionInput = turretTarget.X; //FIXME uncomment
+      directionInput = turretTarget.X;
 
       // Get camera input, determines how far from center the target is, and
       // calculates encoder counts to move
 
-      double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput) * 10.5 + directionCurrentPos; //FIXME uncomment
+      double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput) * 10.5 + directionCurrentPos;
     }
       // PID Tuning: read PID coefficients from SmartDashboard
       // double p = SmartDashboard.getNumber("P Gain", 0);
@@ -408,7 +405,6 @@ public class Turret extends SubsystemBase {
       // Parameters.TURRET_POSITION_SETPOINT);
       // direction.set(directionPower);
 
-      // FIXME uncomment when ready
       if (!hoodInitialized) {
         initHood();
       }
@@ -441,7 +437,6 @@ public class Turret extends SubsystemBase {
   }
 
   private void tunePID(CANPIDController pid) {
-
   }
 
   /**

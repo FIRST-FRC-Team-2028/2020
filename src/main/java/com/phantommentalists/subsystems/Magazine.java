@@ -61,7 +61,6 @@ public class Magazine extends SubsystemBase {
   public void loadBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       magazine.set(Parameters.MAGAZINE_LOAD_SPEED);
-    //  ++ballCount; FIXME: how do we know a ball is added?
     }
   }
 
@@ -71,7 +70,6 @@ public class Magazine extends SubsystemBase {
   public void shootBall() {
     if (Parameters.MAGAZINE_AVAILABLE) {
       accelerator.set(-Parameters.MAGAZINE_ACCEL_SPEED);
-      
     }
   }
 

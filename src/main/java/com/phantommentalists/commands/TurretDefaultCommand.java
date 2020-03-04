@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Turret;
-import com.revrobotics.ControlType;
 
 /**
  * This command manual moves the Turret Direction based on monitoring the
