@@ -12,17 +12,18 @@ import com.phantommentalists.subsystems.Magazine;
 import com.phantommentalists.subsystems.Turret;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class AutonomousShootCommandGroup extends ParallelCommandGroup {
+public class AutonomousShootCommandGroup extends SequentialCommandGroup {
   /**
    * Creates a new AutonomousShootCommandGroup.
    */
   public AutonomousShootCommandGroup(Turret t, OI o, Magazine m) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new AutonomousTurretShootCommand(t), new MagazineShootCommand(o, m));
+    super(new AutonomousTurretAimCommand(t), new ParallelCommandGroup(new AutonomousTurretShootCommand(t), new MagazineShootCommand(o, m)));
   }
 }

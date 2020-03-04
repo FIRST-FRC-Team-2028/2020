@@ -17,11 +17,12 @@ public class AutonomousDriveCommand extends CommandBase {
   private double driveTimeSec;
   private Timer timer;
   /**
-   * Drives forward for 5 seconds. Mainly for testing
+   * Drives backwards for 2 seconds then stops.
+   * Mainly for getting off the initiation line.
    */
   public AutonomousDriveCommand(Drive d) {
     drive = d;
-    driveTimeSec = 5.0;
+    driveTimeSec = 2.0;
     timer = new Timer();
     addRequirements(d);
   }
@@ -36,7 +37,8 @@ public class AutonomousDriveCommand extends CommandBase {
   @Override
   public void execute() {
     timer.start();
-    drive.tankDrive(2.5, -2.5);
+    // Should reverse it?
+    drive.tankDrive(-2.5, 2.5);
   }
 
   // Called once the command ends or is interrupted.
