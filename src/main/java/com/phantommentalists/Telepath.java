@@ -39,8 +39,7 @@ public class Telepath extends TimedRobot {
   private Compressor compressor;
   // private DoubleSolenoid shifter
   private PowerDistributionPanel pdp;
-  
-  
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -60,10 +59,9 @@ public class Telepath extends TimedRobot {
       magazine = m_oi.getMagazine();
     }
 
-    
     // if (Parameters.PICKUP_AVAILABLE) {
-    //   pickup = new Pickup();
-    //   // pickup = m_oi.getPickup();
+    // pickup = new Pickup();
+    // // pickup = m_oi.getPickup();
     // }
     // controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
 
@@ -76,7 +74,6 @@ public class Telepath extends TimedRobot {
     }
 
     pdp = new PowerDistributionPanel();
-
 
     CameraServer.getInstance().startAutomaticCapture();
 
@@ -107,7 +104,7 @@ public class Telepath extends TimedRobot {
       drive.periodic();
     }
     // if (Parameters.MAGAZINE_AVAILABLE) {
-    //   magazine.periodic();
+    // magazine.periodic();
     // }
     SmartDashboard.putNumber("PDP #0", pdp.getCurrent(0));
   }
@@ -118,7 +115,7 @@ public class Telepath extends TimedRobot {
   @Override
   public void disabledInit() {
     // if (Parameters.MAGAZINE_AVAILABLE) {
-    //   magazine.setBallHeldCount(0);
+    // magazine.setBallHeldCount(0);
     // }
   }
 
@@ -181,13 +178,13 @@ public class Telepath extends TimedRobot {
   public void teleopPeriodic() {
 
     // if (Parameters.PICKUP_AVAILABLE) {
-    //   Joystick stick = m_oi.getPilotStick();
-    //   if (stick.getRawButton(5)) {
-    //     pickup.turnOnRollers();
-    //   }
-    //   else {
-    //     pickup.turnOffRollers();
-    //   }
+    // Joystick stick = m_oi.getPilotStick();
+    // if (stick.getRawButton(5)) {
+    // pickup.turnOnRollers();
+    // }
+    // else {
+    // pickup.turnOffRollers();
+    // }
     // }
 
     // Runs the Scheduler. This is responsible for polling buttons, adding

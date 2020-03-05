@@ -15,8 +15,8 @@ import com.phantommentalists.subsystems.Turret;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
- * Main autonomous command for shooting our loaded powercells 
- * and then driving off the initiation line.
+ * Main autonomous command for shooting our loaded powercells and then driving
+ * off the initiation line.
  */
 public class AutonomousCommandGroup extends SequentialCommandGroup {
   /**

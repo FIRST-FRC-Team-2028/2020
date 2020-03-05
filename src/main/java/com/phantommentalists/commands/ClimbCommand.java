@@ -13,8 +13,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimbCommand extends CommandBase {
   private Climber climber;
+
   /**
-   * Creates a new ClimbCommand.
+   * Releases the climbing arm and activates the winch.
    */
   public ClimbCommand(Climber c) {
     climber = c;

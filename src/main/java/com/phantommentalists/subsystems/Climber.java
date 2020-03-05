@@ -21,11 +21,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Climber extends SubsystemBase {
 
   private Solenoid armRelease;
-  private CANSparkMax leftClimberMotor; 
+  private CANSparkMax leftClimberMotor;
   private CANSparkMax rightClimberMotor;
   private CANEncoder leftEncoder;
   private CANEncoder rightEncoder;
-
 
   public Climber() {
     leftClimberMotor = new CANSparkMax(Parameters.CANIDs.CLIMB_LEFT.getid(), MotorType.kBrushless);
@@ -40,7 +39,7 @@ public class Climber extends SubsystemBase {
    */
   public void releaseArm() {
     if (Parameters.CLIMBER_AVAILABLE) {
-      //utilizes pneumatics (pancake cylinder)
+      // utilizes pneumatics (pancake cylinder)
       armRelease.set(true);
     }
   }
@@ -50,8 +49,8 @@ public class Climber extends SubsystemBase {
    */
   public void climbUp() {
     if (Parameters.CLIMBER_AVAILABLE) {
-      leftClimberMotor.set(Parameters.CLIMBER_REEL_SPEED); //may need to be negative
-      rightClimberMotor.set(Parameters.CLIMBER_REEL_SPEED); //may need to be negative
+      leftClimberMotor.set(Parameters.CLIMBER_REEL_SPEED); // may need to be negative
+      rightClimberMotor.set(Parameters.CLIMBER_REEL_SPEED); // may need to be negative
     }
   }
 
@@ -70,17 +69,18 @@ public class Climber extends SubsystemBase {
    */
   public void releaseWinch() {
     if (Parameters.CLIMBER_AVAILABLE) {
-      
+
     }
   }
 
   /**
    * returns whether the climber has been deployed or not
+   * 
    * @return
    */
   public boolean isClimberDeployed() {
     if (Parameters.CLIMBER_AVAILABLE) {
-      //TODO: how do we figure this out?
+      // TODO: how do we figure this out?
     }
     return false;
   }

@@ -36,7 +36,7 @@ public class OI {
   private final Magazine magazine;
   private final Pickup pickup;
   // private PixyAnalog frontPixy = new PixyAnalog(Parameters.PIXY_CHANNEL);
-  private final Command m_autoCommand = null;  
+  private final Command m_autoCommand = null;
   // DriveDefaultCommand();
   private final Telepath robot;
 
@@ -49,17 +49,16 @@ public class OI {
   public OI(Telepath r) {
     // Configure the button bindings
     robot = r;
-    
-    //if (Parameters.DRIVE_AVAILABLE) {
-      drive = new Drive(this);
-      drive.initDefaultCommand();
-    //}
-    
-    //if (Parameters.MAGAZINE_AVAILABLE) {
-      magazine = new Magazine(this);
-      //magazine = robot.getMagazine();
-      magazine.initDefaultCommand(this);    // FIXME    ***** uncomment the magazine available stuff when it works
-    
+
+    // if (Parameters.DRIVE_AVAILABLE) {
+    drive = new Drive(this);
+    drive.initDefaultCommand();
+    // }
+
+    // if (Parameters.MAGAZINE_AVAILABLE) {
+    magazine = new Magazine(this);
+    // magazine = robot.getMagazine();
+    magazine.initDefaultCommand(this); // FIXME ***** uncomment the magazine available stuff when it works
 
     pickup = new Pickup();
     pickup.initDefaultCommand(this);
@@ -68,7 +67,7 @@ public class OI {
     copilotJoystick1 = new Joystick(Parameters.USB_STICK_COPILOT1);
     copilotJoystick2 = new Joystick(Parameters.USB_STICK_COPILOT2);
 
-    //FIXME How is powerCellCam going to be used
+    // FIXME How is powerCellCam going to be used
 
     configureButtonBindings();
   }
@@ -83,19 +82,23 @@ public class OI {
 
     // xboxController = new XboxController(1);
 
-    //PixyFollowPowerCell
-    JoystickButton pilotStickPowerCellFollowButton = new JoystickButton(pilotJoystick, Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
+    // PixyFollowPowerCell
+    JoystickButton pilotStickPowerCellFollowButton = new JoystickButton(pilotJoystick,
+        Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
     pilotStickPowerCellFollowButton.whenPressed(new DrivePixyFollowPowerCellCommand(drive, drive.getDrivePixy(), this));
-    JoystickButton copilotStickPowerCellFollowButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
-    copilotStickPowerCellFollowButton.whenPressed(new DrivePixyFollowPowerCellCommand(drive, drive.getDrivePixy(), this));
-    
-    //Shoot
-    //will be done in magazine default command
-    JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
-    //copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
+    JoystickButton copilotStickPowerCellFollowButton = new JoystickButton(copilotJoystick1,
+        Parameters.COPILOT1_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
+    copilotStickPowerCellFollowButton
+        .whenPressed(new DrivePixyFollowPowerCellCommand(drive, drive.getDrivePixy(), this));
 
-    //Pickup
-    // JoystickButton copilotStickPickupExtend = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_PICKUP);
+    // Shoot
+    // will be done in magazine default command
+    JoystickButton copilotStickShoot = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_SHOOT);
+    // copilotStickShoot.whenPressed(new MagazineShootCommand(this, magazine));
+
+    // Pickup
+    // JoystickButton copilotStickPickupExtend = new
+    // JoystickButton(copilotJoystick1, Parameters.COPILOT1_PICKUP);
     // copilotStickPickupExtend.whenPressed(new PickupDefaultCommand(this, pickup));
     // copilotStickPickupExtend.whileHeld(new PickupLoadCommandGroup(this, pickup));
     JoystickButton spinRollersFwdButton = new JoystickButton(copilotJoystick1, Parameters.COPILOT1_MAGAZINE_DOWN);
@@ -127,9 +130,9 @@ public class OI {
   }
 
   /*----------------------------------------------------------------------------*/
-  /*  Allows both Pilot and CoPilot to select "Follow Power Cell"               */
+  /* Allows both Pilot and CoPilot to select "Follow Power Cell" */
   /*----------------------------------------------------------------------------*/
-  
+
   public boolean isFollowPowerCellButton() {
     return pilotJoystick.getRawButton(Parameters.PILOT_JOYSTICK_FOLLOW_POWER_CELL_BUTTON);
   }
@@ -157,7 +160,7 @@ public class OI {
   public boolean isTurretHoodMedium() {
     return copilotJoystick2.getRawButton(Parameters.COPILOT2_HOOD_MEDIUM);
   }
-  
+
   public boolean isTurretHoodFar() {
     return copilotJoystick1.getRawButton(Parameters.COPILOT1_HOOD_FAR);
   }
@@ -168,7 +171,7 @@ public class OI {
 
   public boolean isAccelRevButtonPressed() {
     return copilotJoystick2.getRawButton(Parameters.COPILOT2_ACCEL_REV);
-  }  
+  }
 
   public boolean isMagazineLoadUpButton() {
     return copilotJoystick2.getRawButton(Parameters.COPILOT2_MAGAZINE_UP);
@@ -224,12 +227,9 @@ public class OI {
   }
 
   /*
-  // FIXME: Remove after testing is done
-  public Pickup getPickup() {
-    return pickup;
-  }
-  */
-  
+   * // FIXME: Remove after testing is done public Pickup getPickup() { return
+   * pickup; }
+   */
 
   // public XboxController getXboxController() {
   // return xboxController;

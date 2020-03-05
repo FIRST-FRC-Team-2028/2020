@@ -24,6 +24,7 @@ public class AutonomousShootCommandGroup extends SequentialCommandGroup {
   public AutonomousShootCommandGroup(Turret t, OI o, Magazine m) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new AutonomousTurretAimCommand(t), new ParallelCommandGroup(new AutonomousTurretShootCommand(t), new MagazineShootCommand(o, m)));
+    super(new AutonomousTurretAimCommand(t),
+        new ParallelCommandGroup(new AutonomousTurretShootCommand(t), new MagazineShootCommand(o, m)));
   }
 }

@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class MagazineDefaultCommand extends CommandBase {
   private OI oi;
   private Magazine magazine;
+
   /**
    * Moves the power cells through the magazine
    */
@@ -35,23 +36,19 @@ public class MagazineDefaultCommand extends CommandBase {
   @Override
   public void execute() {
     if (Parameters.MAGAZINE_AVAILABLE) {
-     if (oi.isMagazineLoadUpButton()) {
+      if (oi.isMagazineLoadUpButton()) {
         magazine.setLoaderPower(-Parameters.MAGAZINE_LOAD_SPEED);
-      } 
-      else if (oi.isMagazineLoadDownButton()) {
+      } else if (oi.isMagazineLoadDownButton()) {
         magazine.setLoaderPower(Parameters.MAGAZINE_LOAD_SPEED);
-      } 
-      else {
+      } else {
         magazine.setLoaderPower(0.0);
-      } 
+      }
 
       if (oi.isShooterButtonPressed()) {
         magazine.shootBall();
-      } 
-      else if (oi.isAccelRevButtonPressed()) {
+      } else if (oi.isAccelRevButtonPressed()) {
         magazine.revAccelerator();
-      }
-      else {
+      } else {
         magazine.stopShoot();
       }
     }

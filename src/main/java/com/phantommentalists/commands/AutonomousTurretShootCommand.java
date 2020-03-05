@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutonomousTurretShootCommand extends CommandBase {
   private Turret turret;
+
   /**
    * Creates a new AutonomousTurretCommand.
    */
@@ -33,7 +34,6 @@ public class AutonomousTurretShootCommand extends CommandBase {
   public void execute() {
     // FIXME: Place holder value, may need to find one that is better suited
     turret.setShooterSpeed(Parameters.TURRET_SHOOTER_SPEED);
-    
   }
 
   // Called once the command ends or is interrupted.

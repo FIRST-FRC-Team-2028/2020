@@ -16,9 +16,10 @@ public class AutonomousDriveCommand extends CommandBase {
   private Drive drive;
   private double driveTimeSec;
   private Timer timer;
+
   /**
-   * Drives backwards for 2 seconds then stops.
-   * Mainly for getting off the initiation line.
+   * Drives backwards for 2 seconds then stops. Mainly for getting off the
+   * initiation line.
    */
   public AutonomousDriveCommand(Drive d) {
     drive = d;
@@ -53,8 +54,7 @@ public class AutonomousDriveCommand extends CommandBase {
   public boolean isFinished() {
     if (timer.get() > driveTimeSec) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }

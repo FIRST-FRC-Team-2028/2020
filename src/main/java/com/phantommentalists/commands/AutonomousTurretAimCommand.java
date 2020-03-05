@@ -20,10 +20,11 @@ public class AutonomousTurretAimCommand extends CommandBase {
   private TurretPixyPacket target;
   private double input;
   private CANPIDController pidController;
+
   /**
    * Creates a new AutonomousTurretAimCommand.
    */
-  public AutonomousTurretAimCommand( Turret t) {
+  public AutonomousTurretAimCommand(Turret t) {
     // Use addRequirements() here to declare subsystem dependencies.
     turret = t;
     pidController = turret.getDirectionController();
@@ -42,7 +43,7 @@ public class AutonomousTurretAimCommand extends CommandBase {
     input = target.X;
     double currentPos = turret.getDirection();
     double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - input) * 10.5 + currentPos;
-    if (turret.mode == Parameters.AutoMode.AUTO){
+    if (turret.mode == Parameters.AutoMode.AUTO) {
       pidController.setReference(setPoint, ControlType.kPosition);
     }
   }

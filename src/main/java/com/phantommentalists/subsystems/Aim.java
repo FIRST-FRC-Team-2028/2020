@@ -22,7 +22,8 @@ public class Aim extends SubsystemBase {
   }
 
   /**
-   * Returns the angle that needs to be turned to in order to center on a power cell
+   * Returns the angle that needs to be turned to in order to center on a power
+   * cell
    */
   public void getAngleToPowerCell() {
     if (Parameters.AIM_AVAILABLE) {

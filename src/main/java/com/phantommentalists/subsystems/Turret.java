@@ -30,6 +30,7 @@ import com.revrobotics.CANDigitalInput.LimitSwitch;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -65,7 +66,8 @@ public class Turret extends SubsystemBase {
   private int WWW, DDD, lastValue;
   private int targetXAvg, targetYAvg, targetStartPosition, width, height, error;
   private TurretPixyPacket[] packet1 = new TurretPixyPacket[7];
-  private TurretPixy turretPixy;
+  private TurretPixy turretPixyI2C;
+  private AnalogInput turretPixyAnalog;
   private TurretPixyPacket turretTarget;
   private Port port = Port.kOnboard;
   private String print;
@@ -114,7 +116,7 @@ public class Turret extends SubsystemBase {
       hood.setSoftLimit(SoftLimitDirection.kReverse, Parameters.TURRET_HOOD_REV_LIMIT);
       hood.enableSoftLimit(SoftLimitDirection.kForward, false);
       hood.enableSoftLimit(SoftLimitDirection.kReverse, false);
-      
+
       hoodForwardLimit = hood.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
       hoodForwardLimit.enableLimitSwitch(true);
 
@@ -146,8 +148,9 @@ public class Turret extends SubsystemBase {
 
       shooterEncoder = shooter.getEncoder();
 
-      turretPixy = new TurretPixy("Power Cell", new I2C(port, 0x54), packet1, new TurretPixyException(print),
-                        new TurretPixyPacket());
+      // turretPixy = new TurretPixy("Power Cell", new I2C(port, 0x54), packet1, new TurretPixyException(print),
+      //     new TurretPixyPacket());
+      turretPixyAnalog = new AnalogInput(2);
 
       mode = AutoMode.MANUAL;
     }
@@ -223,15 +226,15 @@ public class Turret extends SubsystemBase {
   public void initHood() {
     if (!hoodInitialized) {
       setHood(Parameters.TURRET_HOOD_INIT_POWER);
-      //if (hoodTimeout >= 10) {
-        //if (getHoodCurrent() > Parameters.TURRET_HOOD_CURRENT_LIMIT)
-        if (hoodForwardLimit.get()) {
-          setHood(0.0);
-          setHoodHome();
-          hoodInitialized = true;
-        }
-      //}
-      //hoodTimeout++;
+      // if (hoodTimeout >= 10) {
+      // if (getHoodCurrent() > Parameters.TURRET_HOOD_CURRENT_LIMIT)
+      if (hoodForwardLimit.get()) {
+        setHood(0.0);
+        setHoodHome();
+        hoodInitialized = true;
+      }
+      // }
+      // hoodTimeout++;
     }
   }
 
@@ -363,51 +366,52 @@ public class Turret extends SubsystemBase {
     // SmartDashboard.putNumber("Min Output", directionController.getOutputMin());
     // SmartDashboard.putNumber("Set Point", setPoint);
 
-      double directionCurrentPos = this.getDirection();
-    
-    if (Parameters.TURRET_CAMERA_AVAILABLE) {
-      turretTarget = getTurretTarget();
+    double directionCurrentPos = this.getDirection();
 
-      directionInput = turretTarget.X;
+    if (Parameters.TURRET_CAMERA_AVAILABLE) {
+      // turretTarget = getTurretTarget();
+
+      directionInput = turretPixyAnalog.getAverageVoltage(); //turretTarget.X;
+      
 
       // Get camera input, determines how far from center the target is, and
       // calculates encoder counts to move
 
       double setPoint = (Parameters.TURRET_DIRECTION_SETPOINT - directionInput) * 10.5 + directionCurrentPos;
     }
-      // PID Tuning: read PID coefficients from SmartDashboard
-      // double p = SmartDashboard.getNumber("P Gain", 0);
-      // double i = SmartDashboard.getNumber("I Gain", 0);
-      // double d = SmartDashboard.getNumber("D Gain", 0);
-      // double iz = SmartDashboard.getNumber("I Zone", 0);
-      // double ff = SmartDashboard.getNumber("Feed Forward", 0);
-      // double max = SmartDashboard.getNumber("Max Output", 0);
-      // double min = SmartDashboard.getNumber("Min Output", 0);
-      // setPoint = SmartDashboard.getNumber("Set Point", 0);
-      // if PID coefficients on SmartDashboard have changed, write new values to
-      // controller
-      // if((p != directionController.getP())) { directionController.setP(p); }
-      // if((i != directionController.getI())) { directionController.setI(i); }
-      // if((d != directionController.getD())) { directionController.setD(d); }
-      // if((iz != directionController.getIZone())) {
-      // directionController.setIZone(iz); }
-      // if((ff != directionController.getFF())) { directionController.setFF(ff); }
-      // if((max != directionController.getOutputMax()) || (min !=
-      // directionController.getOutputMin())) {
-      // directionController.setOutputRange(min, max);
-      // }
+    // PID Tuning: read PID coefficients from SmartDashboard
+    // double p = SmartDashboard.getNumber("P Gain", 0);
+    // double i = SmartDashboard.getNumber("I Gain", 0);
+    // double d = SmartDashboard.getNumber("D Gain", 0);
+    // double iz = SmartDashboard.getNumber("I Zone", 0);
+    // double ff = SmartDashboard.getNumber("Feed Forward", 0);
+    // double max = SmartDashboard.getNumber("Max Output", 0);
+    // double min = SmartDashboard.getNumber("Min Output", 0);
+    // setPoint = SmartDashboard.getNumber("Set Point", 0);
+    // if PID coefficients on SmartDashboard have changed, write new values to
+    // controller
+    // if((p != directionController.getP())) { directionController.setP(p); }
+    // if((i != directionController.getI())) { directionController.setI(i); }
+    // if((d != directionController.getD())) { directionController.setD(d); }
+    // if((iz != directionController.getIZone())) {
+    // directionController.setIZone(iz); }
+    // if((ff != directionController.getFF())) { directionController.setFF(ff); }
+    // if((max != directionController.getOutputMax()) || (min !=
+    // directionController.getOutputMin())) {
+    // directionController.setOutputRange(min, max);
+    // }
 
-      if (mode == Parameters.AutoMode.AUTO){
-        directionController.setReference(setPoint, ControlType.kPosition);
-      }
-      // will SmartMotion work with a changing setpoint?
-      // double directionPower = directionController.calculate(directionInput,
-      // Parameters.TURRET_POSITION_SETPOINT);
-      // direction.set(directionPower);
+    if (mode == Parameters.AutoMode.AUTO) {
+      directionController.setReference(setPoint, ControlType.kPosition);
+    }
+    // will SmartMotion work with a changing setpoint?
+    // double directionPower = directionController.calculate(directionInput,
+    // Parameters.TURRET_POSITION_SETPOINT);
+    // direction.set(directionPower);
 
-      if (!hoodInitialized) {
-        initHood();
-      }
+    if (!hoodInitialized) {
+      initHood();
+    }
 
     if (Parameters.TURRET_CAMERA_AVAILABLE) {
       if (mode == Parameters.AutoMode.AUTO) {
@@ -421,7 +425,6 @@ public class Turret extends SubsystemBase {
       }
     }
 
-    
     SmartDashboard.putNumber("Shooter RPM", getShooterSpeed());
     SmartDashboard.putNumber("Direction Pos:", getDirection());
     if (mode == Parameters.AutoMode.MANUAL) {
@@ -453,11 +456,11 @@ public class Turret extends SubsystemBase {
     for (int i = 0; i < packet1.length; i++) {
       packet1[i] = null;
     }
-    
+
     for (int i = 1; i < 8; i++) {
       try {
         // read packet for signature i (counting from 1, see pixy docs)
-        packet1[i - 1] = turretPixy.readPacket(i);
+        packet1[i - 1] = turretPixyI2C.readPacket(i);
       } catch (TurretPixyException e) {
         SmartDashboard.putString("Power Cell Pixy Error: " + i, "exception");
       }
@@ -472,7 +475,7 @@ public class Turret extends SubsystemBase {
       // SmartDashboard.putNumber("Power Cell Pixy Height Value: ", packet1[i -
       // 1].Height);
       // SmartDashboard.putString("Power Cell Pixy Error: " + i, "False");
-      
+
       WWW = packet1[i - 1].X;
       // if (Math.abs(WWW-Last_Value)<3)
       if ((Math.abs(WWW - 160) < 75) && (targetYAvg > 50))
@@ -484,9 +487,9 @@ public class Turret extends SubsystemBase {
       lastValue = packet1[i - 1].X;
 
       SmartDashboard.putNumber("Power Cell Pixy X Value: ", targetXAvg);
-      
-      //SmartDashboard.putNumber("Distance to Target: ",
-      //TurretPixy.getDistancetoTarget(targetYAvg));
+
+      // SmartDashboard.putNumber("Distance to Target: ",
+      // TurretPixy.getDistancetoTarget(targetYAvg));
 
       target.X = targetXAvg;
       target.Y = targetYAvg;

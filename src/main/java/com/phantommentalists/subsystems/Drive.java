@@ -65,7 +65,8 @@ public class Drive extends SubsystemBase {
     rightLeader = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_LEADER.getid(), MotorType.kBrushless);
     leftFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_LEFT_FOLLOWER.getid(), MotorType.kBrushless);
     rightFollower = new CANSparkMax(Parameters.CANIDs.DRIVE_RIGHT_FOLLOWER.getid(), MotorType.kBrushless);
-    shifter = new DoubleSolenoid(Parameters.PneumaticChannel.DRIVE_LOW_GEAR.getChannel(), Parameters.PneumaticChannel.DRIVE_HIGH_GEAR.getChannel());
+    shifter = new DoubleSolenoid(Parameters.PneumaticChannel.DRIVE_LOW_GEAR.getChannel(),
+        Parameters.PneumaticChannel.DRIVE_HIGH_GEAR.getChannel());
 
     // leftLeader.restoreFactoryDefaults();
     // leftFollower.restoreFactoryDefaults();
@@ -197,7 +198,8 @@ public class Drive extends SubsystemBase {
    */
   public double getAllMotorCurrent() {
     if (Parameters.DRIVE_AVAILABLE) {
-      return leftLeader.getOutputCurrent() + rightLeader.getOutputCurrent() + leftFollower.getOutputCurrent() + rightFollower.getOutputCurrent();
+      return leftLeader.getOutputCurrent() + rightLeader.getOutputCurrent() + leftFollower.getOutputCurrent()
+          + rightFollower.getOutputCurrent();
     } else {
       return 0.0;
     }

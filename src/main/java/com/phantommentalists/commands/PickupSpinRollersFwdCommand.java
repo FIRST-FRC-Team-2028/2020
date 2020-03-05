@@ -14,10 +14,10 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.subsystems.Pickup;
 
 /**
-   * Spins the pickup wheels forward when the magazine up button is pressed
-   * and pickup is extended
-   */
-public class PickupSpinRollersFwdCommand extends CommandBase {  
+ * Spins the pickup wheels forward when the magazine up button is pressed and
+ * pickup is extended
+ */
+public class PickupSpinRollersFwdCommand extends CommandBase {
   private OI oi;
   private Pickup pickup;
 
@@ -25,7 +25,7 @@ public class PickupSpinRollersFwdCommand extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     oi = o;
     pickup = p;
-    //addRequirements(pickup);
+    // addRequirements(pickup);
   }
 
   // Called when the command is initially scheduled.

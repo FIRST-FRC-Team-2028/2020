@@ -40,7 +40,7 @@ public class TurretDefaultCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+
     if (oi.isTurretAutoButton()) {
       if (turret.mode == Parameters.AutoMode.MANUAL) {
         turret.setAimMode(Parameters.AutoMode.AUTO);
@@ -53,7 +53,7 @@ public class TurretDefaultCommand extends CommandBase {
     if (turret.mode == Parameters.AutoMode.MANUAL) {
       speed = Parameters.TURRET_MANUAL_SPEED_FAST;
 
-      if (oi.isTurretDirectionFineMoveButton()){
+      if (oi.isTurretDirectionFineMoveButton()) {
         speed = Parameters.TURRET_MANUAL_SPEED_SLOW;
       }
       if (oi.isTurretDirectionMoveRightButton()) {
@@ -65,7 +65,7 @@ public class TurretDefaultCommand extends CommandBase {
       }
     }
 
-    // Turret Hood controls   *****************************************/
+    // Turret Hood controls *****************************************/
     if (turret.mode == Parameters.AutoMode.MANUAL) {
       if (oi.isTurretHoodMedium()) {
         turret.setHood(-Parameters.TURRET_HOOD_VOLTAGE);
@@ -85,9 +85,8 @@ public class TurretDefaultCommand extends CommandBase {
         turret.setHoodPosition(Parameters.TURRET_HOOD_FAR);
       }
     }
-    
 
-    // Turret Shooter controls   *****************************************/
+    // Turret Shooter controls *****************************************/
     if (turret.mode == Parameters.AutoMode.AUTO) {
       if (oi.isTurretHoodClose()) {
         shooterSpeed = Parameters.TURRET_SHOOTER_SPEED_CLOSE;
@@ -98,14 +97,13 @@ public class TurretDefaultCommand extends CommandBase {
       }
     }
 
-    //if (turret.mode == Parameters.AutoMode.MANUAL) { 
-      if (oi.isShooterButtonPressed()) {
-        turret.setShooterSpeed(shooterSpeed);
-      } else {
-        turret.setShooterPower(0.0);
-      }
-    //}
-    
+    // if (turret.mode == Parameters.AutoMode.MANUAL) {
+    if (oi.isShooterButtonPressed()) {
+      turret.setShooterSpeed(shooterSpeed);
+    } else {
+      turret.setShooterPower(0.0);
+    }
+    // }
 
     if (oi.isTestButton()) {
       turret.setDirectionHome();
@@ -113,7 +111,6 @@ public class TurretDefaultCommand extends CommandBase {
 
     SmartDashboard.putNumber("Shooter Speed 2", shooterSpeed);
   }
-
 
   // Called once the command ends or is interrupted.
   @Override
@@ -126,5 +123,4 @@ public class TurretDefaultCommand extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
 }

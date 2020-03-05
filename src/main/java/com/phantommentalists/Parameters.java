@@ -266,7 +266,7 @@ public final class Parameters {
      public static final double TURRET_MANUAL_SPEED_FAST = 3.5;
      public static final double TURRET_MANUAL_SPEED_SLOW = 1.5;
 
-     public static final double TURRET_DIRECTION_SETPOINT = 160.0;
+     public static final double TURRET_DIRECTION_SETPOINT = 1.65;
 
      // direction encoder = 1 counts per rev, 100:1 gearbox ratio, 92 teeth on turret, 18 teeth on motor
      // 92 / 18 * 100 * 1 = 511 motor revs per turret rev, / 360 deg = 1.42 motor revs / deg
@@ -397,12 +397,7 @@ public final class Parameters {
 
     public static final int COPILOT1_PICKUP_ROLLERS = 11; //FIXME: Needs a physical button and button ID, this was made purely to remove errors
 
-
-
-
-
-
-
+    
     /*----------------------------------------------------------------------------*/ 
     /*  Used with the PCM controlled VEX Blinkin (5V LED Strips)                  */
     /*----------------------------------------------------------------------------*/ 

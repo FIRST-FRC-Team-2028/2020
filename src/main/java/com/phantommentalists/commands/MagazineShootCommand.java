@@ -15,9 +15,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class MagazineShootCommand extends CommandBase {
   private OI oi;
   private Magazine magazine;
+
   /**
-   * Runs the magazine accelerator to send the power cells to the shooter
-   * Assumes shooter is running up to speed and turret is in position
+   * Runs the magazine accelerator to send the power cells to the shooter Assumes
+   * shooter is running up to speed and turret is in position
    */
 
   public MagazineShootCommand(OI o, Magazine m) {

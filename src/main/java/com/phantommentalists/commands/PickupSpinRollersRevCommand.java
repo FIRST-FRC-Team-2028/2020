@@ -20,15 +20,15 @@ import com.phantommentalists.subsystems.Pickup;
  */
 public class PickupSpinRollersRevCommand extends CommandBase {
   Pickup pickup;
-  //Timer timer;
+  // Timer timer;
   OI oi;
 
   public PickupSpinRollersRevCommand(OI o, Pickup p) {
     // Use addRequirements() here to declare subsystem dependencies.
     oi = o;
     pickup = p;
-    //timer = new Timer();
-    //addRequirements(pickup);
+    // timer = new Timer();
+    // addRequirements(pickup);
   }
 
   // Called when the command is initially scheduled.
@@ -41,19 +41,19 @@ public class PickupSpinRollersRevCommand extends CommandBase {
   @Override
   public void execute() {
     if (Parameters.PICKUP_AVAILABLE) {
-      //timer.start();
-      //pickup.extend();
-      //pickup.turnOnRollers();
+      // timer.start();
+      // pickup.extend();
+      // pickup.turnOnRollers();
 
-      //THIS WORKS
+      // THIS WORKS
       pickup.turnOnRollersRev();
 
       // This code is set up like this is a default command
       // if (oi.isPickupButton()) {
-      //   pickup.turnOnRollers();
-      // } 
+      // pickup.turnOnRollers();
+      // }
       // else {
-      //   pickup.turnOffRollers();
+      // pickup.turnOffRollers();
       // }
     }
   }
@@ -61,27 +61,27 @@ public class PickupSpinRollersRevCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //timer.stop();
+    // timer.stop();
     pickup.turnOffRollers();
-    //pickup.stopArm();
+    // pickup.stopArm();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //THIS WORKS
+    // THIS WORKS
     // if (Parameters.PICKUP_AVAILABLE) {
-    //   return pickup.isPickUpExtended();
+    // return pickup.isPickUpExtended();
     // } else {
-    //   return false;
+    // return false;
     // }
 
     return !oi.isRollerButtonRev();
 
     // if (!oi.isPickupButton()){
-    //   return true;
+    // return true;
     // } else {
-    //   return false;
+    // return false;
     // }
   }
 }

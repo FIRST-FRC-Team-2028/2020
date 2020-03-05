@@ -13,10 +13,10 @@ import com.phantommentalists.DrivePixy;
 import com.phantommentalists.OI;
 
 /**
- * Use data from pixycam to point the robot at a power cell.  It will
- * use human joystick input together with the steering adjustment from
- * the analog pixy camera to drive towards the ball.  It finishes when
- * both of the joystick pixycam buttons are released.
+ * Use data from pixycam to point the robot at a power cell. It will use human
+ * joystick input together with the steering adjustment from the analog pixy
+ * camera to drive towards the ball. It finishes when both of the joystick
+ * pixycam buttons are released.
  */
 public class DrivePixyFollowPowerCellCommand extends CommandBase {
   private Drive drive;
@@ -66,8 +66,7 @@ public class DrivePixyFollowPowerCellCommand extends CommandBase {
     // value reaches 0, return true
     if (!oi.isFollowPowerCellButton()) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }

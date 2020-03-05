@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Contains the Power Cells Moving them to the Turret to shoot
  */
 public class Magazine extends SubsystemBase {
-  
+
   private CANSparkMax accelerator;
   private CANSparkMax magazine;
   private int ballCount;
@@ -46,8 +46,8 @@ public class Magazine extends SubsystemBase {
   }
 
   /**
-   * Manually sets the ball-held count to the specified value.  Used when we 
-   * enter autonomous when we know we have exactly 3 fuel cells held.
+   * Manually sets the ball-held count to the specified value. Used when we enter
+   * autonomous when we know we have exactly 3 fuel cells held.
    * 
    * @param newBallCount
    */
@@ -118,5 +118,4 @@ public class Magazine extends SubsystemBase {
       setDefaultCommand(new MagazineDefaultCommand(oi, this));
     }
   }
-
 }

@@ -36,10 +36,11 @@ public class Pickup extends SubsystemBase {
   public Pickup() {
     pickup = new CANSparkMax(Parameters.CANIDs.PICKUP.getid(), MotorType.kBrushless);
     pickup.setInverted(Parameters.CANIDs.PICKUP.isInverted());
-    arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(), Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
+    arm = new DoubleSolenoid(Parameters.PneumaticChannel.PICKUP_EXTEND.getChannel(),
+        Parameters.PneumaticChannel.PICKUP_RETRACT.getChannel());
     timer = new Timer();
     position = Parameters.PickupPos.RETRACT;
-    
+
   }
 
   /**
@@ -86,6 +87,7 @@ public class Pickup extends SubsystemBase {
 
   /**
    * Turn off DoubleSolenoid
+   * 
    * @return
    */
   public void stopArm() {
@@ -93,7 +95,7 @@ public class Pickup extends SubsystemBase {
       arm.set(Value.kOff);
     }
   }
-  
+
   public boolean isPickUpExtended() {
     if (Parameters.PICKUP_AVAILABLE) {
       if (timer.get() >= Parameters.EXTEND_TIME && arm.get() == Value.kForward) {
@@ -102,7 +104,7 @@ public class Pickup extends SubsystemBase {
     }
     return false;
   }
-  
+
   public boolean isPickUpRetracted() {
     if (Parameters.PICKUP_AVAILABLE) {
       if (timer.get() >= Parameters.RETRACT_TIME && arm.get() == Value.kReverse) {
@@ -117,6 +119,7 @@ public class Pickup extends SubsystemBase {
       position = switchPosition;
     }
   }
+
   public PickupPos getPosition() {
     return position;
   }
